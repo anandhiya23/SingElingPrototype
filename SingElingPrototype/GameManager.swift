@@ -314,11 +314,13 @@ extension GameManager{ //Game Functions
         gameState.availablePlayingCards_CID = Array(0..<playingCards.count)
         gameState.availablePlayingCards_CID.shuffle()
         for PID in gameState.players.indices{
-            gameState.players[PID].playingCards_CID = Array(gameState.availablePlayingCards_CID.prefix(3)).sorted(by: <)
-            gameState.availablePlayingCards_CID.removeFirst(3)
+            let STARTING_CARDS_AMMOUNT = 1
+            gameState.players[PID].playingCards_CID = Array(gameState.availablePlayingCards_CID.prefix(STARTING_CARDS_AMMOUNT)).sorted(by: <)
+            gameState.availablePlayingCards_CID.removeFirst(STARTING_CARDS_AMMOUNT)
             gameState.players[PID].cardPos = 0
             gameState.players[PID].point = 0
         }
+        gameState.winner_PID = nil
         gameState.readerCard_CID = gameState.availablePlayingCards_CID[0]
         gameState.availablePlayingCards_CID.removeFirst()
         gameState.isPlaying = true
@@ -329,7 +331,7 @@ extension GameManager{ //Game Functions
         gameState.players[gameState.guesser_PID].point += 1
         gameState.players[gameState.guesser_PID].playingCards_CID.insert(gameState.readerCard_CID, at: guesserCardPos)
         gameState.players[gameState.guesser_PID].cardPos += 1
-        if gameState.players[gameState.guesser_PID].point >= 2{
+        if gameState.players[gameState.guesser_PID].point >= 5{
             gameState.winner_PID = gameState.guesser_PID
         }
     }
