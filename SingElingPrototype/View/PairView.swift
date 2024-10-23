@@ -1,36 +1,5 @@
 import SwiftUI
 
-struct PairViewPendingListItem: View {
-    @State var hasBeenTapped = false
-    var peerName: String
-    var body: some View {
-        HStack{
-            Spacer()
-            HStack{
-                Text("\(peerName)")
-                    .font(.title2)
-                    .foregroundColor(.black)
-                    .bold()
-                    .multilineTextAlignment(.center)
-                if hasBeenTapped{
-                    ProgressView()
-                        .padding(.leading, 2)
-                }
-            }
-            Spacer()
-        }
-        .padding()
-        .frame(width: 300, height: 80)
-        .background{
-            RoundedRectangle(cornerRadius: 8)
-                .fill(.white)
-                .strokeBorder(.black, lineWidth: 3)
-        }
-        .onTapGesture {
-            hasBeenTapped = true
-        }
-    }
-}
 
 struct PairView: View {
     @Binding var curView: Int

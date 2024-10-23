@@ -7,9 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		4BF94E862CC73EC000B3CE84 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 4BF94E852CC73EC000B3CE84 /* Lottie */; };
-		4BF94E8A2CC73F5700B3CE84 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 4BF94E892CC73F5700B3CE84 /* Lottie */; };
-		4BFF3A8D2CC74138000B0740 /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = 4BFF3A8C2CC74138000B0740 /* Lottie */; };
+		B729D0B72CC8E78E00DF9EFE /* Lottie in Frameworks */ = {isa = PBXBuildFile; productRef = B729D0B62CC8E78E00DF9EFE /* Lottie */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -42,9 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4BF94E862CC73EC000B3CE84 /* Lottie in Frameworks */,
-				4BF94E8A2CC73F5700B3CE84 /* Lottie in Frameworks */,
-				4BFF3A8D2CC74138000B0740 /* Lottie in Frameworks */,
+				B729D0B72CC8E78E00DF9EFE /* Lottie in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -87,9 +83,7 @@
 			);
 			name = SingElingPrototype;
 			packageProductDependencies = (
-				4BF94E852CC73EC000B3CE84 /* Lottie */,
-				4BF94E892CC73F5700B3CE84 /* Lottie */,
-				4BFF3A8C2CC74138000B0740 /* Lottie */,
+				B729D0B62CC8E78E00DF9EFE /* Lottie */,
 			);
 			productName = SingElingPrototype;
 			productReference = F85A59122CC003AE0099537C /* SingElingPrototype.app */;
@@ -120,7 +114,7 @@
 			mainGroup = F85A59092CC003AE0099537C;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				4BFF3A8B2CC74138000B0740 /* XCRemoteSwiftPackageReference "lottie-ios" */,
+				B729D0B52CC8E78E00DF9EFE /* XCRemoteSwiftPackageReference "lottie-ios" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = F85A59132CC003AE0099537C /* Products */;
@@ -280,7 +274,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"SingElingPrototype/Preview Content\"";
-				DEVELOPMENT_TEAM = 5CCCQW7FJ8;
+				DEVELOPMENT_TEAM = 3F3KZHGXN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SingElingPrototype/Info.plist;
@@ -311,7 +305,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 6;
 				DEVELOPMENT_ASSET_PATHS = "\"SingElingPrototype/Preview Content\"";
-				DEVELOPMENT_TEAM = 5CCCQW7FJ8;
+				DEVELOPMENT_TEAM = 3F3KZHGXN6;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SingElingPrototype/Info.plist;
@@ -358,7 +352,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4BFF3A8B2CC74138000B0740 /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
+		B729D0B52CC8E78E00DF9EFE /* XCRemoteSwiftPackageReference "lottie-ios" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/airbnb/lottie-ios.git";
 			requirement = {
@@ -369,17 +363,9 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4BF94E852CC73EC000B3CE84 /* Lottie */ = {
+		B729D0B62CC8E78E00DF9EFE /* Lottie */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = Lottie;
-		};
-		4BF94E892CC73F5700B3CE84 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			productName = Lottie;
-		};
-		4BFF3A8C2CC74138000B0740 /* Lottie */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4BFF3A8B2CC74138000B0740 /* XCRemoteSwiftPackageReference "lottie-ios" */;
+			package = B729D0B52CC8E78E00DF9EFE /* XCRemoteSwiftPackageReference "lottie-ios" */;
 			productName = Lottie;
 		};
 /* End XCSwiftPackageProductDependency section */
