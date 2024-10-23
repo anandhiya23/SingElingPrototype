@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import AVFoundation
 
 struct CircleButton: View {
     var diameter: CGFloat
@@ -55,7 +56,7 @@ struct PillButton: View {
     var width: CGFloat
     var height: CGFloat
     var icon: String = "arrow.left"
-
+    
     @State private var isPressed: Bool = false
     
     var body: some View {
@@ -65,7 +66,7 @@ struct PillButton: View {
                 .scaleEffect(x: 1.1, y: 1.13)
                 .frame(width: width, height: height)
                 .offset(y: height / 9)
-
+            
             Capsule()
                 .fill(Color.singButtonLight)
                 .shadow(color: Color.singButtonDark.opacity(isPressed ? 0 : 1),
@@ -192,9 +193,26 @@ struct RoundedTriangle: Shape {
 }
 
 struct GameView: View {
+//    @EnvironmentObject var gameManager: GameManager
+//    @State var vw: CGFloat = 0
+//    @State var vh: CGFloat = 0
+//    @Published var myPID: Int = -1
+//    @State private var audioPlayer: AVAudioPlayer?
+//    @Published var gameState: GameState = GameState()
+//    @State private var animationCompleted: Bool = false
+//    @Published var isCurrentUserWinner: Bool = false
     @EnvironmentObject var gameManager: GameManager
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
+    @State private var animationCompleted: Bool = false
+//    @State var gameState: GameState
+    @State var myPID: Int = -1
+    @State var playConfetti: Bool = false
+    
+    var isCurrentUserWinner: Bool {
+        return gameManager.gameState.winner_PID == gameManager.myPID
+    }
+    
     var vmode: Int{
         gameManager.pmode
     }
@@ -209,6 +227,8 @@ struct GameView: View {
             return 64 / 100 * vh
         }
     }
+    
+
     
     var body: some View {
         GeometryReader { geom in
@@ -319,31 +339,108 @@ struct GameView: View {
                     .position(x:1/2*vw, y: midCardY)
                     .animation(.default, value: vmode)
                 
+                //                                                if gameManager.gameState.winner_PID != nil{
+                //                                                    ZStack{
+                //                                                        VStack{
+                //                                                            Text("Selamat kepada")
+                //                                                            Text(gameManager.winnerName)
+                //                                                                .bold()
+                //                                                                .font(.title)
+                //                                                            Text("8/8 Kartu")
+                //                                                            Spacer().frame(height: 20)
+                //                                                            if gameManager.isHost{
+                //                                                                Button("Main Lagi"){
+                //                                                                    gameManager.startGame()
+                //                                                                }
+                //                                                                .padding()
+                //                                                                .foregroundStyle(Color.white)
+                //                                                                .background{
+                //                                                                    RoundedRectangle(cornerRadius: 10)
+                //                                                                        .fill(Color.black)
+                //                                                                }
+                //                                                            }
+                //                                                        }
+                //                                                    }
+                //                                                    .frame(width: vw, height: vh)
+                //                                                    .background(Color.singGreen)
+                //                                                }
                 if gameManager.gameState.winner_PID != nil{
-                    ZStack{
-                        VStack{
-                            Text("Selamat kepada")
-                            Text(gameManager.winnerName)
-                                .bold()
-                                .font(.title)
-                            Text("8/8 Kartu")
-                            Spacer().frame(height: 20)
-                            if gameManager.isHost{
-                                Button("Main Lagi"){
-                                    gameManager.startGame()
-                                }
-                                .padding()
-                                .foregroundStyle(Color.white)
-                                .background{
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.black)
-                                }
-                            }
-                        }
-                    }
-                    .frame(width: vw, height: vh)
-                    .background(Color.singGreen)
+                    ZStack {
+                         // Latar belakang hijau, atau gunakan warna lain sesuai desain
+                        Color.singKrim
+                             .ignoresSafeArea()
+                         
+                         VStack {
+                             // Teks selamat dan nama pemenang
+                             Text("Selamat kepada")
+                                 .font(.headline)
+                                 .foregroundColor(.black)
+                             
+                             Text(gameManager.winnerName)
+                                 .bold()
+                                 .font(.title)
+                                 .foregroundColor(.black)
+                             
+                             Text("8/8 Kartu")
+                                 .foregroundColor(.gray)
+                             
+                             Spacer().frame(height: 20)
+                             
+                             // Tambahkan ikon trofi
+                             Image(systemName: "trophy.fill")
+                                 .resizable()
+                                 .scaledToFit()
+                                 .frame(width: 100, height: 100)
+                                 .foregroundColor(.yellow)
+                             
+                             Spacer().frame(height: 20)
+                             
+                             // Tombol hanya untuk host
+                             if gameManager.isHost {
+                                 Button("Main Lagi") {
+                                     gameManager.startGame()  // Fungsi reset permainan
+                                 }
+                                 .padding()
+                                 .foregroundColor(.white)
+                                 .background {
+                                     RoundedRectangle(cornerRadius: 10)
+                                         .fill(Color.black)
+                                 }
+                             }
+                             
+                             Spacer().frame(height: 20)
+                             
+                             // Animasi confetti (jika belum selesai)
+//                             if animationCompleted {
+//                                 AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce)
+//                                     .frame(width: 200, height: 200)
+//                                     .onAppear {
+//                                         playSoundOnce()
+//                                     }
+//                                     .onDisappear {
+//                                         animationCompleted = true
+//                                     }
+//                             }
+//                         }
+                             if isCurrentUserWinner {
+                                // Mainkan animasi confetti
+                                 AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
+                                     .frame(width: 200, height: 200)
+                                     .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
+                                         if newValue != nil {
+                                             playWinnerSound()
+                                             playConfetti.toggle()
+                                         }
+                                     }
+                             }
+                         }
+                         .padding()
+                         .frame(width: vw, height: vh)
+                     }
+
                 }
+ 
+                
             }
             .frame(width: vw, height: vh)
             .onChange(of: geom.size) { oldValue, newValue in
@@ -358,7 +455,81 @@ struct GameView: View {
         .ignoresSafeArea()
     }
 }
+//                if gameManager.gameState.winner_PID != nil {
+//                    ZStack {
+//                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
+//                        Color.singGreen
+//                            .ignoresSafeArea()
+//
+//                        VStack {
+//                            // Teks selamat dan nama pemenang
+//                            Text("Selamat kepada")
+//                                .font(.headline)
+//                                .foregroundColor(.black)
+//
+//                            Text(gameManager.winnerName)
+//                                .bold()
+//                                .font(.title)
+//                                .foregroundColor(.black)
+//
+//                            Text("8/8 Kartu")
+//                                .foregroundColor(.gray)
+//
+//                            Spacer().frame(height: 20)
+//
+//                            // Tambahkan ikon trofi
+//                            Image(systemName: "trophy.fill")
+//                                .resizable()
+//                                .scaledToFit()
+//                                .frame(width: 100, height: 100)
+//                                .foregroundColor(.yellow)
+//
+//                            Spacer().frame(height: 20)
+//
+//                            // Tombol hanya untuk host
+//                            if gameManager.isHost {
+//                                Button("Main Lagi") {
+//                                    gameManager.startGame()  // Fungsi reset permainan
+//                                }
+//                                .padding()
+//                                .foregroundColor(.white)
+//                                .background {
+//                                    RoundedRectangle(cornerRadius: 10)
+//                                        .fill(Color.black)
+//                                }
+//                            }
+//
+//                            Spacer().frame(height: 20)
+//
+//                            // Animasi confetti (jika belum selesai)
+//                            if !animationCompleted {
+//                                AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce)
+//                                    .frame(width: 200, height: 200)
+//                                    .onAppear {
+//                                        playSoundOnce()
+//                                    }
+//                                    .onDisappear {
+//                                        animationCompleted = true
+//                                    }
+//                            }
+//                        }
+//                        .padding()
+//                        .frame(width: vw, height: vh)
+//                    }
+//                    .onChange(of: geom.size) { _, newValue in
+//                        vw = newValue.width
+//                        vh = newValue.height
+//                    }
+//                    .onAppear {
+//                        vw = geom.size.width
+//                        vh = geom.size.height
+//                    }
+//                }
+//            }
+//            .ignoresSafeArea()
+//        }
 
 //#Preview {
 //    GameView()
 //}
+

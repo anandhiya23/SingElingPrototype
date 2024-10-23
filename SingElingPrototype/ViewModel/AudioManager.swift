@@ -11,6 +11,7 @@ import AVFoundation
 var clickPlayer: AVAudioPlayer?
 var wrongPlayer: AVAudioPlayer?
 var correctPlayer: AVAudioPlayer?
+var audioPlayer: AVAudioPlayer?
 
 func playClick() {
     if let soundURL = Bundle.main.url(forResource: "buttonClick", withExtension: "mp3") {
@@ -42,5 +43,18 @@ func playSoundResultCorrect() {
         } catch {
             print("Failed to play sound: \(error.localizedDescription)")
         }
+    }
+}
+
+func playWinnerSound() {
+    if let soundURL = Bundle.main.url(forResource: "congratulations", withExtension: "mp3") {
+        do {
+            audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            audioPlayer?.play()
+        } catch {
+            print("Error playing sound: \(error.localizedDescription)")
+        }
+    } else {
+        print("Sound file not found in main bundle")
     }
 }

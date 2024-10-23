@@ -10,64 +10,6 @@ import MultipeerConnectivity
 import os
 import SwiftUI
 
-//MARK: - NETWORK MODELS
-//enum SendableGameDataType: Codable{
-//    case gameCommand, gameState
-//}
-//enum GameCommandType: Codable{
-//    case assignPID, cardPosShiftRight, cardPosShiftLeft, hideOthersCards, showOthersCards, invokeNextTurn
-//}
-//struct GameCommand: Codable{
-//    var command: GameCommandType
-//    var intData: Int? = nil
-//    var stringData: String? = nil
-//    var boolData: Bool?  = nil
-//    
-//    init(_ command: GameCommandType, intData: Int? = nil, stringData: String? = nil, boolData: Bool? = nil) {
-//        self.command = command
-//        self.intData = intData
-//        self.stringData = stringData
-//        self.boolData = boolData
-//    }
-//}
-//struct SendableGameData: Codable{
-//    var type: SendableGameDataType
-//    var gameCommand: GameCommand?
-//    var gameState: GameState?
-//    var sender_PID: Int
-//}
-//enum ConnectivityType{
-//    case host, guest, unknown
-//}
-
-//MARK: - GAME MODELS
-//struct PlayingCard{
-//    var text: String
-//    var icon: String = ""
-//    var indexNum: Int = 30
-//}
-//struct Player: Codable, Hashable{
-//    var name: String = "PLACEHOLDER_NAME"
-//    var point: Int = 0
-//    var cardPos: Int = 1
-//    var playingCards_CID: [Int] = []
-//}
-//struct GameState: Codable{
-//    var availablePlayingCards_CID: [Int] = []
-//    var isPlaying: Bool = false
-//    var players: [Player] = []
-//    var othersCardsHidden = false
-//    var triggerGuesserCardShift = false
-//    var readerCard_CID = 0
-//    var winner_PID: Int? = nil
-//    
-//    //READER
-//    var reader_PID: Int =  0
-//    
-//    //GUESSER
-//    var guesser_PID: Int = 1
-//}
-
 //MARK: - MAIN GAME MANAGER
 class GameManager: NSObject, ObservableObject{
     //MARK: Multipeer Connectivity Stored Properties
@@ -331,7 +273,7 @@ extension GameManager{ //Game Functions
         gameState.players[gameState.guesser_PID].point += 1
         gameState.players[gameState.guesser_PID].playingCards_CID.insert(gameState.readerCard_CID, at: guesserCardPos)
         gameState.players[gameState.guesser_PID].cardPos += 1
-        if gameState.players[gameState.guesser_PID].point >= 5{
+        if gameState.players[gameState.guesser_PID].point >= 1{
             gameState.winner_PID = gameState.guesser_PID
         }
     }

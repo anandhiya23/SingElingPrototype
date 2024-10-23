@@ -9,6 +9,7 @@ import SwiftUI
 
 @main
 struct SingElingPrototypeApp: App {
+    
     var body: some Scene {
         WindowGroup {
             MainView()
