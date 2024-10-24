@@ -63,5 +63,5 @@ struct StatementComponent: View {
 }
 
 #Preview {
-    StatementComponent(width: 300)
+    StatementComponent(width: 350)
 }
