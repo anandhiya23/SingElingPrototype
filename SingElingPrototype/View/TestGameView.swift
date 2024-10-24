@@ -55,6 +55,7 @@ struct TestGameView: View {
                         RoundedRectangle(cornerRadius: 10.0)
                             .fill(.blue)
                     }
+                    .font(.custom("Skrapbook", size: 24))
                 }
                 //SELF'S CARDS
                 
