@@ -51,6 +51,8 @@ struct MainView: View {
                 SetujuButton()
                 
                 Spacer()
+                
+                //test
             }
         }
     }
