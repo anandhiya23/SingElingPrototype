@@ -28,20 +28,20 @@ struct CardComponent: View {
 
             VStack {
                 Text("NGANGKAT SIKIL")
-                    .font(.custom("Skrapbook", size: width * 0.09))
+                    .font(.custom("Skrapbook", size: width * 0.12))
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .padding(.top, width * 0.080)
                     .padding(.bottom, width * 0.02)
 
                 Text("ING NGAREPE")
-                    .font(.custom("Skrapbook", size: width * 0.09))
+                    .font(.custom("Skrapbook", size: width * 0.12))
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, width * 0.02)
 
                 Text("ORANG TUWO")
-                    .font(.custom("Skrapbook", size: width * 0.09))
+                    .font(.custom("Skrapbook", size: width * 0.12))
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .padding(.bottom, width * 0.02)
