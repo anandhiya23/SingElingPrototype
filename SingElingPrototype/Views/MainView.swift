@@ -48,6 +48,8 @@ struct MainView: View {
                     curView = 1
                 }.buttonStyle(GrowingButton())
                 
+                SetujuButton()
+                
                 Spacer()
             }
         }
