@@ -37,7 +37,7 @@ class GameManager: NSObject, ObservableObject{
         self.myConnectivityType == .guest
     }
     
-    var playingCards: [PlayingCard] = [
+    @Published var playingCards: [PlayingCard] = [ //tambahin @Published
         PlayingCard(text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1),
         PlayingCard(text: "Ora ngucapno salam pas namu ning omahe wong liyo", indexNum: 2),
         PlayingCard(text: "Ora mbales sapaan", indexNum: 3),

@@ -8,89 +8,81 @@
 import SwiftUI
 
 struct CardComponent: View {
+    var width: CGFloat
+    var height: CGFloat {
+        self.width * 1.65
+    }
+    
+    var text: String
+    var indexNum: Int
+    
+    let referenceWidth: CGFloat = 300
+    let yOffsetReference: CGFloat = -50
+    
+    var adjustedYOffset: CGFloat {
+        yOffsetReference * (width / referenceWidth)
+    }
+    
     var body: some View {
-        GeometryReader { geometry in
-            let width = geometry.size.width
-            let height = width * 1.65
-            
-            let scaleFactor = width / 300
-            let adjustedYOffset: CGFloat = -50 * scaleFactor
-            
-            
-            ZStack {
-                RoundedRectangle(cornerRadius: width / 15)
-                    .fill(Color.clear)
-                    .background(
-                        Image("BackgroundCard")
-                            .resizable()
-                            .scaledToFill()
-                            .clipShape(RoundedRectangle(cornerRadius: width / 15))
-                    )
-                    .frame(width: width, height: height)
-                    .shadow(radius: width * 0.05)
+        ZStack {
+            RoundedRectangle(cornerRadius: width / 15)
+                .fill(Color.clear)
+                .background(
+                    Image("BackgroundCard")
+                        .resizable()
+                        .scaledToFill()
+                        .clipShape(RoundedRectangle(cornerRadius: width / 15))
+                )
+                .frame(width: width, height: height)
+                .shadow(radius: width * 0.05)
 
-                VStack {
-                    Text("NGANGKAT SIKIL")
-                        .font(.custom("Skrapbook", size: width * 0.12))
-                        .foregroundColor(Color.singCardText)
-                        .multilineTextAlignment(.center)
-                        .padding(.top, width * 0.080)
-                        .padding(.bottom, width * 0.02)
+            VStack {
+                Text(text)
+                    .font(.custom("Skrapbook", size: width * 0.12))
+                    .foregroundColor(Color.singCardText)
+                    .multilineTextAlignment(.center)
+                    .padding(.top, width * 0.080)
+                    .padding(.bottom, width * 0.02)
 
-                    Text("ING NGAREPE")
-                        .font(.custom("Skrapbook", size: width * 0.12))
-                        .foregroundColor(Color.singCardText)
-                        .multilineTextAlignment(.center)
-                        .padding(.bottom, width * 0.02)
+                Spacer()
 
-                    Text("ORANG TUWO")
-                        .font(.custom("Skrapbook", size: width * 0.12))
-                        .foregroundColor(Color.singCardText)
-                        .multilineTextAlignment(.center)
-                        .padding(.bottom, width * 0.02)
-
-                    Spacer()
-
-                    HStack(spacing: -width * 0.13) {
-                        Image("BirdShape")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: width * 0.4, height: height * 0.4)
-                        Image("FootShape")
-                            .resizable()
-                            .scaledToFill()
-                            .frame(width: width * 0.4, height: height * 0.4)
-                            .offset(x: 10, y: adjustedYOffset)
-                    }
-                    .padding(.bottom, -width * 0.075)
-
-                    Text("100")
-                        .font(.custom("Skrapbook", size: width * 0.25))
-                        .foregroundColor(Color.white)
-                        .padding(.bottom, width * 0.01)
-                        .padding(.horizontal, width * 0.1)
-                        .background(
-                            RoundedRectangle(cornerRadius: width * 0.1)
-                                .fill(Color.singDarkGreen)
-                        )
+                HStack(spacing: -width * 0.13) {
+                    Image("BirdShape")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: width * 0.4, height: height * 0.4)
+                    Image("FootShape")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: width * 0.4, height: height * 0.4)
+                        .offset(x: 10, y: adjustedYOffset)
                 }
-                .padding(width * 0.05)
+                .padding(.bottom, -width * 0.075)
+
+                Text("\(indexNum)")
+                    .font(.custom("Skrapbook", size: width * 0.25))
+                    .foregroundColor(Color.white)
+                    .padding(.bottom, width * 0.01)
+                    .padding(.horizontal, width * 0.1)
+                    .background(
+                        RoundedRectangle(cornerRadius: width * 0.1)
+                            .fill(Color.singDarkGreen)
+                    )
             }
-            .frame(width: width, height: height)
-            .clipShape(RoundedRectangle(cornerRadius: width / 15))
-            .overlay(
-                RoundedRectangle(cornerRadius: width / 15)
-                    .stroke(Color.black, lineWidth: width * 0.03)
-            )
+            .padding(width * 0.05)
         }
-        .aspectRatio(1, contentMode: .fit)
+        .frame(width: width, height: height)
+        .clipShape(RoundedRectangle(cornerRadius: width / 15))
+        .overlay(
+            RoundedRectangle(cornerRadius: width / 15)
+                .stroke(Color.black, lineWidth: width * 0.03)
+        )
     }
 }
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent()
-            .frame(width: 300)
+        CardComponent(width: 300, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
             .previewLayout(.sizeThatFits)
     }
 }
