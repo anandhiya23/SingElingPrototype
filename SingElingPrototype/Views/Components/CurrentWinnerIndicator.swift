@@ -8,15 +8,22 @@
 import SwiftUI
 
 struct CurrentWinnerIndicator: View {
+    var width: CGFloat
+    var height: CGFloat
+    var icon: String = "crown.fill"
+    var leader: String = ""
+    var point: Int = 0
+    
     var body: some View {
         ZStack{
             HStack {
-                Image(systemName: "crown.fill")
+                Image(systemName: icon)
                 
-                Text("Kalle")
+                
+                Text(leader)
                     .font(.custom("Skrapbook", size: 16))
                 
-                Text("5/6")
+                Text("\(point + 1)/6")
                     .font(.custom("Skrapbook", size: 16))
             }
             .padding()
@@ -24,11 +31,11 @@ struct CurrentWinnerIndicator: View {
         .background{
             RoundedRectangle(cornerRadius: 12)
                 .fill(Color(red: 0.85, green: 0.85, blue: 0.85))
-                .frame(width: 109, height: 32)
+                .frame(width: width, height: height)
         }
     }
 }
 
 #Preview {
-    CurrentWinnerIndicator()
+    CurrentWinnerIndicator(width: 109, height: 32, icon: "crown.fill", leader: "Kalle", point: 4)
 }
