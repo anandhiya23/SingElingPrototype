@@ -18,6 +18,8 @@ struct TestGameView: View {
     @State var temptest = [0,1,2,3,4,5,6]
     @State var myCardPos = 4
     
+    //tambahin ini
+    @ObservedObject var gameManager = GameManager(username: "Haliza")
     var midCardY: CGFloat {
         switch vmode {
         case 0:
@@ -67,11 +69,18 @@ struct TestGameView: View {
                 ZStack(){
                     HStack(spacing: -85){
                         ForEach(temptest.indices, id: \.self){ curCardIdIndice in
-                            RoundedRectangle(cornerRadius: 8.0)
-                                .fill(Color.gray)
-                                .stroke(Color.black, lineWidth: 2)
-                                .frame(width: 170, height: 170*1.35)
-                                .padding(.leading, curCardIdIndice == myCardPos ? 130 : 0)
+//                            RoundedRectangle(cornerRadius: 8.0)
+//                                .fill(Color.gray)
+//                                .stroke(Color.black, lineWidth: 2)
+//                                .frame(width: 170, height: 170*1.35)
+//                                .padding(.leading, curCardIdIndice == myCardPos ? 130 : 0)
+//                            CardComponent(width: 170) // Panggil CardComponent dengan lebar tetap 170
+//                                        .padding(.leading, curCardIdIndice == myCardPos ? 130 : 0)
+                            CardComponent(
+                                width: 200,
+                                                           text: gameManager.playingCards[curCardIdIndice].text,
+                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum
+                            )
                         }
                     }
                     .padding(.leading, (vw/2) - CGFloat(myCardPos * 85))

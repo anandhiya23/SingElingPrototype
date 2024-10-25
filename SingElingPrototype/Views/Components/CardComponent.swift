@@ -9,8 +9,18 @@ import SwiftUI
 
 struct CardComponent: View {
     var width: CGFloat
-    private var height: CGFloat {
+    var height: CGFloat {
         self.width * 1.65
+    }
+    
+    var text: String
+    var indexNum: Int
+    
+    let referenceWidth: CGFloat = 300
+    let yOffsetReference: CGFloat = -50
+    
+    var adjustedYOffset: CGFloat {
+        yOffsetReference * (width / referenceWidth)
     }
     
     var body: some View {
@@ -27,23 +37,11 @@ struct CardComponent: View {
                 .shadow(radius: width * 0.05)
 
             VStack {
-                Text("NGANGKAT SIKIL")
+                Text(text)
                     .font(.custom("Skrapbook", size: width * 0.12))
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .padding(.top, width * 0.080)
-                    .padding(.bottom, width * 0.02)
-
-                Text("ING NGAREPE")
-                    .font(.custom("Skrapbook", size: width * 0.12))
-                    .foregroundColor(Color.singCardText)
-                    .multilineTextAlignment(.center)
-                    .padding(.bottom, width * 0.02)
-
-                Text("ORANG TUWO")
-                    .font(.custom("Skrapbook", size: width * 0.12))
-                    .foregroundColor(Color.singCardText)
-                    .multilineTextAlignment(.center)
                     .padding(.bottom, width * 0.02)
 
                 Spacer()
@@ -57,11 +55,11 @@ struct CardComponent: View {
                         .resizable()
                         .scaledToFill()
                         .frame(width: width * 0.4, height: height * 0.4)
-                        .offset(x: 10, y: -50)
+                        .offset(x: 10, y: adjustedYOffset)
                 }
                 .padding(.bottom, -width * 0.075)
 
-                Text("100")
+                Text("\(indexNum)")
                     .font(.custom("Skrapbook", size: width * 0.25))
                     .foregroundColor(Color.white)
                     .padding(.bottom, width * 0.01)
@@ -84,7 +82,7 @@ struct CardComponent: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent(width: 300)
+        CardComponent(width: 300, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
             .previewLayout(.sizeThatFits)
     }
 }
