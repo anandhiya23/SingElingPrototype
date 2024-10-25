@@ -53,7 +53,7 @@ struct RoundedTriangle: Shape {
         return path
     }
 }
-//
-//#Preview {
-//    RoundedRectangle(cornerRadius: 8)
-//}
+
+#Preview {
+    RoundedTriangle(cornerRadius: 8)
+}
