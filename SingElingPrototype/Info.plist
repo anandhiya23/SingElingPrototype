@@ -2,14 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Skrapbook.ttf</string>
-	</array>
 	<key>NSBonjourServices</key>
 	<array>
 		<string>_bintang-service._tcp</string>
 		<string>_bintang-service._udp</string>
+	</array>
+	<key>UIAppFonts</key>
+	<array>
+		<string>Skrapbook.ttf</string>
 	</array>
 </dict>
 </plist>
