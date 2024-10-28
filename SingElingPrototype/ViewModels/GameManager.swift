@@ -173,6 +173,12 @@ extension GameManager{ //Game Functions
     var isReader: Bool{
         self.gameState.reader_PID == self.myPID
     }
+    var readerName: String {
+        if let reader = gameState.players.first(where: { $0.point == gameState.reader_PID }) {
+            return reader.name
+        }
+        return "UNKNOWN READER"
+    }
     var guesserName: String{
         gameState.players[gameState.guesser_PID].name
     }

@@ -9,19 +9,21 @@ import SwiftUI
 
 struct StatementComponent: View {
     var width: CGFloat
+    var statementRole: StatementRole
     
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.backgroundStatement)
-                .frame(width: width, height: width * 0.3)
+                .fill(Color.backgroundCream)
+                .frame(width: width * 0.8, height: width * 0.25)
             
             VStack {
                 HStack(spacing: 0) {
-                    Text("INI GILIRAN ")
+                    Text("INi GiLiRAN ")
                         .font(.custom("Skrapbook", size: width * 0.1))
                         .foregroundColor(.black)
-
+                    
+                    
                     ZStack {
                         Text("ANDA")
                             .font(.custom("Skrapbook", size: width * 0.1))
@@ -54,14 +56,20 @@ struct StatementComponent: View {
                     }
                 }
                 
-                Text("UNTUK MEMANTAU")
-                    .font(.custom("Skrapbook", size: width * 0.1))
-                    .foregroundColor(.black)
+                HStack {
+                    Text("UNTUK")
+                        .font(.custom("Skrapbook", size: width * 0.1))
+                        .foregroundColor(.black)
+                    
+                    Text(statementRole.statementText)
+                                        .font(.custom("Skrapbook", size: width * 0.1))
+                                        .foregroundColor(.black)
+                }
             }
         }
     }
 }
 
 #Preview {
-    StatementComponent(width: 350)
+    StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystander))
 }
