@@ -38,10 +38,7 @@ struct MainView: View {
                     .fontWeight(.regular)
                     .multilineTextAlignment(.center)
                 
-                TextField("Nama Panggilan", text: $username)
-                    .padding(.horizontal, 75.0)
-                    .padding(.bottom, 24)
-                    .textFieldStyle(RoundedBorderTextFieldStyle())
+                NameInputFormComponent()
                 
                 Button("Lanjut →") {
                     gameManager = GameManager(username: username)
@@ -52,4 +49,8 @@ struct MainView: View {
             }
         }
     }
+}
+
+#Preview {
+    MainView()
 }
