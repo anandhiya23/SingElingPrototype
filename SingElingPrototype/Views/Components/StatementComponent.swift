@@ -13,7 +13,7 @@ struct StatementComponent: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.backgroundStatement)
+                .fill(Color.backgroundCream)
                 .frame(width: width, height: width * 0.3)
             
             VStack {
