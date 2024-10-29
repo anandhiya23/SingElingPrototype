@@ -56,5 +56,5 @@ struct HighlightedTextView: View {
 
 
 #Preview {
-    HintComponent(hintModel: HintModel(userRole: .pembaca, readerName: "Rayhan"), width: 300)
+    HintComponent(hintModel: HintModel(userRole: .joinRoomView, readerName: ""), width: 300)
 }

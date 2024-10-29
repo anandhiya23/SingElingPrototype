@@ -71,5 +71,5 @@ struct StatementComponent: View {
 }
 
 #Preview {
-    StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystander))
+    StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
 }

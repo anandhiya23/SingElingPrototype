@@ -8,9 +8,13 @@
 import Foundation
 
 enum UserRole {
-    case pembaca
-    case penebak
-    case bystander
+    case pembacaView
+    case penebakView
+    case bystanderView
+    case mainView
+    case createRoomView
+    case joinRoomView
+    case randomTurnView
 }
 
 struct StartementModel {
@@ -22,12 +26,20 @@ struct StatementRole {
 
     var statementText: String {
         switch userRole {
-        case .pembaca:
+        case .pembacaView:
             return "MEMBACA!"
-        case .penebak:
+        case .penebakView:
             return "MENEBAK!"
-        case .bystander:
+        case .bystanderView:
             return "MEMANTAU!"
+        case .mainView:
+            return ""
+        case .createRoomView:
+            return ""
+        case .joinRoomView:
+            return ""
+        case .randomTurnView:
+            return ""
         }
     }
 }
