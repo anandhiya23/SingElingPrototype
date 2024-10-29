@@ -21,7 +21,7 @@ struct SetujuButton: View {
                 .offset(y: height / 7)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 2) // Add stroke here
+                        .stroke(Color.black, lineWidth: 4) // Add stroke here
                         .frame(width: 164, height: 64)
                         .offset(y: height / 7)
                 }
@@ -32,7 +32,7 @@ struct SetujuButton: View {
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 2) // Add stroke here
+                        .stroke(Color.black, lineWidth: 4) // Add stroke here
                         .frame(width: 164, height: 64)
                 }
             HStack{
