@@ -8,13 +8,16 @@
 import SwiftUI
 
 struct Jempol: View {
+    var width: CGFloat
+    var height: CGFloat
+    
     var body: some View {
         Image("Jempol")
             .resizable()
-            .frame(width: 115, height: 167)
+            .frame(width: width, height: height)
     }
 }
 
 #Preview {
-    Jempol()
+    Jempol(width: 65, height: 95)
 }
