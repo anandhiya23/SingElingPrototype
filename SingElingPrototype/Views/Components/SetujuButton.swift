@@ -8,31 +8,51 @@
 import SwiftUI
 
 struct SetujuButton: View {
+    var width: CGFloat
+    var height: CGFloat
+    var text: String
+    var imageName: String
+    
     var body: some View {
         ZStack{
+            RoundedRectangle(cornerRadius: 20)
+                .fill(Color(red: 0.855, green: 0.651, blue: 0.505))
+                .frame(width: width, height: height)
+                .offset(y: height / 7)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                        .frame(width: 164, height: 64)
+                        .offset(y: height / 7)
+                }
+            
+            
+            RoundedRectangle(cornerRadius: 20)
+                .fill(.white)
+                .frame(width: width, height: height)
+                .overlay {
+                    RoundedRectangle(cornerRadius: 20)
+                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                        .frame(width: 164, height: 64)
+                }
             HStack{
-                Image("bi_hand-thumbs-up-fill")
+                Image(imageName)
                     .resizable()
                     .frame(width: 51, height: 51)
                     .scaledToFit()
                     
                 Spacer()
                 
-                Text("Setuju!")
+                Text(text)
                     .font(.custom("Skrapbook", size: 25))
             }
             .padding()
         }
-        .background{
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(red: 0.39, green: 0.82, blue: 1.0))
-                .frame(width: 164, height: 64)
-        }
-        .frame(width: 164, height: 64)
+        .frame(width: width, height: height)
 
     }
 }
 
 #Preview {
-    SetujuButton()
+    SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill")
 }
