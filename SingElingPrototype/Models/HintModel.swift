@@ -13,25 +13,42 @@ struct HintModel {
     
     var text: String {
          switch userRole {
-         case .pembaca:
+         case .pembacaView:
              return "Bacakan kartu ini kepada \(readerName ?? "Pengguna")!"
-         case .penebak:
-             return "Dengar, lalu Tebak Dan\nUrutkan Kartu Berikut Sesuai\nKetidaksopanan!"
-         case .bystander:
+         case .penebakView:
+             return "Dengar, lalu Tebak Dan\nUrutkan Kartu Berikut Sesuai\nIndex Ketidaksopanan!"
+         case .bystanderView:
              return "Dengarkan Dan Pantau Gerakan Kawanmu! Ini Akan Membantumu!"
+         case .mainView:
+             return "Gabung ruang bermain temanmu atau buat ruang bermain Baru"
+         case .createRoomView:
+             return "Bagikan kode ruangan dan mulai bermain setelah teman-temanmu bergabung!"
+         case .joinRoomView:
+             return "Pemilik ruangan akan memulai setelah semua teman bergabung!"
+         case .randomTurnView:
+             return "Susun urutan giliran main sesuai kesepakatan dengan geser dan \nlepas, santai aja!"
          }
      }
      
     
      var imageName: String {
          switch userRole {
-         case .pembaca:
+         case .pembacaView:
              return "fluent-emoji_speaking-head"
-         case .penebak:
+         case .penebakView:
              return "heroicons-solid_question-mark-circle"
-         case .bystander:
+         case .bystanderView:
              return "basil_eye-solid"
+         case .mainView:
+             return "heroicons-solid_question-mark-circle"
+         case .createRoomView:
+             return "heroicons-solid_question-mark-circle"
+         case .joinRoomView:
+             return "heroicons-solid_question-mark-circle"
+         case .randomTurnView:
+             return "heroicons-solid_question-mark-circle"
          }
      }
+    
 }
 
