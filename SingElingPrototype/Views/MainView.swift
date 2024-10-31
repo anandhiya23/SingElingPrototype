@@ -9,18 +9,17 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    @State var gameManager: GameManager? //GameManager(username: String(UUID().uuidString.prefix(6)))
+    @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6))) 
     @State var curView: Int = 0
-    @State var username = ""
     
     var body: some View {
         switch curView {
         case 2:
             GameView()
-                .environmentObject(gameManager!)
+                            .environmentObject(gameManager)
         case 1:
             PairView(curView: $curView)
-                .environmentObject(gameManager!)
+                            .environmentObject(gameManager)
         default:
             VStack(spacing: 20){
                 Spacer()
@@ -38,12 +37,8 @@ struct MainView: View {
                     .fontWeight(.regular)
                     .multilineTextAlignment(.center)
                 
-                NameInputFormComponent()
-                
-                Button("Lanjut →") {
-                    gameManager = GameManager(username: username)
-                    curView = 1
-                }.buttonStyle(GrowingButton())
+                NameInputFormComponent(curView: $curView)
+                    .environmentObject(gameManager)
                 
                 Spacer()
             }
@@ -54,3 +49,4 @@ struct MainView: View {
 #Preview {
     MainView()
 }
+

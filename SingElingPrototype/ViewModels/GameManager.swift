@@ -27,6 +27,11 @@ class GameManager: NSObject, ObservableObject{
     @Published var myConnectivityStatus = 0
     @Published var myConnectivityType: ConnectivityType = .unknown
     
+    //tambahin ini
+    private let nameKey = "name"
+    
+    @Published var username: String
+    
     var isConnected: Bool{
         self.myConnectivityStatus == 1 && self.myConnectivityType != .unknown
     }
@@ -150,6 +155,10 @@ class GameManager: NSObject, ObservableObject{
     init(username: String) {
         let peerID = MCPeerID(displayName: username)
         self.myPeerID = peerID
+       
+        //tambahin ini
+        self.username = username
+       
         
         session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
         serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: serviceType)
@@ -157,10 +166,13 @@ class GameManager: NSObject, ObservableObject{
         
         super.init()
         
+        //tambahin ini
+        self.username = getNameFromDefaults()
+        
         session.delegate = self
         serviceAdvertiser.delegate = self
         serviceBrowser.delegate = self
-                
+        
         serviceAdvertiser.startAdvertisingPeer()
     }
 }
@@ -251,6 +263,31 @@ extension GameManager{ //Game Functions
         }else if isGuest{
             sendGameCommand(GameCommand(.invokeNextTurn))
         }
+    }
+    
+    //tambahin ini
+    func updateUsername(_ newUsername: String) {
+        self.username = newUsername
+    }
+    
+    // Fungsi untuk menyimpan nama pengguna ke UserDefaults
+    func saveNameToDefaults(_ name: String) {
+        UserDefaults.standard.set(name, forKey: nameKey)
+        print("Username \(name) berhasil disimpan pada UserDefaults")
+    }
+    
+    // Fungsi untuk mengambil nama pengguna dari UserDefaults
+    func getNameFromDefaults() -> String {
+        let savedName = UserDefaults.standard.string(forKey: nameKey) ?? ""
+        print("Username \(savedName) berhasil diambil dari UserDefaults")
+        return savedName
+    }
+    
+    // Fungsi untuk menghapus nama pengguna dari UserDefaults
+    func clearSavedName() {
+        UserDefaults.standard.removeObject(forKey: nameKey)
+        username = "" // Setel username kosong
+        print("Username berhasil dihapus dari UserDefaults")
     }
     
     //MARK: - Host Only Functions
@@ -349,6 +386,13 @@ extension GameManager{ //Game Functions
 
 //MARK: - MC FUNCTIONS
 extension GameManager{
+    
+    func save(name: String) {
+        //        UserDefaults.standard.set(name, forKey: )
+        self.username = name
+        print("save username berhasil")
+    }
+    
     func becomeHost(){
         myConnectivityType = .host
         myPID = 0
@@ -356,18 +400,18 @@ extension GameManager{
         serviceBrowser.startBrowsingForPeers()
         serviceAdvertiser.stopAdvertisingPeer()
     }
-
+    
     func sendGameState(_ gameState: GameState) {
-            if !session.connectedPeers.isEmpty {
-                log.info("send GameState to connected peers")
-                do {
-                    let encoder = JSONEncoder()
-                    try session.send(encoder.encode(SendableGameData(type: .gameState, gameState: gameState, sender_PID: myPID)), toPeers: session.connectedPeers, with: .unreliable)
-                } catch {
-                    log.error("Error sending: \(String(describing: error))")
-                }
+        if !session.connectedPeers.isEmpty {
+            log.info("send GameState to connected peers")
+            do {
+                let encoder = JSONEncoder()
+                try session.send(encoder.encode(SendableGameData(type: .gameState, gameState: gameState, sender_PID: myPID)), toPeers: session.connectedPeers, with: .unreliable)
+            } catch {
+                log.error("Error sending: \(String(describing: error))")
             }
         }
+    }
     
     func sendGameCommand(_ gameCommand: GameCommand){
         if !session.connectedPeers.isEmpty {
@@ -451,11 +495,11 @@ extension GameManager: MCSessionDelegate {
         case MCSessionState.notConnected: //JUST DISCONNECTED <<<<<<<<<<<<<<<<<<<<<<<<<
             // Peer disconnected
             DispatchQueue.main.async {
-//                self.paired = false
+                //                self.paired = false
             }
             // Peer disconnected, start accepting invitations again
             if isHost {
-
+                
             } else {
                 log.info("Attempting to re-advertise as \(peerID.displayName)")
                 self.stopAdvertisementRetry() // Cancel any existing retry timer before starting a new one
@@ -477,7 +521,7 @@ extension GameManager: MCSessionDelegate {
                 }
             }else{
                 DispatchQueue.main.async {
-//                    self.paired = true
+                    //                    self.paired = true
                     self.myConnectivityType = .guest
                 }
                 
@@ -490,7 +534,7 @@ extension GameManager: MCSessionDelegate {
         default:
             // Peer connecting or something else
             DispatchQueue.main.async {
-//                self.paired = false
+                //                self.paired = false
             }
             break
         }
