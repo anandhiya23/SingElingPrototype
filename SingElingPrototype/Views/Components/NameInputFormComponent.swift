@@ -36,7 +36,7 @@ struct NameInputFormComponent: View {
                             print("Nama \(name) berhasil disimpan ke UserDefaults")
                             hasSavedName = true
                             
-                            curView = 3
+                            curView = 1
                             print("curView diubah menjadi \(curView)")
                         } else {
                             print("Nama kosong, tidak bisa lanjut.")
