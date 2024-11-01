@@ -8,7 +8,10 @@
 import SwiftUI
 
 struct NameInputFormComponent: View {
-    @State private var name: String = Defaults.getName()
+    @EnvironmentObject var gameManager: GameManager
+    @State private var name: String = ""
+    @State private var hasSavedName = false
+    @Binding var curView: Int
     
     var body: some View {
         VStack(spacing: 20) {
@@ -24,17 +27,21 @@ struct NameInputFormComponent: View {
                             .stroke(Color.gray.opacity(0.7), lineWidth: 1)
                     )
                     .foregroundColor(name.count < 3 ? .black : .singTextGray)
-                    .onChange(of: name) { newName in
-                        if newName.isEmpty {
-                            Defaults.clearName() // hapus dari UserDefaults kalo kosong
+                Button(action: {
+                    if !hasSavedName {
+                        print("Button ditekan")
+                        if !name.isEmpty {
+                            gameManager.username = name
+                            gameManager.saveNameToDefaults(name)
+                            print("Nama \(name) berhasil disimpan ke UserDefaults")
+                            hasSavedName = true  // Pastikan penyimpanan hanya terjadi sekali
+                            
+                            curView = 1  // Ubah curView menjadi 1
+                            print("curView diubah menjadi \(curView)")
                         } else {
-                            Defaults.save(name: newName) // simpan ke UserDefaults jika ada teks
+                            print("Nama kosong, tidak bisa lanjut.")
                         }
                     }
-                
-                Button(action: {
-                    Defaults.save(name: name)
-                    print("Nama yang disimpan: \(name)")
                 }) {
                     Text("LANJUT")
                         .font(.custom("skrapbook", size: 24))
@@ -45,8 +52,27 @@ struct NameInputFormComponent: View {
                             RoundedRectangle(cornerRadius: 0)
                                 .stroke(Color.black, lineWidth: 3)
                         )
+                    
                 }
-                                .disabled(name.isEmpty)
+                .disabled(name.isEmpty)
+                
+                //test buat hapus username
+                
+                //                Button(action: {
+                //                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
+                //                                name = "" // Kosongkan field TextField
+                //                            }) {
+                //                                Text("HAPUS")
+                //                                    .font(.custom("skrapbook", size: 24))
+                //                                    .foregroundColor(.white)
+                //                                    .frame(width: 100, height: 50)
+                //                                    .background(Color.red)
+                //                                    .overlay(
+                //                                        RoundedRectangle(cornerRadius: 0)
+                //                                            .stroke(Color.black, lineWidth: 3)
+                //                                    )
+                //                            }
+                
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
@@ -55,7 +81,7 @@ struct NameInputFormComponent: View {
             .cornerRadius(10)
             .padding(.horizontal)
             
-            if name.isEmpty || !Defaults.isNameSaved{
+            if name.isEmpty{
                 ZStack {
                     BubbleShape()
                         .fill(Color.singOrange)
@@ -106,5 +132,8 @@ struct BubbleShape: Shape {
 
 
 #Preview {
-    NameInputFormComponent()
+    @State var curView: Int = 0  
+        
+        return NameInputFormComponent(curView: $curView)
+            .environmentObject(GameManager(username: "PreviewUser"))
 }
