@@ -34,9 +34,9 @@ struct NameInputFormComponent: View {
                             gameManager.username = name
                             gameManager.saveNameToDefaults(name)
                             print("Nama \(name) berhasil disimpan ke UserDefaults")
-                            hasSavedName = true  // Pastikan penyimpanan hanya terjadi sekali
+                            hasSavedName = true
                             
-                            curView = 1  // Ubah curView menjadi 1
+                            curView = 3
                             print("curView diubah menjadi \(curView)")
                         } else {
                             print("Nama kosong, tidak bisa lanjut.")
@@ -96,9 +96,6 @@ struct NameInputFormComponent: View {
                 .offset(y: -25)
             }
         }
-        //apus ini
-//        .padding()
-//        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
