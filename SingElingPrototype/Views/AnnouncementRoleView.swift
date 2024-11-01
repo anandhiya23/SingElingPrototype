@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct AnnouncementRoleView: View {
+    var vmode : Int = 0
+    
     var body: some View {
         ZStack{
             Image("Bambu Oren")
@@ -16,12 +18,23 @@ struct AnnouncementRoleView: View {
                 .ignoresSafeArea()
             
             HStack {
-                VStack {
-                    StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                    HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 360)
-                    CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
-                        .padding()
+                if vmode == 1{
+                    VStack {
+                        StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
+                        HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 360)
+                        CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+                            .padding()
+                    }
                 }
+                if vmode == 2{
+                    VStack {
+                        StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+                        HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 360)
+                        CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+                            .padding()
+                    }
+                }
+                
             }
             
         }
@@ -29,5 +42,5 @@ struct AnnouncementRoleView: View {
 }
 
 #Preview {
-    AnnouncementRoleView()
+    AnnouncementRoleView(vmode: 2)
 }
