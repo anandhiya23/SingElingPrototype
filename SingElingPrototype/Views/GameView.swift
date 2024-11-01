@@ -73,7 +73,7 @@ struct GameView: View {
         GeometryReader { geom in
             ZStack{
                 if announcementRole{
-                    Text("\(vmode)")
+                    AnnouncementRoleView()
                         .onAppear{
                             startTimer()
                         }
