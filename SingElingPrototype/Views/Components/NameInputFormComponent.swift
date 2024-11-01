@@ -70,8 +70,9 @@ struct NameInputFormComponent: View {
                 .offset(y: -25)
             }
         }
-        .padding()
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        //apus ini
+//        .padding()
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
