@@ -8,10 +8,7 @@
 import SwiftUI
 
 struct NameInputFormComponent: View {
-    @EnvironmentObject var gameManager: GameManager
-    @State private var name: String = ""
-    @State private var hasSavedName = false
-    @Binding var curView: Int
+    @State private var name: String = Defaults.getName()
     
     var body: some View {
         VStack(spacing: 20) {
@@ -27,21 +24,17 @@ struct NameInputFormComponent: View {
                             .stroke(Color.gray.opacity(0.7), lineWidth: 1)
                     )
                     .foregroundColor(name.count < 3 ? .black : .singTextGray)
-                Button(action: {
-                    if !hasSavedName {
-                        print("Button ditekan")
-                        if !name.isEmpty {
-                            gameManager.username = name
-                            gameManager.saveNameToDefaults(name)
-                            print("Nama \(name) berhasil disimpan ke UserDefaults")
-                            hasSavedName = true
-                            
-                            curView = 3
-                            print("curView diubah menjadi \(curView)")
+                    .onChange(of: name) { newName in
+                        if newName.isEmpty {
+                            Defaults.clearName() // hapus dari UserDefaults kalo kosong
                         } else {
-                            print("Nama kosong, tidak bisa lanjut.")
+                            Defaults.save(name: newName) // simpan ke UserDefaults jika ada teks
                         }
                     }
+                
+                Button(action: {
+                    Defaults.save(name: name)
+                    print("Nama yang disimpan: \(name)")
                 }) {
                     Text("LANJUT")
                         .font(.custom("skrapbook", size: 24))
@@ -52,27 +45,8 @@ struct NameInputFormComponent: View {
                             RoundedRectangle(cornerRadius: 0)
                                 .stroke(Color.black, lineWidth: 3)
                         )
-                    
                 }
-                .disabled(name.isEmpty)
-                
-                //test buat hapus username
-                
-                //                Button(action: {
-                //                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
-                //                                name = "" // Kosongkan field TextField
-                //                            }) {
-                //                                Text("HAPUS")
-                //                                    .font(.custom("skrapbook", size: 24))
-                //                                    .foregroundColor(.white)
-                //                                    .frame(width: 100, height: 50)
-                //                                    .background(Color.red)
-                //                                    .overlay(
-                //                                        RoundedRectangle(cornerRadius: 0)
-                //                                            .stroke(Color.black, lineWidth: 3)
-                //                                    )
-                //                            }
-                
+                                .disabled(name.isEmpty)
             }
             .overlay(
                 RoundedRectangle(cornerRadius: 10)
@@ -81,7 +55,7 @@ struct NameInputFormComponent: View {
             .cornerRadius(10)
             .padding(.horizontal)
             
-            if name.isEmpty{
+            if name.isEmpty || !Defaults.isNameSaved{
                 ZStack {
                     BubbleShape()
                         .fill(Color.singOrange)
@@ -96,6 +70,9 @@ struct NameInputFormComponent: View {
                 .offset(y: -25)
             }
         }
+        //apus ini
+//        .padding()
+//        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 }
 
@@ -130,8 +107,5 @@ struct BubbleShape: Shape {
 
 
 #Preview {
-    @State var curView: Int = 0  
-        
-        return NameInputFormComponent(curView: $curView)
-            .environmentObject(GameManager(username: "PreviewUser"))
+    NameInputFormComponent()
 }

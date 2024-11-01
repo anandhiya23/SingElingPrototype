@@ -8,21 +8,18 @@ import Foundation
 import SwiftUI
 
 struct MainViewHaliza: View {
-    @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6)))
+    @State var gameManager: GameManager?
     @State var curView: Int = 0
     @State var username = ""
     
     var body: some View {
         switch curView {
-        case 1:
-            PairView(curView: $curView)
-                .environmentObject(gameManager)
         case 2:
             GameView()
-                .environmentObject(gameManager)
-        case 3:
-                    JoinRoomView(curView: $curView)
-                        .environmentObject(gameManager)
+                .environmentObject(gameManager!)
+        case 1:
+            PairView(curView: $curView)
+                .environmentObject(gameManager!)
         default:
             ZStack{
                 Rectangle()
@@ -33,9 +30,10 @@ struct MainViewHaliza: View {
                     Text("Namamu siapa?")
                         .font(.custom("skrapbook", size: 32))
                         .padding()
-                    NameInputFormComponent(curView: $curView)
-                        .environmentObject(gameManager)
+                    NameInputFormComponent()
+//                        .padding(.top, 0)
                 }
+//                .frame(maxHeight: .infinity)
             }
         }
     }
