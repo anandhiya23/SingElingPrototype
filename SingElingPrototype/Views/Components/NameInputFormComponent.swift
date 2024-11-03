@@ -31,7 +31,7 @@ struct NameInputFormComponent: View {
                     if !hasSavedName {
                         print("Button ditekan")
                         if !name.isEmpty {
-                            gameManager.username = name
+                            gameManager.updateUsername(name)  // Update the username list
                             gameManager.saveNameToDefaults(name)
                             print("Nama \(name) berhasil disimpan ke UserDefaults")
                             hasSavedName = true
@@ -56,22 +56,22 @@ struct NameInputFormComponent: View {
                 }
                 .disabled(name.isEmpty)
                 
-                //test buat hapus username
+//                test buat hapus username
                 
-                //                Button(action: {
-                //                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
-                //                                name = "" // Kosongkan field TextField
-                //                            }) {
-                //                                Text("HAPUS")
-                //                                    .font(.custom("skrapbook", size: 24))
-                //                                    .foregroundColor(.white)
-                //                                    .frame(width: 100, height: 50)
-                //                                    .background(Color.red)
-                //                                    .overlay(
-                //                                        RoundedRectangle(cornerRadius: 0)
-                //                                            .stroke(Color.black, lineWidth: 3)
-                //                                    )
-                //                            }
+//                                Button(action: {
+//                                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
+//                                                name = "" // Kosongkan field TextField
+//                                            }) {
+//                                                Text("HAPUS")
+//                                                    .font(.custom("skrapbook", size: 24))
+//                                                    .foregroundColor(.white)
+//                                                    .frame(width: 100, height: 50)
+//                                                    .background(Color.red)
+//                                                    .overlay(
+//                                                        RoundedRectangle(cornerRadius: 0)
+//                                                            .stroke(Color.black, lineWidth: 3)
+//                                                    )
+//                                            }
                 
             }
             .overlay(

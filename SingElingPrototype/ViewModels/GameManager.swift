@@ -30,7 +30,7 @@ class GameManager: NSObject, ObservableObject{
     //tambahin ini
     private let nameKey = "name"
     
-    @Published var username: String
+    @Published var usernames: [String] = []
     
     var isConnected: Bool{
         self.myConnectivityStatus == 1 && self.myConnectivityType != .unknown
@@ -157,9 +157,8 @@ class GameManager: NSObject, ObservableObject{
         self.myPeerID = peerID
        
         //tambahin ini
-        self.username = username
+        self.usernames = []
        
-        
         session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
         serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: serviceType)
         serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
@@ -167,7 +166,7 @@ class GameManager: NSObject, ObservableObject{
         super.init()
         
         //tambahin ini
-        self.username = getNameFromDefaults()
+        self.usernames = getNameFromDefaults()
         
         session.delegate = self
         serviceAdvertiser.delegate = self
@@ -267,26 +266,36 @@ extension GameManager{ //Game Functions
     
     //tambahin ini
     func updateUsername(_ newUsername: String) {
-        self.username = newUsername
+//        self.usernames = newUsername
+        self.usernames.append(newUsername)
     }
     
     // Fungsi untuk menyimpan nama pengguna ke UserDefaults
     func saveNameToDefaults(_ name: String) {
-        UserDefaults.standard.set(name, forKey: nameKey)
-        print("Username \(name) berhasil disimpan pada UserDefaults")
+//        UserDefaults.standard.set(name, forKey: nameKey)
+//        print("Username \(name) berhasil disimpan pada UserDefaults")
+        var savedUsernames = getNameFromDefaults()  // Ambil nama-nama yang sudah ada
+               savedUsernames.append(name)                      // Tambahkan username baru
+               UserDefaults.standard.set(savedUsernames, forKey: nameKey)
+               usernames = savedUsernames  // Update Published property agar UI ter-update
+               print("Username \(name) berhasil disimpan pada UserDefaults")
     }
     
     // Fungsi untuk mengambil nama pengguna dari UserDefaults
-    func getNameFromDefaults() -> String {
-        let savedName = UserDefaults.standard.string(forKey: nameKey) ?? ""
-        print("Username \(savedName) berhasil diambil dari UserDefaults")
-        return savedName
+    func getNameFromDefaults() -> [String] {
+//        let savedName = UserDefaults.standard.string(forKey: nameKey) ?? ""
+//        print("Username \(savedName) berhasil diambil dari UserDefaults")
+//        return savedName
+        let savedUsernames = UserDefaults.standard.stringArray(forKey: nameKey) ?? []
+        usernames = savedUsernames  // Update Published property
+        print("Usernames \(savedUsernames) berhasil diambil dari UserDefaults")
+        return savedUsernames
     }
     
     // Fungsi untuk menghapus nama pengguna dari UserDefaults
     func clearSavedName() {
         UserDefaults.standard.removeObject(forKey: nameKey)
-        username = "" // Setel username kosong
+        usernames = [] // Setel username kosong
         print("Username berhasil dihapus dari UserDefaults")
     }
     
@@ -389,7 +398,12 @@ extension GameManager{
     
     func save(name: String) {
         //        UserDefaults.standard.set(name, forKey: )
-        self.username = name
+//        self.usernames = name
+//        print("save username berhasil")
+        self.usernames.append(name)
+        
+        // Simpan array usernames ke UserDefaults
+        UserDefaults.standard.set(usernames, forKey: nameKey)
         print("save username berhasil")
     }
     

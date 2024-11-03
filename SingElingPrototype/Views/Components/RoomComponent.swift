@@ -37,9 +37,13 @@ struct RoomComponent: View {
         )
         .padding(.horizontal)
         .onTapGesture {
-                    curView = 1
-            print("ditekan")
-                }
+            if roomModel.typeRoom == .joinRoom {
+                curView = 4
+            } else if roomModel.typeRoom == .createRoom {
+                curView = 1
+            }
+            print("ditekan, curView sekarang: \(curView)") // Debugging
+        }
     }
 }
 
@@ -47,6 +51,6 @@ struct RoomComponent: View {
 #Preview {
     @State var curView: Int = 0
         
-        return RoomComponent(curView: $curView, roomModel: RoomModel(typeRoom: .createRoom), width: 300)
+    return RoomComponent(curView: $curView, roomModel: RoomModel(typeRoom: .joinRoom), width: 300)
             .environmentObject(GameManager(username: "PreviewUser"))
 }

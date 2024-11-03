@@ -17,12 +17,18 @@ struct MainViewHaliza: View {
         case 1:
             PairView(curView: $curView)
                 .environmentObject(gameManager)
+                .onAppear {
+                    print("Current view: \(curView)") // Debugging
+                }
         case 2:
             GameView()
                 .environmentObject(gameManager)
         case 3:
                     JoinRoomView(curView: $curView)
                         .environmentObject(gameManager)
+        case 4:
+            SuccessfullyEnteredRoomView(curView: $curView)
+                .environmentObject(gameManager)
         default:
             ZStack{
                 Rectangle()
