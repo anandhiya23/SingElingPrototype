@@ -12,6 +12,7 @@ struct SetujuButton: View {
     var height: CGFloat
     var text: String
     var imageName: String
+    var action: () -> Void
     
     var body: some View {
         ZStack{
@@ -48,11 +49,15 @@ struct SetujuButton: View {
             }
             .padding()
         }
+        .onTapGesture {
+                    action() // Panggil aksi saat tombol diklik
+                }
         .frame(width: width, height: height)
-
     }
 }
 
 #Preview {
-    SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill")
+    SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
+        print("Button pressed!") // Aksi sederhana saat tombol ditekan
+    }
 }
