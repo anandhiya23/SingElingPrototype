@@ -46,7 +46,6 @@ struct SuccessfullyEnteredRoomView: View {
 }
 
 #Preview {
-    @State var curView: Int = 0
-    SuccessfullyEnteredRoomView(curView: $curView)
+    SuccessfullyEnteredRoomView(curView: .constant(0))
         .environmentObject(GameManager(username: "Haliza"))
 }
