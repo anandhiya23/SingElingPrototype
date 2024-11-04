@@ -67,7 +67,7 @@ struct TestGameView: View {
                     .foregroundColor(.clear)
                     .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
                 ZStack(){
-                    HStack(spacing: -85){
+                    HStack(spacing: 16){
                         ForEach(temptest.indices, id: \.self){ curCardIdIndice in
 //                            RoundedRectangle(cornerRadius: 8.0)
 //                                .fill(Color.gray)
@@ -77,13 +77,13 @@ struct TestGameView: View {
 //                            CardComponent(width: 170) // Panggil CardComponent dengan lebar tetap 170
 //                                        .padding(.leading, curCardIdIndice == myCardPos ? 130 : 0)
                             CardComponent(
-                                width: 200,
+                                width: 117,
                                                            text: gameManager.playingCards[curCardIdIndice].text,
                                                            indexNum: gameManager.playingCards[curCardIdIndice].indexNum
                             )
                         }
                     }
-                    .padding(.leading, (vw/2) - CGFloat(myCardPos * 85))
+                    .padding(.leading, (vw/1.4) - CGFloat(myCardPos * 85))
                     .frame(width: vw, alignment: .leading)
                     
                 }

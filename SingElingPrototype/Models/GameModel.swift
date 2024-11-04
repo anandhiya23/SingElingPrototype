@@ -66,9 +66,12 @@ struct GameState: Codable {
     var isPlaying: Bool = false
     var players: [Player] = []
     var othersCardsHidden = false
+    var announcementGame = true
     var triggerGuesserCardShift = false
     var readerCard_CID = 0
     var winner_PID: Int? = nil
+    var isCorrect: Bool = false
+    var guesserName: String = ""
     
     // Reader and Guesser Properties
     var reader_PID: Int =  0

@@ -24,16 +24,17 @@ struct GameView: View {
 //    @State var gameState: GameState
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
-    @State var announcementRole: Bool = true
     @State private var roleTimer: Int = 0
     @State private var timer: Timer?
+    @State var guesserName: String = ""
+    
     
     func startTimer() {
         resetTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             roleTimer += 1
             if roleTimer == 3{
-                announcementRole = !announcementRole
+                gameManager.gameState.announcementGame = false
             }
         }
     }
@@ -72,20 +73,23 @@ struct GameView: View {
     var body: some View {
         GeometryReader { geom in
             ZStack{
-                if announcementRole{
-                    if vmode == 1{
-                        if gameManager.gameState.othersCardsHidden{
-                            Color.singElingZ70
-                        }else{
-                            Color.singElingLC70
-                        }
-                    }else{
+                if gameManager.gameState.announcementGame{
+                    if vmode == 0 {
+                        Color.singElingLC70
+                    }
+                    if vmode == 1 {
+                        Color.singElingZ70
+                    }
+                    if vmode == 2 {
                         Color.singOrange
                     }
-                    AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden)
-                        .onAppear{
-                            startTimer()
-                        }
+                    withAnimation(.easeIn){
+                        AnnouncementRoleView(vmode: vmode)
+                            .onAppear{
+                                startTimer()
+                            }
+                    }
+                        
                 }else{
                     Color.singKrim
                     RoundedRectangle(cornerRadius: 30.0)
@@ -127,17 +131,18 @@ struct GameView: View {
                     //SELF'S CARDS
                     RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
-                        .frame(width: 170, height: 170*1.35)
+                        .frame(width: 24, height: 244)
                         .foregroundColor(.clear)
                         .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
                     
                     ZStack(){
-                        HStack(spacing: -85){
-                            ForEach(gameManager.myCards.indices, id: \.self){ curCardIdIndice in
+                        HStack(spacing: 16){
+                            ForEach(0..<gameManager.myCards.count, id: \.self) { curCardIdIndice in
                                 let curCardId = gameManager.myCards[curCardIdIndice]
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-                                CardView(width: 170, hidden: false, text: tempCard.text, icon: tempCard.icon, indexnum: tempCard.indexNum)
-                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 130 : 0)
+                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
+                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : -80)
+
                             }
                         }
                         .padding(.leading, (vw/2) - CGFloat(gameManager.myCardPos * 85))
@@ -171,7 +176,6 @@ struct GameView: View {
                         .position(x:vw*1/2, y: vh*60/100)
                         .simultaneousGesture(TapGesture().onEnded({
                             gameManager.makeGuess()
-                            announcementRole = !announcementRole
                         }))
                     
                     if(vmode == 2){
@@ -188,37 +192,6 @@ struct GameView: View {
                         .onTapGesture {
                             gameManager.nextTurn()
                         }
-                    
-                    
-                    CardView(width: vmode == 0 ? 170 : 270, hidden: !gameManager.isReader, text: gameManager.readerCardText, indexnum: gameManager.readerCardIndexNum)
-                        .position(x:1/2*vw, y: midCardY)
-                        .animation(.default, value: vmode)
-                    
-                    //                                                if gameManager.gameState.winner_PID != nil{
-                    //                                                    ZStack{
-                    //                                                        VStack{
-                    //                                                            Text("Selamat kepada")
-                    //                                                            Text(gameManager.winnerName)
-                    //                                                                .bold()
-                    //                                                                .font(.title)
-                    //                                                            Text("8/8 Kartu")
-                    //                                                            Spacer().frame(height: 20)
-                    //                                                            if gameManager.isHost{
-                    //                                                                Button("Main Lagi"){
-                    //                                                                    gameManager.startGame()
-                    //                                                                }
-                    //                                                                .padding()
-                    //                                                                .foregroundStyle(Color.white)
-                    //                                                                .background{
-                    //                                                                    RoundedRectangle(cornerRadius: 10)
-                    //                                                                        .fill(Color.black)
-                    //                                                                }
-                    //                                                            }
-                    //                                                        }
-                    //                                                    }
-                    //                                                    .frame(width: vw, height: vh)
-                    //                                                    .background(Color.singGreen)
-                    //                                                }
                     
                     //WINNER ANNOUNCEMENT
                     if gameManager.gameState.winner_PID != nil{
@@ -266,19 +239,6 @@ struct GameView: View {
                                 }
                                 
                                 Spacer().frame(height: 20)
-                                
-                                // Animasi confetti (jika belum selesai)
-                                //                             if animationCompleted {
-                                //                                 AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce)
-                                //                                     .frame(width: 200, height: 200)
-                                //                                     .onAppear {
-                                //                                         playSoundOnce()
-                                //                                     }
-                                //                                     .onDisappear {
-                                //                                         animationCompleted = true
-                                //                                     }
-                                //                             }
-                                //                         }
                                 if isCurrentUserWinner {
                                     // Mainkan animasi confetti
                                     AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
@@ -298,6 +258,29 @@ struct GameView: View {
                     }
                     
                 }
+                if gameManager.gameState.guesserName != ""{
+                    if gameManager.gameState.isCorrect{
+                        Rectangle()
+                            .fill(Color.singElingZ70)
+                            .frame(width: vw, height: 62)
+                            .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                            .animation(.default, value: gameManager.gameState.announcementGame)
+                    }else{
+                        Rectangle()
+                            .fill(Color.singElingLC90)
+                            .frame(width: vw, height: 62)
+                            .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                            .animation(.default, value: gameManager.gameState.announcementGame)
+                    }
+                   
+                }
+                Rectangle()
+                    .fill(Color.singElingDS50)
+                    .frame(width: vw, height: 62)
+                    .position(x: 0.5*vw, y:0.03*vh)
+                
+               
+                
             }
             .frame(width: vw, height: vh)
             .onChange(of: geom.size) { oldValue, newValue in
