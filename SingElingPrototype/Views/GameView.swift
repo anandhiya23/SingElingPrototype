@@ -73,6 +73,15 @@ struct GameView: View {
         GeometryReader { geom in
             ZStack{
                 if announcementRole{
+                    if vmode == 1{
+                        if gameManager.gameState.othersCardsHidden{
+                            Color.singElingZ70
+                        }else{
+                            Color.singElingLC70
+                        }
+                    }else{
+                        Color.singOrange
+                    }
                     AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden)
                         .onAppear{
                             startTimer()
