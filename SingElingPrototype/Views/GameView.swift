@@ -198,6 +198,7 @@ struct GameView: View {
                             .font(.title2)
                             .foregroundStyle(.white)
                             .position(x: 0.5*vw, y: 0.9*vh)
+                        
                     }
                     
                     Text("\(Image(systemName: "person.fill")) \(gameManager.guesserName)")
@@ -281,12 +282,28 @@ struct GameView: View {
                             .frame(width: vw, height: 62)
                             .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
                             .animation(.default, value: gameManager.gameState.announcementGame)
+                            .overlay(
+                                HStack{
+                                    Text("\(gameManager.guesserName) Berhasil Nebak")
+                                        .font(.custom("Skrapbook", size: 32))
+                                        .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                                }
+                            )
                     }else{
                         Rectangle()
                             .fill(Color.singElingLC90)
                             .frame(width: vw, height: 62)
                             .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
                             .animation(.default, value: gameManager.gameState.announcementGame)
+                            .overlay(
+                                HStack{
+                                    Text("\(gameManager.guesserName) Salah Nebak")
+                                        .font(.custom("Skrapbook", size: 32))
+                                        .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                                }
+                            )
+                            
+
                     }
                    
                 }
