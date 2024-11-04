@@ -308,7 +308,7 @@ extension GameManager{ //Game Functions
         gameState.availablePlayingCards_CID = Array(0..<playingCards.count)
         gameState.availablePlayingCards_CID.shuffle()
         for PID in gameState.players.indices{
-            let STARTING_CARDS_AMMOUNT = 1
+            let STARTING_CARDS_AMMOUNT = 4
             gameState.players[PID].playingCards_CID = Array(gameState.availablePlayingCards_CID.prefix(STARTING_CARDS_AMMOUNT)).sorted(by: <)
             gameState.availablePlayingCards_CID.removeFirst(STARTING_CARDS_AMMOUNT)
             gameState.players[PID].cardPos = 0
@@ -370,11 +370,13 @@ extension GameManager{ //Game Functions
             return
         }
         let guessResult = checkGuess()
+        gameState.isCorrect = guessResult
         sendGameCommand(GameCommand(.hideOthersCards, boolData: guessResult))
         withAnimation {
             gameState.othersCardsHidden = true
         }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5){ [self] in
+        gameState.guesserName = gameState.players[gameState.guesser_PID].name
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1){ [self] in
             gameState.guesser_PID = (gameState.guesser_PID + 1) % gameState.players.count
             if gameState.guesser_PID == gameState.reader_PID || guessResult == true{
                 //NEW READER
@@ -383,6 +385,9 @@ extension GameManager{ //Game Functions
                 gameState.readerCard_CID = gameState.availablePlayingCards_CID[0]
                 gameState.availablePlayingCards_CID.removeFirst()
             }
+//            withAnimation {
+                gameState.announcementGame = true
+//            }
             sendGameState(gameState)
             //print("Reader: \(gameManager.gameState.reader_PID) Guesser: \(gameManager.gameState.guesser_PID)")
             sendGameCommand(GameCommand(.showOthersCards))
