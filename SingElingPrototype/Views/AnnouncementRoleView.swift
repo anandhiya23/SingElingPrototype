@@ -10,8 +10,6 @@ import SwiftUI
 struct AnnouncementRoleView: View {
     var vmode : Int = 0
     var byStander: Bool = false
-    var width: CGFloat = 0
-    var height: CGFloat = 0
     
     var body: some View {
         VStack{
@@ -74,5 +72,5 @@ struct AnnouncementRoleView: View {
 }
 
 #Preview {
-    AnnouncementRoleView(vmode: 1, byStander: false, width: 784, height: 1345)
+    AnnouncementRoleView(vmode: 1, byStander: false)
 }
