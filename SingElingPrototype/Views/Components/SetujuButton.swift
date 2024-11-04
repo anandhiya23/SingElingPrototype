@@ -50,7 +50,7 @@ struct SetujuButton: View {
             .padding()
         }
         .onTapGesture {
-                    action() // Panggil aksi saat tombol diklik
+                    action()
                 }
         .frame(width: width, height: height)
     }
@@ -58,6 +58,6 @@ struct SetujuButton: View {
 
 #Preview {
     SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
-        print("Button pressed!") // Aksi sederhana saat tombol ditekan
+        print("Button pressed!")
     }
 }

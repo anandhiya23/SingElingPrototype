@@ -27,12 +27,14 @@ struct SuccessfullyEnteredRoomView: View {
                  UserJoinComponent(width: 300)
                  
                  HintComponent(hintModel: HintModel(userRole: .joinRoomView, readerName: ""), width: 300)
-                     .padding(.bottom, 100)
+                     .padding(.bottom, 40)
 
+                 Spacer()
+                 
                  Rectangle()
                      .fill(Color.singElingLC50)
-                     .ignoresSafeArea()
-                     .frame(height: 90)
+//                     .ignoresSafeArea()
+                     .frame(height: 130)
                      .overlay(
                         SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
                             print("Setuju button pressed!") // Debugging
@@ -40,6 +42,7 @@ struct SuccessfullyEnteredRoomView: View {
                         }
                      )
              }
+             .ignoresSafeArea(edges: .bottom)
          }
          .environmentObject(gameManager)
      }
