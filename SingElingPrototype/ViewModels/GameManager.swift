@@ -308,7 +308,7 @@ extension GameManager{ //Game Functions
         gameState.availablePlayingCards_CID = Array(0..<playingCards.count)
         gameState.availablePlayingCards_CID.shuffle()
         for PID in gameState.players.indices{
-            let STARTING_CARDS_AMMOUNT = 1
+            let STARTING_CARDS_AMMOUNT = 4
             gameState.players[PID].playingCards_CID = Array(gameState.availablePlayingCards_CID.prefix(STARTING_CARDS_AMMOUNT)).sorted(by: <)
             gameState.availablePlayingCards_CID.removeFirst(STARTING_CARDS_AMMOUNT)
             gameState.players[PID].cardPos = 0

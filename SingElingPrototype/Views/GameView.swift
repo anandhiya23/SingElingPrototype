@@ -91,26 +91,31 @@ struct GameView: View {
                     }
                         
                 }else{
-                    Color.singKrim
-                    RoundedRectangle(cornerRadius: 30.0)
-                        .fill(Color.singCoklat)
+                    if vmode == 0 || vmode == 2{
+                        Image("Bambu Merah 1")
+                    }else{
+                        Image("Bambu Oren")
+                    }
+                    Image("Bambu Ijo 1")
                         .frame(width: vw, height: 1/2*vh)
-                        .position(x: 1/2*vw, y:3/4*vh)
+                        .position(x: 1/2*vw, y: vmode == 1 ? 0.75*vh : 0.98*vh)
                     
                     //OTHER'S CARDS
                     RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
-                        .frame(width: 170, height: 170*1.35)
+                        .frame(width: 20, height: 206)
                         .foregroundColor(.clear)
                         .position(x:vw/2, y: gameManager.gameState.othersCardsHidden || vmode == 1 ? -145 : 26/100*vh)
                     
                     ZStack(){
-                        HStack(spacing: -85){
-                            ForEach(gameManager.guesserCards.indices, id: \.self){ curCardIdIndice in
-                                let curCardId = gameManager.guesserCards[curCardIdIndice]
+                        HStack(spacing: 16) {
+                            ForEach(0..<gameManager.myCards.count, id: \.self) { curCardIdIndice in
+                                let curCardId = gameManager.myCards[curCardIdIndice]
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-                                CardView(width: 170, hidden: false, text: tempCard.text, icon: tempCard.icon, indexnum: tempCard.indexNum)
-                                    .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 130 : 0)
+
+                                // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
+                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
+                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -80))
                             }
                         }
                         .padding(.leading, (vw/2) - CGFloat(gameManager.guesserCardPos * 85))
@@ -135,23 +140,33 @@ struct GameView: View {
                         .foregroundColor(.clear)
                         .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
                     
-                    ZStack(){
-                        HStack(spacing: 16){
+                    ZStack {
+                        HStack(spacing: 16) {
                             ForEach(0..<gameManager.myCards.count, id: \.self) { curCardIdIndice in
                                 let curCardId = gameManager.myCards[curCardIdIndice]
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
-                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : -80)
 
+                                // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
+                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
+                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -80))
                             }
                         }
-                        .padding(.leading, (vw/2) - CGFloat(gameManager.myCardPos * 85))
+                        .padding(.leading, (vw / 2) - CGFloat(gameManager.myCardPos * 85))
                         .frame(width: vw, alignment: .leading)
-                        
+                        .gesture(
+                            DragGesture()
+                                .onEnded { gesture in
+                                    if gesture.translation.width > 50 {
+                                        gameManager.myCardPosShiftRight()
+                                    } else if gesture.translation.width < -50 {
+                                        gameManager.myCardPosShiftLeft()
+                                    }
+                                }
+                        )
                     }
-                    .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
-                    .animation(.default, value: vmode)
-                    .animation(.bouncy.speed(1.4), value: gameManager.myCardPos)
+                    .position(x: vw / 2, y: vmode == 0 || vmode == 1 ? 0.835 * vh : 1.5 * vh)
+                    .animation(vmode == 0 || vmode == 1 ? .default : .bouncy.speed(1.4), value: gameManager.myCardPos)
+
                     
                     RoundedTriangle(cornerRadius: 8)
                         .fill(Color.black)
@@ -188,6 +203,7 @@ struct GameView: View {
                     Text("\(Image(systemName: "person.fill")) \(gameManager.guesserName)")
                         .font(.title2)
                         .foregroundStyle(.black)
+                        .background(.gray)
                         .position(x: 0.5*vw, y: 0.09*vh)
                         .onTapGesture {
                             gameManager.nextTurn()
