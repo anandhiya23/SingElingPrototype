@@ -73,13 +73,11 @@ struct GameView: View {
         GeometryReader { geom in
             ZStack{
                 if announcementRole{
-                    AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden)
+                    AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden, width: vw, height: vh)
                         .onAppear{
                             startTimer()
                         }
                 }else{
-                    
-                    
                     Color.singKrim
                     RoundedRectangle(cornerRadius: 30.0)
                         .fill(Color.singCoklat)

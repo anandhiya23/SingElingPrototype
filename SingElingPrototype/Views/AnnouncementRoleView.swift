@@ -10,9 +10,11 @@ import SwiftUI
 struct AnnouncementRoleView: View {
     var vmode : Int = 0
     var byStander: Bool = false
+    var width: CGFloat = 0
+    var height: CGFloat = 0
     
     var body: some View {
-        VStack {
+        VStack{
             ZStack{
                 if vmode == 1{
                     if byStander{
@@ -31,27 +33,23 @@ struct AnnouncementRoleView: View {
                 if vmode == 2{
                     Image("Bambu Oren")
                         .resizable()
-                        .scaledToFill()
+                        .scaledToFit()
                         .ignoresSafeArea()
                 }
                 
                 
                 HStack {
                     VStack{
-                        Rectangle()
-                            .frame(width: 394, height: 62)
-                            .ignoresSafeArea()
-                            .foregroundStyle(.singElingDS50)
                         Spacer()
                         if vmode == 1{
                             if byStander{
                                 StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
-                                HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 360)
+                                HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 323)
                                 CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
                                     .padding()
                             }else{
                                 StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
-                                HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 360)
+                                HintComponent(hintModel: HintModel(userRole: .penebakView, readerName: "Penebak"), width: 323)
                                 CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
                                     .padding()
                             }
@@ -59,7 +57,9 @@ struct AnnouncementRoleView: View {
                         
                         if vmode == 2{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                            HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 360)
+                                .padding()
+                            HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323)
+                                .padding()
                             CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
                                 .padding()
                         }
@@ -69,9 +69,10 @@ struct AnnouncementRoleView: View {
                 }
             }
         }
+        
     }
 }
 
 #Preview {
-    AnnouncementRoleView(vmode: 1, byStander: false)
+    AnnouncementRoleView(vmode: 1, byStander: false, width: 784, height: 1345)
 }
