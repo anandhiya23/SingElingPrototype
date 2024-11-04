@@ -73,7 +73,7 @@ struct GameView: View {
         GeometryReader { geom in
             ZStack{
                 if announcementRole{
-                    AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden, width: vw, height: vh)
+                    AnnouncementRoleView(vmode: vmode, byStander: gameManager.gameState.othersCardsHidden)
                         .onAppear{
                             startTimer()
                         }
