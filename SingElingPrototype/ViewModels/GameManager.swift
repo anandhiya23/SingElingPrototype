@@ -325,7 +325,7 @@ extension GameManager{ //Game Functions
         gameState.players[gameState.guesser_PID].point += 1
         gameState.players[gameState.guesser_PID].playingCards_CID.insert(gameState.readerCard_CID, at: guesserCardPos)
         gameState.players[gameState.guesser_PID].cardPos += 1
-        if gameState.players[gameState.guesser_PID].point >= 1{
+        if gameState.players[gameState.guesser_PID].point >= 5{
             gameState.winner_PID = gameState.guesser_PID
         }
     }
