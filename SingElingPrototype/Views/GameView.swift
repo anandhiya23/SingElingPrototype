@@ -287,6 +287,7 @@ struct GameView: View {
                                     Text("\(gameManager.guesserName) Berhasil Nebak")
                                         .font(.custom("Skrapbook", size: 32))
                                         .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                                        .foregroundColor(.white)
                                 }
                             )
                     }else{
@@ -300,6 +301,7 @@ struct GameView: View {
                                     Text("\(gameManager.guesserName) Salah Nebak")
                                         .font(.custom("Skrapbook", size: 32))
                                         .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.09*vh : 0.03*vh)
+                                        .foregroundColor(.white)
                                 }
                             )
                             
