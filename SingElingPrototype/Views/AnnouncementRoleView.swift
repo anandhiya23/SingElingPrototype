@@ -41,19 +41,19 @@ struct AnnouncementRoleView: View {
                         if vmode == 0{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
                             HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+                            CardComponent(width: 200, text: "Sing Eling", indexNum: 0)
                                 .padding()
                         }
                         if vmode == 1{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
                             HintComponent(hintModel: HintModel(userRole: .penebakView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+                            CardComponent(width: 200, text: "Sing Eling", indexNum: 0)
                                 .padding()
                         }
                         if vmode == 2{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
                             HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 180, text: readerText, indexNum: readerNum)
+                            CardComponent(width: 200, text: readerText, indexNum: readerNum)
                                 .padding()
                         }
                         Spacer()

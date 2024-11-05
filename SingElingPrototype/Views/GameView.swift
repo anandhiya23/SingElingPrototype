@@ -221,70 +221,6 @@ struct GameView: View {
                         .position(x:1/2*vw, y: midCardY)
                         .animation(.default, value: vmode)
                     
-                    //WINNER ANNOUNCEMENT
-                    if gameManager.gameState.winner_PID != nil{
-                        ZStack {
-                            // Latar belakang hijau, atau gunakan warna lain sesuai desain
-                            Color.singKrim
-                                .ignoresSafeArea()
-                            
-                            VStack {
-                                // Teks selamat dan nama pemenang
-                                Text("Selamat kepada")
-                                    .font(.headline)
-                                    .foregroundColor(.black)
-                                
-                                Text(gameManager.winnerName)
-                                    .bold()
-                                    .font(.title)
-                                    .foregroundColor(.black)
-                                
-                                Text("8/8 Kartu")
-                                    .foregroundColor(.gray)
-                                
-                                Spacer().frame(height: 20)
-                                
-                                // Tambahkan ikon trofi
-                                Image(systemName: "trophy.fill")
-                                    .resizable()
-                                    .scaledToFit()
-                                    .frame(width: 100, height: 100)
-                                    .foregroundColor(.yellow)
-                                
-                                Spacer().frame(height: 20)
-                                
-                                // Tombol hanya untuk host
-                                if gameManager.isHost {
-                                    Button("Main Lagi") {
-                                        gameManager.startGame()  // Fungsi reset permainan
-                                    }
-                                    .padding()
-                                    .foregroundColor(.white)
-                                    .background {
-                                        RoundedRectangle(cornerRadius: 10)
-                                            .fill(Color.black)
-                                    }
-                                }
-                                
-                                Spacer().frame(height: 20)
-                                if isCurrentUserWinner {
-                                    // Mainkan animasi confetti
-                                    AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
-                                        .frame(width: 200, height: 200)
-                                        .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
-                                            if newValue != nil {
-                                                playWinnerSound()
-                                                playConfetti.toggle()
-                                            }
-                                        }
-                                }
-                            }
-                            .padding()
-                            .frame(width: vw, height: vh)
-                        }
-                        
-                    }
-                    
                 }
                 if gameManager.gameState.guesserName != ""{
                     if gameManager.gameState.isCorrect{
@@ -324,6 +260,68 @@ struct GameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
+                if gameManager.gameState.winner_PID != nil{
+                    ZStack {
+                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
+                        Color.singKrim
+                            .ignoresSafeArea()
+                        
+                        VStack {
+                            // Teks selamat dan nama pemenang
+                            Text("Selamat kepada")
+                                .font(.headline)
+                                .foregroundColor(.black)
+                            
+                            Text(gameManager.winnerName)
+                                .bold()
+                                .font(.title)
+                                .foregroundColor(.black)
+                            
+                            Text("5/5 Kartu")
+                                .foregroundColor(.gray)
+                            
+                            Spacer().frame(height: 20)
+                            
+                            // Tambahkan ikon trofi
+                            Image(systemName: "trophy.fill")
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 100, height: 100)
+                                .foregroundColor(.yellow)
+                            
+                            Spacer().frame(height: 20)
+                            
+                            // Tombol hanya untuk host
+                            if gameManager.isHost {
+                                Button("Main Lagi") {
+                                    gameManager.startGame()  // Fungsi reset permainan
+                                }
+                                .padding()
+                                .foregroundColor(.white)
+                                .background {
+                                    RoundedRectangle(cornerRadius: 10)
+                                        .fill(Color.black)
+                                }
+                            }
+                            
+                            Spacer().frame(height: 20)
+                            if isCurrentUserWinner {
+                                // Mainkan animasi confetti
+                                AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
+                                    .frame(width: 200, height: 200)
+                                    .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
+                                        if newValue != nil {
+                                            playWinnerSound()
+                                            playConfetti.toggle()
+                                        }
+                                    }
+                            }
+                        }
+                        .padding()
+                        .frame(width: vw, height: vh)
+                    }
+                    
+                }
                 
                
                 
