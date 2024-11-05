@@ -9,6 +9,8 @@ import SwiftUI
 
 struct AnnouncementRoleView: View {
     var vmode : Int = 0
+    var readerText : String = ""
+    var readerNum : Int = 0
     
     var body: some View {
         VStack{
@@ -51,7 +53,7 @@ struct AnnouncementRoleView: View {
                         if vmode == 2{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
                             HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 180, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+                            CardComponent(width: 180, text: readerText, indexNum: readerNum)
                                 .padding()
                         }
                         Spacer()

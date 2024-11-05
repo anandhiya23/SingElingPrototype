@@ -64,7 +64,7 @@ struct GameView: View {
         case 1:
             return 33 / 100 * vh
         default:
-            return 64 / 100 * vh
+            return 70 / 100 * vh
         }
     }
     
@@ -84,22 +84,51 @@ struct GameView: View {
                         Color.singOrange
                     }
                     withAnimation(.easeIn){
-                        AnnouncementRoleView(vmode: vmode)
+                        AnnouncementRoleView(vmode: vmode, readerText: gameManager.readerCardText, readerNum: gameManager.readerCardIndexNum)
                             .onAppear{
                                 startTimer()
                             }
                     }
                         
                 }else{
-                    if vmode == 0 || vmode == 2{
+                    if vmode == 0{
+                        Image("Bambu Ijo 1")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                        
                         Image("Bambu Merah 1")
-                    }else{
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
+                        
+                    }else if vmode == 1{
                         Image("Bambu Oren")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                        
+                        Image("Bambu Ijo 1")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
+
+                    } else{
+                        
+                        Image("Bambu Ijo 1")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                        
+                        Image("Bambu Oren")
+                            .resizable()
+                            .ignoresSafeArea()
+                            .scaledToFill()
+                            .position(x: 1/2*vw, y: 0.92*vh)
+
                     }
-                    Image("Bambu Ijo 1")
-                        .frame(width: vw, height: 1/2*vh)
-                        .position(x: 1/2*vw, y: vmode == 1 ? 0.75*vh : 0.98*vh)
-                    
                     //OTHER'S CARDS
                     RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
@@ -108,14 +137,14 @@ struct GameView: View {
                         .position(x:vw/2, y: gameManager.gameState.othersCardsHidden || vmode == 1 ? -145 : 26/100*vh)
                     
                     ZStack(){
-                        HStack(spacing: 16) {
-                            ForEach(0..<gameManager.myCards.count, id: \.self) { curCardIdIndice in
-                                let curCardId = gameManager.myCards[curCardIdIndice]
+                       HStack(spacing: 16) {
+                            ForEach(0..<gameManager.guesserCards.count, id: \.self) { curCardIdIndice in
+                                let curCardId = gameManager.guesserCards[curCardIdIndice]
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
 
                                 // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                                 CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
-                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -80))
+                                    .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 60 : -80))
                             }
                         }
                         .padding(.leading, (vw/2) - CGFloat(gameManager.guesserCardPos * 85))
@@ -126,19 +155,19 @@ struct GameView: View {
                     .animation(.bouncy.speed(1.4), value: gameManager.triggerGuesserCardShift)
                     
                     //TRIANGLE INDICATOR
-                    RoundedTriangle(cornerRadius: 8)
-                        .fill(Color.black)
+                    Jempol(width: 135, height: 196)
+                        .rotationEffect(Angle(degrees: 180))
                         .frame(width: 70, height: 60)
-                        .position(x:vw/2, y: gameManager.gameState.othersCardsHidden || vmode == 1 ? -145 : 37.5/100*vh)
+                        .position(x:vw/1.9, y: gameManager.gameState.othersCardsHidden || vmode == 1 ? -145 : 5/100*vh)
                     
                     
                     
                     //SELF'S CARDS
                     RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
-                        .frame(width: 24, height: 244)
+                        .frame(width: vmode == 2 ? 0 : 24, height: 244)
                         .foregroundColor(.clear)
-                        .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
+                        .position(x:vw/2, y: vmode == 1 ? 0.5*vh : 0.7*vh)
                     
                     ZStack {
                         HStack(spacing: 16) {
@@ -147,8 +176,8 @@ struct GameView: View {
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
 
                                 // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
-                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -80))
+                                CardComponent(width: vmode == 2 ? 0 : 164, text: tempCard.text, indexNum: tempCard.indexNum)
+                                    .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -96))
                             }
                         }
                         .padding(.leading, (vw / 2) - CGFloat(gameManager.myCardPos * 85))
@@ -164,42 +193,20 @@ struct GameView: View {
                                 }
                         )
                     }
-                    .position(x: vw / 2, y: vmode == 0 || vmode == 1 ? 0.835 * vh : 1.5 * vh)
+                    .position(x: vw / 2, y: vmode == 1 ? 0.5 * vh : 0.7 * vh)
                     .animation(vmode == 0 || vmode == 1 ? .default : .bouncy.speed(1.4), value: gameManager.myCardPos)
 
                     
-                    RoundedTriangle(cornerRadius: 8)
-                        .fill(Color.black)
-                        .rotationEffect(Angle(degrees: 180))
+                    Jempol(width: 153, height: 222)
                         .frame(width: 70, height: 60)
-                        .position(x:vw/2, y: vmode == 1 ? 0.71*vh : 0.55*vh)
+                        .position(x:vw/2.1, y: vmode == 1 ? 0.73*vh : 2.5*vh)
                         .animation(.default, value: vmode)
                     
-                    CircleButton(diameter: 60, icon: "arrow.left")
-                        .position(x: vmode == 2 ? 0.5*vw : vw*1/7, y: vh*60/100)
-                        .simultaneousGesture(TapGesture().onEnded({
-                            gameManager.myCardPosShiftLeft()
-                        }))
-                        .animation(.default, value: vmode)
-                    CircleButton(diameter: 60, icon: "arrow.right")
-                        .position(x: vmode == 2 ? 0.5*vw : vw*6/7, y: vh*60/100)
-                        .simultaneousGesture(TapGesture().onEnded({
-                            gameManager.myCardPosShiftRight()
-                        }))
-                        .animation(.default, value: vmode)
-                    PillButton(width: 150, height: 60, icon: "checkmark")
-                        .position(x:vw*1/2, y: vh*60/100)
-                        .simultaneousGesture(TapGesture().onEnded({
-                            gameManager.makeGuess()
-                        }))
-                    
-                    if(vmode == 2){
-                        Text("Bacakan kepada \(gameManager.guesserName)")
-                            .font(.title2)
-                            .foregroundStyle(.white)
-                            .position(x: 0.5*vw, y: 0.9*vh)
-                        
+                    SetujuButton(width: 166, height: 73, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill"){
+                        gameManager.makeGuess()
                     }
+                    .position(x:vw*1/2, y: vmode == 1 ? 0.9*vh : 1.5*vh)
+                    
                     
                     Text("\(Image(systemName: "person.fill")) \(gameManager.guesserName)")
                         .font(.title2)
@@ -209,6 +216,10 @@ struct GameView: View {
                         .onTapGesture {
                             gameManager.nextTurn()
                         }
+                    
+                    CardComponent(width: vmode == 2 ? 220 : 0, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum)
+                        .position(x:1/2*vw, y: midCardY)
+                        .animation(.default, value: vmode)
                     
                     //WINNER ANNOUNCEMENT
                     if gameManager.gameState.winner_PID != nil{
@@ -326,6 +337,7 @@ struct GameView: View {
                 vw = geom.size.width
                 vh = geom.size.height
             }
+            .ignoresSafeArea()
         }
         .ignoresSafeArea()
     }
