@@ -38,9 +38,10 @@ struct CardComponent: View {
 
             VStack {
                 Text(text)
-                    .font(.custom("Skrapbook", size: width * 0.12))
+                    .font(.custom("Skrapbook", size: width * 0.10))
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
+                    .lineLimit(nil)
                     .padding(.top, width * 0.080)
                     .padding(.bottom, width * 0.02)
 
@@ -82,7 +83,9 @@ struct CardComponent: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent(width: 300, text: "Ora ngomong matur suwun sak wis e dibantu", indexNum: 1)
+        CardComponent(width: 200, text: "Ngirim meme tanpa konteks nang grub keluarga sing lagi serius", indexNum: 1)
             .previewLayout(.sizeThatFits)
+        
+        //kalo text panjang text nya bakal kepotong benerin ini
     }
 }

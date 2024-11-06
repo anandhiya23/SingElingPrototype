@@ -33,6 +33,7 @@ struct NameInputFormComponent: View {
                         if !name.isEmpty {
                             gameManager.updateUsername(name)  // Update the username list
                             gameManager.saveNameToDefaults(name)
+                            gameManager.addPlayer(name: name)
                             print("Nama \(name) berhasil disimpan ke UserDefaults")
                             hasSavedName = true
                             

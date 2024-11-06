@@ -30,8 +30,8 @@
             filePath = "SingElingPrototype/ViewModels/GameManager.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "383"
-            endingLineNumber = "383"
+            startingLineNumber = "390"
+            endingLineNumber = "390"
             landmarkName = "validateGuestCode()"
             landmarkType = "7">
          </BreakpointContent>

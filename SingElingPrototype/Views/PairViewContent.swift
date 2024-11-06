@@ -22,7 +22,7 @@ struct PairViewContent: View {
                     Text("Menunggu pemain lain...")
                         .font(.custom("Skrapbook", size: 20))
                         .padding()
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                 } else {
                     UserJoinComponent(width: 300)
                         .padding(.bottom, 20)
@@ -33,7 +33,7 @@ struct PairViewContent: View {
                     VStack(alignment: .leading, spacing: 10) {
                         Text("Available Peers")
                             .font(.headline)
-                            .foregroundColor(.black)
+                            .foregroundColor(.singElingBlack)
                         
                         ForEach(gameManager.availablePeers, id: \.self) { peer in
                             PairViewPendingListItem(peerName: peer.displayName)
@@ -57,7 +57,7 @@ struct PairViewContent: View {
                     Text("Menunggu host untuk memulai permainan...")
                         .font(.custom("Skrapbook", size: 20))
                         .padding()
-                        .foregroundColor(.black)
+                        .foregroundColor(.singElingBlack)
                 }
             }
         }

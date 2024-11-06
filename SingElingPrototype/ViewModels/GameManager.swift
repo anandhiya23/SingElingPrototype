@@ -171,8 +171,9 @@ class GameManager: NSObject, ObservableObject{
         self.username = username
         
         session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: nil, serviceType: serviceType)
+        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: ["Kode": "1243519"], serviceType: serviceType)
         serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
+        
         
         super.init()
         
@@ -279,6 +280,12 @@ extension GameManager{ //Game Functions
     //tambahin ini
     func updateUsername(_ newUsername: String) {
         self.username = newUsername
+    }
+    
+    func addPlayer(name: String) {
+        let newPlayer = Player(name: name)
+        gameState.players.append(newPlayer)
+        sendGameState(gameState)  // Jika perlu sinkronisasi ke pemain lain
     }
     
     // Fungsi untuk menyimpan nama pengguna ke UserDefaults
@@ -499,7 +506,6 @@ extension GameManager{ //Game Functions
                 guessCorrect = true
             }
         }else if guesserCardPos == guesser.playingCards_CID.count{
-        }else if guesserCardPos == guesser.playingCards_CID.count{
             let leftCard_CID = guesser.playingCards_CID[guesserCardPos - 1]
             
             if selectedCard.indexNum >= playingCards[leftCard_CID].indexNum{
@@ -663,6 +669,8 @@ extension GameManager: MCNearbyServiceAdvertiserDelegate {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         log.info("didReceiveInvitationFromPeer \(peerID.displayName)")
+        
+        var playerName = peerID.displayName
         
         // Dekode data context jika ada
         if let context = context {

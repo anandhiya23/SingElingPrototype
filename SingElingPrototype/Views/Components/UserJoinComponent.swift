@@ -27,7 +27,7 @@ struct UserJoinComponent: View {
                             .frame(width: width / 2.4, height: width * 0.14)
                         Text(player.name)
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                     }
                 }
             }
