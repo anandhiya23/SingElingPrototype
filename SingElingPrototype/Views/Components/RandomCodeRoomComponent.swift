@@ -10,10 +10,12 @@ import SwiftUI
 struct RandomCodeRoomComponent: View {
     @State private var filledCount = 0
     @State private var shuffledIcons: [RoomIconModel] = roomIcons.shuffled()
-
+    @EnvironmentObject var gameManager: GameManager
+    
     var body: some View {
         VStack {
             let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 4)
+            
             LazyVGrid(columns: columns, spacing: 20) {
                 ForEach(0..<4, id: \.self) { index in
                     ZStack {
@@ -21,7 +23,8 @@ struct RandomCodeRoomComponent: View {
                             .stroke(Color.black, lineWidth: 3)
                             .background(
                                 RoundedRectangle(cornerRadius: 15)
-                                    .fill(index < filledCount ? shuffledIcons[index].color : Color.clear)
+//                                    .fill(index < filledCount ? shuffledIcons[index].color : Color.clear)
+                                    .fill(index < filledCount ? shuffledIcons[index].color.toColor() : Color.clear)
                             )
                             .frame(width: 80, height: 80)
                         
@@ -44,6 +47,17 @@ struct RandomCodeRoomComponent: View {
     private func startFillingBoxes() {
         shuffledIcons = roomIcons.shuffled()
         filledCount = 0
+        var colors: [Color] = []
+        var images: [String] = []
+        // Hanya host yang menghasilkan kode room
+        
+        // Isi colors dan images dari shuffledIcons
+        for index in 0..<4 {
+            //            colors.append(shuffledIcons[index].color)
+            //            images.append(shuffledIcons[index].iconName)
+            colors.append(shuffledIcons[index].color.toColor()) // Convert to Color
+            images.append(shuffledIcons[index].iconName)
+        }
         
         for index in 0..<roomIcons.count {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(index) * 0.5) {
@@ -52,9 +66,12 @@ struct RandomCodeRoomComponent: View {
                 }
             }
         }
+        
+        gameManager.generateRoomCode(colors: colors, images: images)
     }
 }
 
 #Preview {
     RandomCodeRoomComponent()
+        .environmentObject(GameManager(username: "Host"))
 }

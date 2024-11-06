@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import SwiftUI
 
 // MARK: - SendableGameDataType Enum
 enum SendableGameDataType: Codable {
@@ -61,19 +62,49 @@ struct Player: Codable, Hashable {
 }
 
 // MARK: - GameState Struct
-struct GameState: Codable {
-    var availablePlayingCards_CID: [Int] = []
-    var isPlaying: Bool = false
-    var players: [Player] = []
-    var othersCardsHidden = false
-    var announcementGame = true
-    var triggerGuesserCardShift = false
-    var readerCard_CID = 0
-    var winner_PID: Int? = nil
-    var isCorrect: Bool = false
-    var guesserName: String = ""
-    
-    // Reader and Guesser Properties
-    var reader_PID: Int =  0
-    var guesser_PID: Int = 1
-}
+    struct GameState: Codable {
+        var availablePlayingCards_CID: [Int] = []
+        var isPlaying: Bool = false
+        var players: [Player] = []
+        var othersCardsHidden = false
+        var triggerGuesserCardShift = false
+        var readerCard_CID = 0
+        var winner_PID: Int? = nil
+        
+        // Reader and Guesser Properties
+        var reader_PID: Int =  0
+        var guesser_PID: Int = 1
+        
+        var roomColors: [CodableColor] = [.init(color: .white), .init(color: .white), .init(color: .white), .init(color: .white)]
+        var roomImages: [String] = ["", "", "", ""]
+        
+        var roomIdentifiers: [Int] = []
+    }
+
+    struct CodableColor: Codable {
+        var red: Double
+        var green: Double
+        var blue: Double
+        var opacity: Double
+
+        // Initializer dari Color
+        init(color: Color) {
+            let uiColor = UIColor(color)
+            var red: CGFloat = 0
+            var green: CGFloat = 0
+            var blue: CGFloat = 0
+            var alpha: CGFloat = 0
+            
+            uiColor.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+            
+            self.red = Double(red)
+            self.green = Double(green)
+            self.blue = Double(blue)
+            self.opacity = Double(alpha)
+        }
+        
+        // Mengubah ke Color
+        func toColor() -> Color {
+            return Color(red: red, green: green, blue: blue, opacity: opacity)
+        }
+    }

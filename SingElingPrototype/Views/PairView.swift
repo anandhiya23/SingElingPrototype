@@ -6,70 +6,74 @@ struct PairView: View {
     @EnvironmentObject var gameManager: GameManager
     
     var body: some View{
-        VStack{
-            HStack(alignment: .center) {
-                Button("Buka Ruangan") {
-                    gameManager.becomeHost()
-                }
-                .buttonStyle(GrowingButton())
-                .disabled(gameManager.isGuest || gameManager.isHost)
-                Spacer()
-                Button("\(Image(systemName: "play.fill")) Mulai"){
-                    gameManager.startGame()
-                }
-                .buttonStyle(GrowingButton())
-                .disabled(!gameManager.isHost)
-                
-            }
-            .padding(.horizontal, 50)
-            .padding(.vertical, 10)
+        ZStack{
+            Rectangle()
+                .fill(Color.singElingZ50)
+                .ignoresSafeArea()
             
-            ScrollView {
-                if gameManager.gameState.players.isEmpty{
-                    Spacer()
-                    HStack{
-                        Spacer()
-                        Text("Menunggu pemain lain...")
-                            .foregroundStyle(.black)
-                        Spacer()
-                    }
-                    Spacer()
-                }
-                ForEach(gameManager.gameState.players, id: \.self) { player in
-                    HStack{
-                        Spacer()
-                        HStack{
-                            Text("\(player.name)")
-                                .font(.title2)
-                                .foregroundColor(.black)
-                                .bold()
-                                .multilineTextAlignment(.center)
-                        }
-                        Spacer()
-                    }
+            VStack{
+                Text("Sing \nEling")
+                    .multilineTextAlignment(.center)
+                    .font(.custom("Skrapbook", size: 85))
+                
+                HintComponent(hintModel: HintModel(userRole: .mainView, readerName: ""), width: 300)
                     .padding()
-                    .frame(width: 300, height: 80)
-                    .background{
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(.green)
-                            .strokeBorder(.black, lineWidth: 3)
-                    }
-                }
                 
-                Spacer().padding(.bottom, 10)
+                VStack {
+                                    RoomComponent(roomModel: RoomModel(typeRoom: .createRoom), width: 200)
+                                        .padding()
+                                        .disabled(gameManager.isGuest || gameManager.isHost)
+                                        .onTapGesture {
+                                                                    // Set curView to 3 to navigate to PairViewContent immediately
+                                                                    curView = 3
+                                                                }
+                                    
+                                    RoomComponent(roomModel: RoomModel(typeRoom: .joinRoom), width: 200)
+                                        .padding()
+                                        .disabled(!gameManager.isHost)
+                                        .onTapGesture {
+                                                                    // Set curView to 3 to navigate to PairViewContent immediately
+                                                                    curView = 3
+                                                                }
+                                }
                 
-                if gameManager.isHost{
-                    ForEach(gameManager.availablePeers, id: \.self) { peer in
-                        PairViewPendingListItem(peerName: peer.displayName)
-                            .simultaneousGesture(TapGesture().onEnded({ _ in
-                                gameManager.serviceBrowser.invitePeer(peer, to: gameManager.session, withContext: nil, timeout: 30)
-                            }))
-                    }
+                .padding(.horizontal, 50)
+                .padding(.vertical, 10)
+                
+//                ScrollView {
+//                    if gameManager.gameState.players.isEmpty{
+//                        Spacer()
+//                        HStack{
+//                            Spacer()
+//                            Text("Menunggu pemain lain...")
+//                                .foregroundStyle(.singElingZ50)
+//                            Spacer()
+//                        }
+//                        Spacer()
+//                    }
+//
+//                    else {
+//                                            UserJoinComponent(width: 300) // Using grid layout for players
+//                                        }
+//                    Spacer().padding(.bottom, 10)
+//                    
+//                    if gameManager.isHost{
+//                        ForEach(gameManager.availablePeers, id: \.self) { peer in
+//                            PairViewPendingListItem(peerName: peer.displayName)
+//                                .simultaneousGesture(TapGesture().onEnded({ _ in
+//                                    gameManager.serviceBrowser.invitePeer(peer, to: gameManager.session, withContext: nil, timeout: 30)
+//                                }))
+//                        }
+//                    }
+//                }
+                if curView == 3 {
+                    PairViewContent(curView: $curView)
+                        .environmentObject(gameManager)
                 }
             }
         }
         .onChange(of: gameManager.gameState.isPlaying) { oldValue, newValue in
-            if newValue == true{
+            if newValue == true {
                 curView = 2
             }
         }
