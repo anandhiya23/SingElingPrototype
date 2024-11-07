@@ -22,54 +22,54 @@ struct StatementRoomComponent: View {
                     HStack(spacing: 10) {
                         Text("Ruang")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
 
                         highlightedText("BERMAIN", fontSize: width * 0.085)
                     }
                     Text("sudah terbuat!")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                 } else if roomCondition == .joinRoomCondition {
                     Text("Gabung ruang")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     
                     HStack(spacing: 3) {
                         highlightedText("BERMAIN", fontSize: width * 0.085)
                         Text("temanmu!")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                     }
                 } else if roomCondition == .joinRoomConditionSuccess {
                     Text("Berhasil bergabung")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     
                     HStack(spacing: 7) {
                         Text("ke ruang")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                         highlightedText("BERMAIN", fontSize: width * 0.085)
                         Text("!")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                     }
                 } else if roomCondition == .joinRoomConditionFailed {
                     Text("Tidak berhasil")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     Text("bergabung")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     HStack(spacing: 7) {
                         Text("ke ruang")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
 
                         highlightedText("BERMAIN", fontSize: width * 0.085)
                         Text("!")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                     }
                 }
             }
@@ -82,22 +82,22 @@ struct StatementRoomComponent: View {
         ZStack {
             Text(text)
                 .font(.custom("Skrapbook", size: fontSize))
-                .foregroundColor(.black)
+                .foregroundColor(Color.singElingBlack)
                 .tracking(2)
                 .offset(x: -1, y: -1)
             Text(text)
                 .font(.custom("Skrapbook", size: fontSize))
-                .foregroundColor(.black)
+                .foregroundColor(Color.singElingBlack)
                 .tracking(2)
                 .offset(x: 1, y: -1)
             Text(text)
                 .font(.custom("Skrapbook", size: fontSize))
-                .foregroundColor(.black)
+                .foregroundColor(Color.singElingBlack)
                 .tracking(2)
                 .offset(x: -1, y: 1)
             Text(text)
                 .font(.custom("Skrapbook", size: fontSize))
-                .foregroundColor(.black)
+                .foregroundColor(Color.singElingBlack)
                 .tracking(2)
                 .offset(x: 1, y: 1)
             // Teks utama dengan warna yang diinginkan

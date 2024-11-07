@@ -270,12 +270,12 @@ struct GameView: View {
                             // Teks selamat dan nama pemenang
                             Text("Selamat kepada")
                                 .font(.headline)
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.singElingBlack)
                             
                             Text(gameManager.winnerName)
                                 .bold()
                                 .font(.title)
-                                .foregroundColor(.black)
+                                .foregroundColor(Color.singElingBlack)
                             
                             Text("5/5 Kartu")
                                 .foregroundColor(.gray)
@@ -300,7 +300,7 @@ struct GameView: View {
                                 .foregroundColor(.white)
                                 .background {
                                     RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.black)
+                                        .fill(Color.singElingBlack)
                                 }
                             }
                             

@@ -46,6 +46,7 @@ struct SetujuButton: View {
                 
                 Text(text)
                     .font(.custom("Skrapbook", size: 25))
+                    .foregroundColor(Color.singElingBlack)
             }
             .padding()
         }
@@ -61,3 +62,10 @@ struct SetujuButton: View {
         print("Button pressed!")
     }
 }
+
+#Preview {
+    SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
+        print("Button pressed!")
+    }
+}
+

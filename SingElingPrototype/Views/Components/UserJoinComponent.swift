@@ -20,14 +20,14 @@ struct UserJoinComponent: View {
                 ],
                 spacing: width * 0.05
             ) {
-                ForEach(gameManager.usernames, id: \.self) { username in
+                ForEach(gameManager.gameState.players, id: \.self) { player in
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.backgroundCream)
                             .frame(width: width / 2.4, height: width * 0.14)
-                        Text(username)
+                        Text(player.name)
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                     }
                 }
             }

@@ -14,33 +14,28 @@ struct MainView: View {
     
     var body: some View {
         switch curView {
-        case 2:
-            GameView()
-                            .environmentObject(gameManager)
         case 1:
             PairView(curView: $curView)
                             .environmentObject(gameManager)
+        case 2:
+            GameView()
+                            .environmentObject(gameManager)
+        case 3:
+            PairViewContent(curView: $curView)
+                            .environmentObject(gameManager)
         default:
-            VStack(spacing: 20){
-                Spacer()
+            ZStack{
+                Rectangle()
+                    .fill(Color.singElingZ50)
+                    .ignoresSafeArea()
                 
-                Image(systemName: "doc.questionmark.fill")
-                    .foregroundColor(.black)
-                    .font(.system(size: 100))
-                
-                Text("Sing Eling")
-                    .fontWeight(.bold)
-                    .font(.largeTitle)
-                
-                Text("Masukkan nama panggilan di\nbawah ini. Pilih sesuatu yang akan\ndikenalioleh teman-temanmu!")
-                    .font(.caption)
-                    .fontWeight(.regular)
-                    .multilineTextAlignment(.center)
-                
-                NameInputFormComponent(curView: $curView)
-                    .environmentObject(gameManager)
-                
-                Spacer()
+                VStack(spacing: 0){
+                    Text("Namamu siapa?")
+                        .font(.custom("skrapbook", size: 32))
+                        .padding()
+                    NameInputFormComponent(curView: $curView)
+                        .environmentObject(gameManager)
+                }
             }
         }
     }

@@ -17,7 +17,7 @@ struct PairViewPendingListItem: View {
             HStack{
                 Text("\(peerName)")
                     .font(.title2)
-                    .foregroundColor(.black)
+                    .foregroundColor(Color.singElingBlack)
                     .bold()
                     .multilineTextAlignment(.center)
                 if hasBeenTapped{

@@ -21,31 +21,31 @@ struct StatementComponent: View {
                 HStack(spacing: 0) {
                     Text("INi GiLiRAN ")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     
                     
                     ZStack {
                         Text("ANDA")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                             .offset(x: -1, y: -1)
                             .tracking(2)
                         
                         Text("ANDA")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                             .offset(x: 1, y: -1)
                             .tracking(2)
                         
                         Text("ANDA")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                             .offset(x: -1, y: 1)
                             .tracking(2)
                         
                         Text("ANDA")
                             .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.black)
+                            .foregroundColor(Color.singElingBlack)
                             .offset(x: 1, y: 1)
                             .tracking(2)
                         
@@ -59,11 +59,11 @@ struct StatementComponent: View {
                 HStack {
                     Text("UNTUK")
                         .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(.black)
+                        .foregroundColor(Color.singElingBlack)
                     
                     Text(statementRole.statementText)
                                         .font(.custom("Skrapbook", size: width * 0.1))
-                                        .foregroundColor(.black)
+                                        .foregroundColor(Color.singElingBlack)
                 }
             }
         }

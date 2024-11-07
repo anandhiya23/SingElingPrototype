@@ -92,7 +92,7 @@ struct TestGameView: View {
                 .animation(.default, value: vmode)
                 
                 RoundedTriangle(cornerRadius: 8)
-                    .fill(Color.black)
+                    .fill(Color.singElingBlack)
                     .frame(width: 70, height: 60)
                     .position(x:vw/2, y: vmode == 1 ? -145 : 37.5/100*vh)
                 

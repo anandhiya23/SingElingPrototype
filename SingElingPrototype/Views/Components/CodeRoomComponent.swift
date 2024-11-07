@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct CodeRoomComponent: View {
+    var onSelection: (Color, String) -> Void
+    
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 12)
@@ -21,17 +23,26 @@ struct CodeRoomComponent: View {
             VStack {
                 let columns = Array(repeating: GridItem(.flexible(), spacing: -50), count: 4)
                 LazyVGrid(columns: columns, spacing: 20) {
-                    ForEach(0..<roomIcons.count, id: \.self) { index in
+//                    ForEach(0..<roomIcons.count, id: \.self) { index in
+//                        let iconModel = roomIcons[index]
+//                                            let color = iconModel.color.toColor()  // Konversi CodableColor ke Color
+//                                            let iconName = IconIdentifier(rawValue: iconModel.iconID)?.iconName() ?? "defaultIcon"
+                    ForEach(Array(roomIcons.enumerated()), id: \.offset) { index, iconModel in
+                                        let color = iconModel.color.toColor()  // Konversi CodableColor ke Color
+                                        let iconName = IconIdentifier(rawValue: iconModel.iconID)?.iconName() ?? "defaultIcon"
                         ZStack {
                             RoundedRectangle(cornerRadius: 15)
                                 .stroke(Color.black, lineWidth: 3)
                                 .background(
                                     RoundedRectangle(cornerRadius: 15)
-                                        .fill(roomIcons[index].color)
+                                        .fill(color)
                                 )
                                 .frame(width: 60, height: 60)
-                            
-                            Image(roomIcons[index].iconName)
+                                .onTapGesture {
+//                                                                    onSelection(roomIcons[index].color, roomIcons[index].iconName)
+                                    onSelection(color, iconName)
+                                                                }
+                            Image(iconName)
                                 .resizable()
                                 .scaledToFit()
                                 .frame(width: 40, height: 40)
@@ -45,6 +56,9 @@ struct CodeRoomComponent: View {
 }
 
 #Preview {
-    CodeRoomComponent()
+    CodeRoomComponent{ color, iconName in
+        // Preview untuk onSelection (contoh callback)
+        print("Selected color: \(color), iconName: \(iconName)")
+    }
 }
 
