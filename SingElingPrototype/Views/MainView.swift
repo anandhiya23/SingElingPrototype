@@ -23,6 +23,15 @@ struct MainView: View {
         case 3:
             PairViewContent(curView: $curView)
                             .environmentObject(gameManager)
+        case 4:
+            BintangDragDropView2(curView: $curView)
+                            .environmentObject(gameManager)
+        case 5:
+            CountdownView(curView: $curView)
+                            .environmentObject(gameManager)
+        case 6:
+            OnBoardingTutorialModality(curView: $curView)
+                            .environmentObject(gameManager)
         default:
             ZStack{
                 Rectangle()
@@ -41,7 +50,7 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}
 

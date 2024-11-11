@@ -39,7 +39,14 @@ class GameManager: NSObject, ObservableObject{
     
     @Published var isPlaying: Bool = false
     
-    var inputIdentifiers: [Int] = [] 
+    var inputIdentifiers: [Int] = []
+    
+    @Published var winnerColor: Color = .black
+    
+    //background image berdasarkan user
+    let backgroundImages = ["Tikar Biru", "Tikar Hijau", "Tikar Merah", "Tikar Oren"]
+    
+//    let playerColors = [CodableColor(color: .orange), CodableColor(color: .blue), CodableColor(color: .green), CodableColor(color: .pink)]
     
     var isConnected: Bool{
         self.myConnectivityStatus == 1 && self.myConnectivityType != .unknown
@@ -162,6 +169,28 @@ class GameManager: NSObject, ObservableObject{
         }
     }
     
+    //buat random warna di drag and drop
+    var playerColors: [CodableColor] = [
+        CodableColor(color: .singElingSB50),
+        CodableColor(color: .singElingLC50),
+        CodableColor(color: .singElingZ50),
+        CodableColor(color: .singElingDSB50)
+    ]
+    
+    // Mapping warna pemain ke background image
+    let backgroundImageMapping: [CodableColor: String] = [
+        CodableColor(color: .singElingSB50): "Tikar Oren",
+        CodableColor(color: .singElingLC50): "Tikar Merah",
+        CodableColor(color: .singElingZ50): "Tikar Hijau",
+        CodableColor(color: .singElingDSB50): "Tikar Biru"
+    ]
+    
+    // Fungsi untuk mendapatkan gambar background dari warna pemain
+    func getBackgroundImage(for color: CodableColor) -> String {
+        return backgroundImageMapping[color] ?? "SingElingDarkGreen" 
+    }
+    
+    
     init(username: String) {
         let peerID = MCPeerID(displayName: username)
         self.myPeerID = peerID
@@ -282,10 +311,22 @@ extension GameManager{ //Game Functions
         self.username = newUsername
     }
     
+    func getRandomUniqueColor() -> CodableColor {
+        guard !playerColors.isEmpty else {
+            fatalError("No colors left to assign!")
+        }
+        // Randomly select a color and remove it from the list to ensure uniqueness
+        let randomIndex = Int.random(in: 0..<playerColors.count)
+        let selectedColor = playerColors.remove(at: randomIndex)
+        return selectedColor
+    }
+    
     func addPlayer(name: String) {
-        let newPlayer = Player(name: name)
+        let backgroundImage = backgroundImages[gameState.players.count % backgroundImages.count]
+        let color = getRandomUniqueColor()
+        let newPlayer = Player(name: name, color: color)
         gameState.players.append(newPlayer)
-        sendGameState(gameState)  // Jika perlu sinkronisasi ke pemain lain
+        sendGameState(gameState)
     }
     
     // Fungsi untuk menyimpan nama pengguna ke UserDefaults
@@ -316,13 +357,6 @@ extension GameManager{ //Game Functions
             return
         }
         
-//        let codableColors = colors.map { CodableColor(color: $0) }
-//        gameState.roomImages = images
-//        
-//        print("Kode room berhasil dihasilkan oleh host.")
-//        print("Generated images for validation: \(gameState.roomImages)")
-//        
-//        sendGameState(gameState)
         // Shuffle and select icons for the room code
         let selectedIcons = roomIcons.shuffled().prefix(4)
         let identifiers = selectedIcons.map { $0.iconID }
@@ -578,7 +612,15 @@ extension GameManager{
     func becomeHost(){
         myConnectivityType = .host
         myPID = 0
-        gameState.players.append(Player(name: myPeerID.displayName))
+//        gameState.players.append(Player(name: myPeerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)], CodableColor: color))
+        
+        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
+        let color = playerColors[Int.random(in: 0..<playerColors.count)]
+        
+        // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
+        let hostPlayer = Player(name: myPeerID.displayName, color: color)
+        gameState.players.append(hostPlayer)
+        
         serviceBrowser.startBrowsingForPeers()
         serviceAdvertiser.stopAdvertisingPeer()
     }
@@ -752,8 +794,13 @@ extension GameManager: MCSessionDelegate {
                     sendGameState(gameState)
                 }else{
                     DispatchQueue.main.async{ [self] in
+                        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
+                        let color = playerColors[Int.random(in: 0..<playerColors.count)]
+                              
+                        gameState.players.append(Player(name: peerID.displayName, color: color))
+                        
                         sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count), to: peerID)
-                        gameState.players.append(Player(name: peerID.displayName))
+//                        gameState.players.append(Player(name: peerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)]))
                         sendGameState(gameState)
                     }
                 }

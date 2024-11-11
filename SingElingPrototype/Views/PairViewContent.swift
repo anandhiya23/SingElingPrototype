@@ -65,14 +65,14 @@ struct PairViewContent: View {
         // Pantau perubahan nilai isPlaying, jika true transisi ke gameView
         .onChange(of: gameManager.gameState.isPlaying) { newValue in
             if newValue {
-                curView = 2  // Transisi ke gameView saat permainan dimulai
+                curView = 4  // Transisi ke gameView saat permainan dimulai
             }
         }
     }
 }
 
-
-#Preview {
-    PairViewContent(curView: .constant(0))
-        .environmentObject(GameManager(username: "PreviewUser"))
-}
+//
+//#Preview {
+//    PairViewContent(curView: .constant(0))
+//        .environmentObject(GameManager(username: "PreviewUser"))
+//}

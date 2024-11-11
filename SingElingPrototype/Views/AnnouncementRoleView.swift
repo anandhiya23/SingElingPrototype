@@ -12,27 +12,34 @@ struct AnnouncementRoleView: View {
     var readerText : String = ""
     var readerNum : Int = 0
     
+    var playerColor: CodableColor
+    @EnvironmentObject var gameManager: GameManager
+    
     var body: some View {
         VStack{
             ZStack{
-                if vmode == 0 {
-                    Image("Bambu Merah 1")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
-                if vmode == 1{
-                    Image("Bambu Ijo 1")
-                        .resizable()
-                        .scaledToFill()
-                        .ignoresSafeArea()
-                }
-                if vmode == 2{
-                    Image("Bambu Oren")
-                        .resizable()
-                        .scaledToFit()
-                        .ignoresSafeArea()
-                }
+//                if vmode == 0 {
+//                    Image("Bambu Merah 1")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .ignoresSafeArea()
+//                }
+//                if vmode == 1{
+//                    Image("Bambu Ijo 1")
+//                        .resizable()
+//                        .scaledToFill()
+//                        .ignoresSafeArea()
+//                }
+//                if vmode == 2{
+//                    Image("Bambu Oren")
+//                        .resizable()
+//                        .scaledToFit()
+//                        .ignoresSafeArea()
+//                }
+                Image(gameManager.getBackgroundImage(for: playerColor))
+                                    .resizable()
+                                    .scaledToFill()
+                                    .ignoresSafeArea()
                 
                 
                 HStack {
@@ -66,6 +73,8 @@ struct AnnouncementRoleView: View {
     }
 }
 
-#Preview {
-    AnnouncementRoleView(vmode: 1)
-}
+//#Preview {
+////    AnnouncementRoleView(vmode: 1)
+//    AnnouncementRoleView(playerColor: CodableColor(color: .singElingLC50))
+//            .environmentObject(GameManager(username: "Haliza"))
+//}

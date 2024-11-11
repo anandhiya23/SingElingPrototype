@@ -17,7 +17,7 @@ enum UserRole {
     case randomTurnView
 }
 
-struct StartementModel {
+struct StatementModel {
     let text: String
 }
 
