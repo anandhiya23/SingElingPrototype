@@ -436,8 +436,8 @@ struct JoinRoomView: View {
                     .fill(Color.singElingLC50)
                     .frame(height: 130)
                     .overlay(
-                        SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
-                            print("Setuju button tapped.")
+                        ButtonComponent(width: 164, height: 64, action: {
+                            print("Button tapped")
                             
                             // Pastikan semua slot sudah terisi
                             if !selectedImages.contains(where: { $0 == nil }) {
@@ -475,7 +475,7 @@ struct JoinRoomView: View {
                             } else {
                                 print("Complete all code inputs.") // Ini muncul jika ada slot gambar yang belum dipilih
                             }
-                        }
+                        }, buttonModel: ButtonModel(button: .lanjut))
                     )
             }
             .ignoresSafeArea(edges: .bottom)
@@ -484,11 +484,11 @@ struct JoinRoomView: View {
 }
 
 
-struct JoinRoomView_Previews: PreviewProvider {
-    @State static var previewCurView = 0  // Local @State variable for preview
-    
-    static var previews: some View {
-        JoinRoomView(curView: $previewCurView)  // Pass as binding
-            .environmentObject(GameManager(username: "Host"))
-    }
-}
+//struct JoinRoomView_Previews: PreviewProvider {
+//    @State static var previewCurView = 0  // Local @State variable for preview
+//    
+//    static var previews: some View {
+//        JoinRoomView(curView: $previewCurView)  // Pass as binding
+//            .environmentObject(GameManager(username: "Host"))
+//    }
+//}

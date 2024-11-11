@@ -9,24 +9,26 @@ import SwiftUI
 import AVFoundation
 
 struct GameView: View {
-//    @EnvironmentObject var gameManager: GameManager
-//    @State var vw: CGFloat = 0
-//    @State var vh: CGFloat = 0
-//    @Published var myPID: Int = -1
-//    @State private var audioPlayer: AVAudioPlayer?
-//    @Published var gameState: GameState = GameState()
-//    @State private var animationCompleted: Bool = false
-//    @Published var isCurrentUserWinner: Bool = false
+    //    @EnvironmentObject var gameManager: GameManager
+    //    @State var vw: CGFloat = 0
+    //    @State var vh: CGFloat = 0
+    //    @Published var myPID: Int = -1
+    //    @State private var audioPlayer: AVAudioPlayer?
+    //    @Published var gameState: GameState = GameState()
+    //    @State private var animationCompleted: Bool = false
+    //    @Published var isCurrentUserWinner: Bool = false
     @EnvironmentObject var gameManager: GameManager
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
-//    @State var gameState: GameState
+    //    @State var gameState: GameState
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
     @State private var timer: Timer?
     @State var guesserName: String = ""
+    @State var playerColor: CodableColor = CodableColor(color: .white) // Default value
+    @State var backgroundImage: String = "DefaultBackground"
     
     
     func startTimer() {
@@ -38,12 +40,12 @@ struct GameView: View {
             }
         }
     }
-
+    
     func stopTimer() {
         timer?.invalidate()
         timer = nil
     }
-
+    
     func resetTimer() {
         stopTimer()
         roleTimer = 0
@@ -68,67 +70,90 @@ struct GameView: View {
         }
     }
     
-
+    
     
     var body: some View {
         GeometryReader { geom in
             ZStack{
+                //buat announcement
                 if gameManager.gameState.announcementGame{
-                    if vmode == 0 {
-                        Color.singElingLC70
-                    }
-                    if vmode == 1 {
-                        Color.singElingZ70
-                    }
-                    if vmode == 2 {
-                        Color.singOrange
-                    }
+                    let playerColor = gameManager.gameState.players[gameManager.myPID].color
+                    
+//                    if vmode == 0 {
+//                        Color.singElingLC70
+//                    }
+//                    if vmode == 1 {
+//                        Color.singElingZ70
+//                    }
+//                    if vmode == 2 {
+//                        Color.singOrange
+//                    }
                     withAnimation(.easeIn){
-                        AnnouncementRoleView(vmode: vmode, readerText: gameManager.readerCardText, readerNum: gameManager.readerCardIndexNum)
+                        AnnouncementRoleView(
+                            vmode: vmode,
+                            readerText: gameManager.readerCardText,
+                            readerNum: gameManager.readerCardIndexNum,
+                            playerColor: playerColor
+                        )
                             .onAppear{
                                 startTimer()
                             }
                     }
-                        
+                    
                 }else{
-                    if vmode == 0{
-                        Image("Bambu Ijo 1")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                        
-                        Image("Bambu Merah 1")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
-                        
-                    }else if vmode == 1{
-                        Image("Bambu Oren")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                        
-                        Image("Bambu Ijo 1")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
+//                    if vmode == 0{
+//                        Image("Bambu Ijo 1")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                        
+//                        Image("Bambu Merah 1")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
+//                        
+//                    }else if vmode == 1{
+//                        Image("Bambu Oren")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                        
+//                        Image("Bambu Ijo 1")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                            .position(x: 1/2*vw, y: vmode == 1 ? 0.8*vh : 0.98*vh)
+//                        
+//                    } else{
+//                        
+//                        Image("Bambu Ijo 1")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                        
+//                        Image("Bambu Oren")
+//                            .resizable()
+//                            .ignoresSafeArea()
+//                            .scaledToFill()
+//                            .position(x: 1/2*vw, y: 0.92*vh)
+//                        
+//                    }
+//                    Image(backgroundImage)
+//                                            .resizable()
+//                                            .ignoresSafeArea()
+//                                            .scaledToFill()
+                    let playerColor = gameManager.gameState.players[gameManager.myPID].color
 
-                    } else{
-                        
-                        Image("Bambu Ijo 1")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                        
-                        Image("Bambu Oren")
-                            .resizable()
-                            .ignoresSafeArea()
-                            .scaledToFill()
-                            .position(x: 1/2*vw, y: 0.92*vh)
+                    // Mendapatkan nama gambar dari backgroundImageMapping menggunakan CodableColor
+                    let backgroundImageName = backgroundImageMapping[playerColor] ?? "SingElingDarkGreen"
 
-                    }
+                    // Menggunakan gambar sebagai latar belakang berdasarkan backgroundImageMapping
+                    Image(backgroundImageName)
+                        .resizable()
+                        .ignoresSafeArea()
+                        .scaledToFill()
+                    
                     //OTHER'S CARDS
                     RoundedRectangle(cornerRadius: 15)
                         .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
@@ -137,11 +162,11 @@ struct GameView: View {
                         .position(x:vw/2, y: gameManager.gameState.othersCardsHidden || vmode == 1 ? -145 : 26/100*vh)
                     
                     ZStack(){
-                       HStack(spacing: 16) {
+                        HStack(spacing: 16) {
                             ForEach(0..<gameManager.guesserCards.count, id: \.self) { curCardIdIndice in
                                 let curCardId = gameManager.guesserCards[curCardIdIndice]
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-
+                                
                                 // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                                 CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
                                     .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 60 : -80))
@@ -202,9 +227,13 @@ struct GameView: View {
                         .position(x:vw/2.1, y: vmode == 1 ? 0.73*vh : 2.5*vh)
                         .animation(.default, value: vmode)
                     
-                    SetujuButton(width: 166, height: 73, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill"){
+//                    ButtonComponent(width: 166, height: 73, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill"){
+//                        gameManager.makeGuess()
+//                    }
+                    ButtonComponent(width: 164, height: 64, action: {
                         gameManager.makeGuess()
-                    }
+                    }, buttonModel: ButtonModel(button: .kunci))
+                    
                     .position(x:vw*1/2, y: vmode == 1 ? 0.9*vh : 1.5*vh)
                     
                     
@@ -251,15 +280,17 @@ struct GameView: View {
                                         .foregroundColor(.white)
                                 }
                             )
-                            
-
+                        
+                        
                     }
-                   
+                    
                 }
                 Rectangle()
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
+                
+                //UI winner
                 if gameManager.gameState.winner_PID != nil{
                     ZStack {
                         // Latar belakang hijau, atau gunakan warna lain sesuai desain

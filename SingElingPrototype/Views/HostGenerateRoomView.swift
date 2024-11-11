@@ -33,17 +33,16 @@ struct HostGenerateRoomView: View {
                     .fill(Color.singElingLC50)
                     .frame(height: 130)
                     .overlay(
-                        SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
-                            print("Setuju button pressed!")
-                        }
-                    )
+                        ButtonComponent(width: 164, height: 64, action: {
+                            print("Button tapped")
+                        }, buttonModel: ButtonModel(button: .lanjut))                    )
             }
             .ignoresSafeArea(edges: .bottom)
         }
     }
 }
-
-#Preview {
-    HostGenerateRoomView(curView: .constant(0))
-        .environmentObject(GameManager(username: "BLAHAHAH"))
-}
+//
+//#Preview {
+//    HostGenerateRoomView(curView: .constant(0))
+//        .environmentObject(GameManager(username: "BLAHAHAH"))
+//}

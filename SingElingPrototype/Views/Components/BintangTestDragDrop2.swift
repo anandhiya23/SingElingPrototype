@@ -27,7 +27,7 @@ struct DragListItemView: View {
                     .foregroundStyle(.black)
                     .font(.custom("skrapbook", size: 30))
             }
-            
+        
     }
 }
 
@@ -48,30 +48,38 @@ struct BintangDragDropView2: View {
     @State var dragOffset: CGFloat = 0.0
     @State var indexOffset: Int = 0
     @State var lastItemPos: Int = 0
-    @State var tempGetObject: TempPlayer = TempPlayer(name: "", color: Color.red)
+    //    @State var tempGetObject: TempPlayer = TempPlayer(name: "", color: Color.red)
+    @State var tempGetObject: Player = Player(name: "", point: 0, cardPos: 0, playingCards_CID: [], color: CodableColor(color: .red))  // Default Player object
     
-    @State var players: [TempPlayer] = [
-        TempPlayer(name: "Bintang", color: .singElingLC50),
-        TempPlayer(name: "Azuar", color: .singElingDSB50),
-        TempPlayer(name: "Reyhan", color: .singElingSB50),
-        TempPlayer(name: "Kale", color: .singElingZ50)
-        ]
-
+    @EnvironmentObject var gameManager: GameManager
+    @Binding var curView: Int
+    
     var body: some View {
         ZStack{
-            Color.singElingDS50
+            Image("Tikar Cream")
+                .resizable()
+                .scaledToFill()
+                .ignoresSafeArea()
             VStack{
                 Spacer()
-                Text("Atur giliran\nMainmu, Yuk!")
-                    .font(.custom("skrapbook", size: 40))
-                RoundedRectangle(cornerRadius: 10)
-                    .fill(Color.singElingDS30)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.singElingLC10)
                     .frame(width: 340, height: 80)
                     .overlay {
                         HStack{
-                            Image(systemName: "questionmark.circle.fill")
-                                .font(.system(size: 40))
-                            Text("Susun urutan giliran main sesuai kesepakatan dengan geser dan lepas, santai aja!")
+                            Text("Atur giliran mainmu yuk!")
+                                .font(.custom("skrapbook", size: 30))
+                                .multilineTextAlignment(.center)
+                        }
+                        .padding(.horizontal,10)
+                    }
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(Color.singElingLC10)
+                    .frame(width: 340, height: 80)
+                    .overlay {
+                        HStack{
+                            Image("lucide_list-ordered")
+                            Text("Susun urutan giliran main sesuai dengan geser dan lepas!")
                                 .font(.custom("skrapbook", size: 18))
                                 .multilineTextAlignment(.center)
                         }
@@ -80,7 +88,7 @@ struct BintangDragDropView2: View {
                 
                 HStack{
                     VStack{
-                        ForEach(1..<5, id: \.self){ index in
+                        ForEach(1...4, id: \.self){ index in
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.singElingSB10)
                                 .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 5))
@@ -93,24 +101,31 @@ struct BintangDragDropView2: View {
                         }
                     }
                     .padding(.top, 8)
+                    
                     VStack(spacing: 8) {
-                        ForEach(players.indices, id: \.self) { index in
-                            let curPlayerName = players[index].name
-                            DragListItemView(curPlayerName, players[index].color)
-                                .padding(.top, lastItemPos == index && isDragging ? 88 : 0)
-                                .padding(.bottom, lastItemPos - 1 == index && isDragging && players.count == lastItemPos ? 88 : 0)
-                                .simultaneousGesture(
-                                    LongPressGesture(minimumDuration: 0.05)
-                                        .onEnded { success in
-                                            if success{
-                                                isDragging = true
-                                                draggedIndex = index
-                                                lastItemPos = index
-                                                tempGetObject = players.remove(at: lastItemPos)
+                        ForEach(0..<4, id: \.self) { index in
+                            if index < gameManager.gameState.players.count {
+                                let curPlayerName = gameManager.gameState.players[index].name
+                                DragListItemView(curPlayerName, gameManager.gameState.players[index].color.toColor())
+                                    .padding(.top, lastItemPos == index && isDragging ? 88 : 0)
+                                    .padding(.bottom, lastItemPos - 1 == index && isDragging && gameManager.gameState.players.count == lastItemPos ? 88 : 0)
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.05)
+                                            .onEnded { success in
+                                                if success {
+                                                    isDragging = true
+                                                    draggedIndex = index
+                                                    lastItemPos = index
+                                                    tempGetObject = gameManager.gameState.players.remove(at: lastItemPos)
+                                                }
                                             }
-                                        }
-                                )
-                            //                    .animation(.spring(), value: isDragging)
+                                    )
+                            } else {
+                                // placeholder buat posisi kosong
+                                RoundedRectangle(cornerRadius: 10)
+                                    .fill(.clear)
+                                    .frame(width: 80, height: 80)
+                            }
                         }
                     }
                     .simultaneousGesture(DragGesture(minimumDistance: 0)
@@ -118,8 +133,7 @@ struct BintangDragDropView2: View {
                             if isDragging{
                                 dragOffset = dragValue.translation.height
                                 indexOffset = Int(dragOffset / 88.0)
-                                //                    print("\(draggedIndex) + \(indexOffset)")
-                                let dropIndex = (draggedIndex + indexOffset).clamped(to: 0...players.count)
+                                let dropIndex = (draggedIndex + indexOffset).clamped(to: 0...gameManager.gameState.players.count)
                                 if dropIndex != lastItemPos {
                                     withAnimation(.bouncy.speed(2)){
                                         lastItemPos = dropIndex
@@ -129,7 +143,7 @@ struct BintangDragDropView2: View {
                         }
                         .onEnded { val in
                             if isDragging{
-                                players.insert(tempGetObject, at: lastItemPos)
+                                gameManager.gameState.players.insert(tempGetObject, at: lastItemPos)
                                 isDragging = false
                             }
                         }
@@ -137,7 +151,7 @@ struct BintangDragDropView2: View {
                     .padding(.top, 8)
                     .overlay(alignment: .top) {
                         if isDragging {
-                            DragListItemView(tempGetObject.name, tempGetObject.color)
+                            DragListItemView(tempGetObject.name, tempGetObject.color.toColor())
                                 .scaleEffect(1.07)
                                 .background{
                                     RoundedRectangle(cornerRadius: 10)
@@ -148,34 +162,16 @@ struct BintangDragDropView2: View {
                     }
                 }
                 Spacer()
-                ZStack{
-                    Color.singElingLC50
-                    Button {
-                        print("blahaha")
-                    } label: {
-                        RoundedRectangle(cornerRadius: 12)
-                            .fill(.singElingDS10)
-                            .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 5))
-                            .frame(width: 180, height: 80)
-                            .overlay {
-                                HStack{
-                                    Image(systemName: "hand.thumbsup.fill")
-                                        .foregroundStyle(.black)
-                                        .font(.system(size: 30))
-                                    Text("Lanjut!")
-                                        .foregroundStyle(.black)
-                                        .font(.custom("skrapbook", size: 30))
-                                }
-                                
-                            }
-                            .background {
-                                RoundedRectangle(cornerRadius: 12)
-                                    .fill(.singElingDS70)
-                                    .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 5))
-                                    .padding(.bottom,-10)
-                            }
-                    }
-                }
+                
+                ButtonComponent(
+                           width: 164,
+                           height: 64,
+                           action: {
+                               curView = 5
+                           },
+                           buttonModel: ButtonModel(button: .main)
+                       )
+                .padding(.bottom, 160)
                 .frame(height: 140)
             }
         }
@@ -184,5 +180,6 @@ struct BintangDragDropView2: View {
 }
 
 #Preview {
-    BintangDragDropView2()
+    BintangDragDropView2(curView: .constant(0))
+        .environmentObject(GameManager(username: "Haliza"))
 }
