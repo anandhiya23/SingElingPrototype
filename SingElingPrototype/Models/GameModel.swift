@@ -83,6 +83,7 @@ struct GameState: Codable {
     var isCorrect: Bool = false
     var guesserName: String = ""
     var announcementGame = true
+
     var announcementRole = false
 
     

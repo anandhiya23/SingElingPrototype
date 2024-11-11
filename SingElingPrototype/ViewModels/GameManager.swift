@@ -801,7 +801,9 @@ extension GameManager: MCSessionDelegate {
                               
                         gameState.players.append(Player(name: peerID.displayName, color: color))
                         
+
                         sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count - 1), to: peerID)
+
 //                        gameState.players.append(Player(name: peerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)]))
                         sendGameState(gameState)
                     }

@@ -16,7 +16,10 @@ struct StatusButtonComponent: View {
     var body: some View {
         ZStack{
             RoundedRectangle(cornerRadius: 12)
+
                 .fill(Color(.singElingDS70))
+
+                
                 .frame(width: width, height: height)
                 .offset(y: height / 7)
                 .overlay {

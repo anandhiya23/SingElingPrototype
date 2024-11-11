@@ -29,6 +29,7 @@ struct MainView: View {
         case 5:
             CountdownView(curView: $curView)
                             .environmentObject(gameManager)
+            
         default:
             ZStack{
                 Image("OnBoardingBackground")
@@ -66,7 +67,7 @@ struct MainView: View {
     }
 }
 
-#Preview {
-    MainView()
-}
+//#Preview {
+//    MainView()
+//}
 
