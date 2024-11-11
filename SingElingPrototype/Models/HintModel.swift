@@ -14,11 +14,11 @@ struct HintModel {
     var text: String {
          switch userRole {
          case .pembacaView:
-             return "Bacakan kartu ini kepada \(readerName ?? "Pengguna")!"
+             return "Bacakan Kartu Ini\nKepada \(readerName ?? "penebak")!"
          case .penebakView:
-             return "Dengar, lalu Tebak Dan\nUrutkan Kartu Berikut Sesuai\nIndex Ketidaksopanan!"
+             return "Dengar dan Tebak\nUrutan Kartu!"
          case .bystanderView:
-             return "Dengarkan Dan Pantau Gerakan Kawanmu! Ini Akan Membantumu!"
+             return "Dengar dan Pantau\nGerakan Kawanmu!"
          case .mainView:
              return "Gabung ruang bermain temanmu atau buat ruang bermain Baru"
          case .createRoomView:
