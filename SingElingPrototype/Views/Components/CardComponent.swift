@@ -42,8 +42,7 @@ struct CardComponent: View {
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
-                    .padding(.top, width * 0.080)
-                    .padding(.bottom, width * 0.02)
+                    .padding(.top, width * 0.15)
 
                 Spacer()
 
@@ -51,11 +50,11 @@ struct CardComponent: View {
                     Image("BirdShape")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: width * 0.4, height: height * 0.4)
+                        .frame(width: width * 0.5, height: height * 0.4)
                     Image("FootShape")
                         .resizable()
                         .scaledToFill()
-                        .frame(width: width * 0.4, height: height * 0.4)
+                        .frame(width: width * 0.3, height: height * 0.4)
                         .offset(x: 10, y: adjustedYOffset)
                 }
                 .padding(.bottom, -width * 0.075)
@@ -63,8 +62,6 @@ struct CardComponent: View {
                 Text("\(indexNum)")
                     .font(.custom("Skrapbook", size: width * 0.25))
                     .foregroundColor(Color.white)
-                    .padding(.bottom, width * 0.01)
-                    .padding(.horizontal, width * 0.1)
                     .background(
                         RoundedRectangle(cornerRadius: width * 0.1)
                             .fill(Color.singDarkGreen)
@@ -83,7 +80,7 @@ struct CardComponent: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent(width: 200, text: "Ngirim meme tanpa konteks nang grub keluarga sing lagi serius", indexNum: 1)
+        CardComponent(width: 200, text: "ngirim meme tanpa konteks sing jelas nang grub keluarga", indexNum: 100)
             .previewLayout(.sizeThatFits)
         
         //kalo text panjang text nya bakal kepotong benerin ini
