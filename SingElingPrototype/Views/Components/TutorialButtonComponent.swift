@@ -11,36 +11,38 @@ struct TutorialButtonComponent: View {
     var width: CGFloat
     var height: CGFloat
     var action: () -> Void
-    
+
     var body: some View {
         ZStack{
-            RoundedRectangle(cornerRadius: 20)
-                .fill(Color(red: 0.855, green: 0.651, blue: 0.505))
+            RoundedRectangle(cornerRadius: 12)
+                .fill(Color(.singElingDS70))
                 .frame(width: width, height: height)
                 .offset(y: height / 7)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 20)
-                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                    RoundedRectangle(cornerRadius: 12)
+                        .stroke(Color.black, lineWidth: 4)
                         .frame(width: width, height: height)
                         .offset(y: height / 7)
                 }
             
-            
-            RoundedRectangle(cornerRadius: 20)
-                .fill(.white)
+            RoundedRectangle(cornerRadius: 12)
+                .fill(.singElingDS50)
                 .frame(width: width, height: height)
                 .overlay {
-                    RoundedRectangle(cornerRadius: 20)
+                    RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.black, lineWidth: 4)
                         .frame(width: width, height: height)
                 }
       
-                Image("si_info-fill")
+            HStack {
+                Image("heroicons-solid_question-mark-circle-book")
                     .resizable()
                     .frame(width: 51, height: 51)
                     .scaledToFit()
-                    
 
+                Text("Tutorial")
+                    .font(.custom("skrapbook", size: 20))
+            }
             .padding()
         }
         .onTapGesture {
@@ -52,7 +54,7 @@ struct TutorialButtonComponent: View {
 
 
 #Preview {
-    TutorialButtonComponent(width: 82, height: 66) {
+    TutorialButtonComponent(width: 170, height: 60) {
         print("button pressed")
     }
 }

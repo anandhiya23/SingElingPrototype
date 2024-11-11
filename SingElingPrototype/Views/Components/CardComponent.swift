@@ -82,7 +82,5 @@ struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         CardComponent(width: 200, text: "ngirim meme tanpa konteks sing jelas nang grub keluarga", indexNum: 100)
             .previewLayout(.sizeThatFits)
-        
-        //kalo text panjang text nya bakal kepotong benerin ini
     }
 }
