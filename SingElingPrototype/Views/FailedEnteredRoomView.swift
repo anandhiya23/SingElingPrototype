@@ -31,10 +31,13 @@ struct FailedEnteredRoomView: View {
 //                     .ignoresSafeArea()
                     .frame(height: 130)
                     .overlay(
-                       SetujuButton(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
-                           print("Setuju button pressed!") // Debugging
-//                           curView = 1
-                       }
+//                       ButtonComponent(width: 164, height: 64, text: "Setuju!", imageName: "bi_hand-thumbs-up-fill") {
+//                           print("Setuju button pressed!") // Debugging
+////                           curView = 1
+//                       }
+                        ButtonComponent(width: 164, height: 64, action: {
+                            print("Button tapped")
+                        }, buttonModel: ButtonModel(button: .main))
                     )
             }
             .ignoresSafeArea(edges: .bottom)
@@ -42,7 +45,7 @@ struct FailedEnteredRoomView: View {
     }
 }
 
-#Preview {
-    FailedEnteredRoomView(curView: .constant(0))
-        .environmentObject(GameManager(username: "Haliza"))
-}
+//#Preview {
+//    FailedEnteredRoomView(curView: .constant(0))
+//        .environmentObject(GameManager(username: "Haliza"))
+//}
