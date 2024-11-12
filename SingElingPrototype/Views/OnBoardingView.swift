@@ -46,5 +46,5 @@ struct OnBoardingView: View {
 
 #Preview {
     OnBoardingView(curView: .constant(0))
-        .environmentObject(GameManager(username: "haliza"))
+        .environmentObject(GameManager())
 }

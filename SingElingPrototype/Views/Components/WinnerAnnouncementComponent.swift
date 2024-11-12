@@ -100,5 +100,5 @@ struct WinnerAnnouncementComponent: View {
 
 #Preview {
     WinnerAnnouncementComponent()
-        .environmentObject(GameManager(username: "Haliza"))
+        .environmentObject(GameManager())
 }
