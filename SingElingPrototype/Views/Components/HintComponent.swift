@@ -68,14 +68,14 @@ struct HighlightedTextView: View {
 }
 
 
-#Preview {
-    let gameManager = GameManager(username: "Haliza")
-    
-    HintComponent(
-        hintModel: HintModel(userRole: .penebakView, readerName: "Haliza"),
-        width: 300,
-        highlightedColor: gameManager.currentUserColor
-    )
-    .environmentObject(gameManager)
-}
+//#Preview {
+//    let gameManager = GameManager(username: "Haliza")
+//    
+//    HintComponent(
+//        hintModel: HintModel(userRole: .penebakView, readerName: "Haliza"),
+//        width: 300,
+//        highlightedColor: gameManager.currentUserColor
+//    )
+//    .environmentObject(gameManager)
+//}
 

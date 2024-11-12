@@ -122,6 +122,6 @@ struct OnboardingContainerView: View {
 }
 #Preview {
     OnboardingContainerView()
-        .environmentObject(GameManager(username: "Haliza"))
+        .environmentObject(GameManager())
 }
 

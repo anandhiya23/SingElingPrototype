@@ -69,6 +69,6 @@ struct CountdownView: View {
 struct CountdownView_Previews: PreviewProvider {
     static var previews: some View {
         CountdownView(curView: .constant(0))
-            .environmentObject(GameManager(username: "Haliza"))
+            .environmentObject(GameManager())
     }
 }
