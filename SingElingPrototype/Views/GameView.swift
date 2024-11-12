@@ -106,47 +106,56 @@ struct GameView: View {
     
     
     var body: some View {
-        let penebakBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.guesser_PID].color] ?? "SingElingDarkGreen"
-        let pembacaBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.reader_PID].color] ?? "SingElingDarkGreen"
-        let backgroundImageName = backgroundImageMapping[gameManager.gameState.players[gameManager.myPID].color] ?? "SingElingDarkGreen"
+        let playerColor = gameManager.gameState.players[gameManager.myPID].color
+        let penebakColor = gameManager.gameState.players[gameManager.gameState.guesser_PID].color
+        let pembacaColor = gameManager.gameState.players[gameManager.gameState.reader_PID].color
+        let penebakBackground = backgroundImageMapping[penebakColor] ?? "SingElingDarkGreen"
+        let pembacaBackground = backgroundImageMapping[pembacaColor] ?? "SingElingDarkGreen"
+        let backgroundImageName = backgroundImageMapping[playerColor] ?? "SingElingDarkGreen"
 
         GeometryReader { geom in
             ZStack{
-                if vmode == 1{
-                    Image(pembacaBackground)
-                        .resizable()
-                        .ignoresSafeArea()
-                        .scaledToFill()
-//                        .animation(.bouncy.speed(1.4), value: pembacaBackground)
-                }else{
-                    Image(penebakBackground)
-                        .resizable()
-                        .ignoresSafeArea()
-                        .scaledToFill()
-//                        .animation(.bouncy.speed(1.4), value: penebakBackground)
-                }
-                
-                Image(backgroundImageName)
-                    .resizable()
-                    .ignoresSafeArea()
-                    .scaledToFill()
+                ZStack{
+                    ZStack{
+                        if vmode == 1{
+                            Image(pembacaBackground)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 1.2*vw, height: vh)
+                                .ignoresSafeArea()
+                        }else{
+                            Image(penebakBackground)
+                                .resizable()
+                                .scaledToFill()
+                                .frame(width: 1.2*vw, height: vh)
+                                .ignoresSafeArea()
+                        }
+                    }
                     .frame(width: vw, height: vh)
-                    .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.86*vh)
-                    .shadow(color: .black,radius: 40)
-                    .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
-                    .onAppear{
-                        if gameManager.gameState.announcementGame {
-                            print(gameManager.gameState.announcementGame)
-                            startTimer()
+
+                    
+                    Image(backgroundImageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.93*vh)
+                        .shadow(color: .black,radius: 40)
+                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+                        .ignoresSafeArea()
+                        .onAppear{
+                            if gameManager.gameState.announcementGame {
+                                print(gameManager.gameState.announcementGame)
+                                startTimer()
+                            }
                         }
-                    }
-                    .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
-                        if newValue == true {
-                            print(newValue)
-                            startTimer()
+                        .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
+                            if newValue == true {
+                                print(newValue)
+                                startTimer()
+                            }
                         }
-                    }
-                
+                }
+                .frame(width: vw, height: vh)
                 StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
                     .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
                     .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
@@ -167,7 +176,7 @@ struct GameView: View {
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                             CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum)
-                                .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 30 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 60 : -80))
+                                .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 10 : -50))
                         }
                     }
                     .padding(.leading, (vw/2) - CGFloat(gameManager.guesserCardPos * 85))
@@ -202,7 +211,7 @@ struct GameView: View {
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                             CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum)
-                                .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -96))
+                                .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 115 : -96))
                         }
                     }
                     .padding(.leading, (vw / 2) - CGFloat(gameManager.myCardPos * 85))
@@ -252,9 +261,31 @@ struct GameView: View {
                 
                 Jempol(width: 153, height: 222)
                     .frame(width: 70, height: 60)
-                    .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 2.5*vh))
+                    .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.8*vh : 2.5*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
+//                ZStack{
+//                    Image(backgroundImageName)
+//                        .resizable()
+//                        .scaledToFill()
+//                        .frame(width: 1.2*vw, height: vh)
+//                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.92*vh)
+//                        .shadow(color: .black,radius: 40)
+//                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+//                        .ignoresSafeArea()
+//                        .onAppear{
+//                            if gameManager.gameState.announcementGame {
+//                                print(gameManager.gameState.announcementGame)
+//                                startTimer()
+//                            }
+//                        }
+//                        .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
+//                            if newValue == true {
+//                                print(newValue)
+//                                startTimer()
+//                            }
+//                        }
+//                }
                 
                 
                 ButtonComponent(width: 164, height: 64, action: {
@@ -304,7 +335,7 @@ struct GameView: View {
                     }
                 }
                 Rectangle()
-                    .fill(Color.singElingZ70)
+                    .fill(playerColor.toColor())
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:gameManager.gameState.announcementGame ? 0.03*vh : 0.09*vh)
                     .animation(.default, value: gameManager.gameState.announcementGame)
@@ -324,7 +355,7 @@ struct GameView: View {
 
                 HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 82 : -40, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
@@ -333,7 +364,7 @@ struct GameView: View {
                 TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
                     .guesser_PID].name, imageName: "fluent-emoji_speaking-head", newColor: penebakNewColor, changeColor: gameManager.gameState.announcementRole)
                     .frame(width: 140, height: 40)
-                    .position(x: penebakTapped ? 360 : 430, y: 0.18*vh)
+                    .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
                     .onTapGesture {
                         self.penebakTapped.toggle()
                     }
@@ -342,7 +373,7 @@ struct GameView: View {
                 TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
                     .reader_PID].name, imageName: "fluent-emoji_speaking-head", newColor: pembacaNewColor, changeColor: gameManager.gameState.announcementRole)
                     .frame(width: 140, height: 40)
-                    .position(x: penebakTapped ? 360 : 430, y: 0.24*vh)
+                    .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
                     .onTapGesture {
                         self.penebakTapped.toggle()
                     }
@@ -432,82 +463,8 @@ struct GameView: View {
         .ignoresSafeArea()
     }
 }
-//                if gameManager.gameState.winner_PID != nil {
-//                    ZStack {
-//                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
-//                        Color.singGreen
-//                            .ignoresSafeArea()
-//
-//                        VStack {
-//                            // Teks selamat dan nama pemenang
-//                            Text("Selamat kepada")
-//                                .font(.headline)
-//                                .foregroundColor(.black)
-//
-//                            Text(gameManager.winnerName)
-//                                .bold()
-//                                .font(.title)
-//                                .foregroundColor(.black)
-//
-//                            Text("8/8 Kartu")
-//                                .foregroundColor(.gray)
-//
-//                            Spacer().frame(height: 20)
-//
-//                            // Tambahkan ikon trofi
-//                            Image(systemName: "trophy.fill")
-//                                .resizable()
-//                                .scaledToFit()
-//                                .frame(width: 100, height: 100)
-//                                .foregroundColor(.yellow)
-//
-//                            Spacer().frame(height: 20)
-//
-//                            // Tombol hanya untuk host
-//                            if gameManager.isHost {
-//                                Button("Main Lagi") {
-//                                    gameManager.startGame()  // Fungsi reset permainan
-//                                }
-//                                .padding()
-//                                .foregroundColor(.white)
-//                                .background {
-//                                    RoundedRectangle(cornerRadius: 10)
-//                                        .fill(Color.black)
-//                                }
-//                            }
-//
-//                            Spacer().frame(height: 20)
-//
-//                            // Animasi confetti (jika belum selesai)
-//                            if !animationCompleted {
-//                                AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce)
-//                                    .frame(width: 200, height: 200)
-//                                    .onAppear {
-//                                        playSoundOnce()
-//                                    }
-//                                    .onDisappear {
-//                                        animationCompleted = true
-//                                    }
-//                            }
-//                        }
-//                        .padding()
-//                        .frame(width: vw, height: vh)
-//                    }
-//                    .onChange(of: geom.size) { _, newValue in
-//                        vw = newValue.width
-//                        vh = newValue.height
-//                    }
-//                    .onAppear {
-//                        vw = geom.size.width
-//                        vh = geom.size.height
-//                    }
-//                }
-//            }
-//            .ignoresSafeArea()
-//        }
 
 //#Preview {
 //    GameView()
 //        .environmentObject(GameManager(username: "Azu"))
 //}
-
