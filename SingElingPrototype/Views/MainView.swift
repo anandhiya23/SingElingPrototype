@@ -9,10 +9,18 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6))) 
-    @State var curView: Int = 0
-    
+    @EnvironmentObject var gameManager: GameManager
     var body: some View {
+        switch gameManager.curView{
+        case 1:
+            ChoiceView()
+        case 2:
+            HostGenerateRoomView()
+        case 3:
+            GuestJoinRoomView()
+        case 4:
+            GameView()
+        default:
             ZStack{
                 Image("OnBoardingBackground")
                     .resizable()
@@ -20,16 +28,16 @@ struct MainView: View {
                     .ignoresSafeArea()
                 
                 HStack {
-                       Spacer()
-                       
+                    Spacer()
+                    
                     TutorialButtonComponent(width: 170, height: 60) {
-                        curView = 6
+                        //                        curView = 6
                     }
-                       .padding()
-                       .padding(.top, 30)
-                   }
-                   .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-            
+                    .padding()
+                    .padding(.top, 30)
+                }
+                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
+                
                 
                 VStack(spacing: 0){
                     Text("Sing Eling")
@@ -41,15 +49,15 @@ struct MainView: View {
                         .font(.custom("skrapbook", size: 40))
                         .foregroundColor(Color.singElingBlack)
                         .padding()
-                    NameInputFormComponent(curView: $curView)
-                        .environmentObject(gameManager)
+                    NameInputFormComponent()
                 }
             }
         }
     }
+}
 
-
-//#Preview {
-//    MainView()
-//}
+#Preview {
+    MainView()
+        .environmentObject(GameManager())
+}
 

@@ -13,30 +13,31 @@ import SwiftUI
 //MARK: - MAIN GAME MANAGER
 class GameManager: NSObject, ObservableObject{
     //MARK: Multipeer Connectivity Stored Properties
-    public let myPeerID: MCPeerID
-    public let serviceAdvertiser: MCNearbyServiceAdvertiser
-    public let serviceBrowser: MCNearbyServiceBrowser
-    public let session: MCSession
+    public var myPeerID: MCPeerID!
+    public var serviceAdvertiser: MCNearbyServiceAdvertiser!
+    public var serviceBrowser: MCNearbyServiceBrowser!
+    public var session: MCSession!
     private let serviceType = "bintang-service"
-    
     private let log = Logger()
     
     private var advertisementRetryTimer: DispatchSourceTimer?
     private var previouslyConnectedPeers: [MCPeerID] = []
     private var invitationHandler: ((Bool, MCSession?) -> Void)?
+    @Published var myUsername: String!
     @Published var availablePeers: [MCPeerID] = []
+    @Published var availablePeersWithCode: [(MCPeerID, String)] = []
     @Published var myPID: Int = -1
     @Published var myConnectivityStatus = 0
     @Published var myConnectivityType: ConnectivityType = .unknown
+    @Published var curView: Int? = nil
+    @Published var hostRoomCode: [Int] = []
+    @Published var guestRoomCode: [Int] = []
     
     //tambahin ini
     private let nameKey = "name"
     
     //    @Published var usernames: [String] = []
-    @Published var username: String
-    
     @Published var isCodeValidated = false
-    
     @Published var isPlaying: Bool = false
     
     var inputIdentifiers: [Int] = []
@@ -196,41 +197,24 @@ class GameManager: NSObject, ObservableObject{
         return backgroundImageMapping[color] ?? "SingElingDarkGreen" 
     }
     
-    var currentUserColor: Color {
-        if let player = gameState.players.first(where: { $0.name == username }) {
-
-            print("Player color found: \(player.color)")
-            return player.color.toColor()
-        }
-        print("Default color used")
-        return Color.black
-
-    }
-    
-    init(username: String) {
-        let peerID = MCPeerID(displayName: username)
-        self.myPeerID = peerID
-        
-        //tambahin ini
-        //        self.usernames = []
-        self.username = username
-        
-        session = MCSession(peer: peerID, securityIdentity: nil, encryptionPreference: .none)
-        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: peerID, discoveryInfo: ["Kode": "1243519"], serviceType: serviceType)
-        serviceBrowser = MCNearbyServiceBrowser(peer: peerID, serviceType: serviceType)
-        
-        
-        super.init()
-        
-        //tambahin ini
-        //        self.usernames = getNameFromDefaults()
-        self.username = getNameFromDefaults()
+    public func initGuest(myUsername: String, discoveryInfo: [String: String]? = nil) {
+        myPeerID = MCPeerID(displayName: myUsername)
+        session = MCSession(peer: myPeerID, securityIdentity: nil, encryptionPreference: .none)
+        serviceAdvertiser = MCNearbyServiceAdvertiser(peer: myPeerID, discoveryInfo: discoveryInfo, serviceType: serviceType)
         
         session.delegate = self
         serviceAdvertiser.delegate = self
-        serviceBrowser.delegate = self
         
-        serviceAdvertiser.startAdvertisingPeer()
+        self.serviceAdvertiser.startAdvertisingPeer()
+    }
+    
+    public func initHost(myUsername: String){
+        myPeerID = MCPeerID(displayName: myUsername)
+        session = MCSession(peer: myPeerID, securityIdentity: nil, encryptionPreference: .none)
+        serviceBrowser = MCNearbyServiceBrowser(peer: myPeerID, serviceType: serviceType)
+        
+        session.delegate = self
+        serviceBrowser.delegate = self
     }
 }
 
@@ -321,50 +305,38 @@ extension GameManager{ //Game Functions
             sendGameCommand(GameCommand(.invokeNextTurn))
         }
     }
-    
-    //tambahin ini
-    func updateUsername(_ newUsername: String) {
-        self.username = newUsername
-    }
-    
-    func getRandomUniqueColor() -> CodableColor {
-        guard !playerColors.isEmpty else {
-            fatalError("No colors left to assign!")
-        }
-        // Randomly select a color and remove it from the list to ensure uniqueness
-        let randomIndex = Int.random(in: 0..<playerColors.count)
-        let selectedColor = playerColors.remove(at: randomIndex)
-        return selectedColor
-    }
-    
-    func addPlayer(name: String) {
-        let backgroundImage = backgroundImages[gameState.players.count % backgroundImages.count]
-        let color = getRandomUniqueColor()
-        let newPlayer = Player(name: name, color: color)
-        gameState.players.append(newPlayer)
-        sendGameState(gameState)
-    }
-    
-    // Fungsi untuk menyimpan nama pengguna ke UserDefaults
-    func saveNameToDefaults(_ name: String) {
-        UserDefaults.standard.set(name, forKey: nameKey)
-        print("Username \(name) berhasil disimpan pada UserDefaults")
-    }
-    
-    // Fungsi untuk mengambil nama pengguna dari UserDefaults
-    func getNameFromDefaults() -> String {
-        let savedName = UserDefaults.standard.string(forKey: nameKey) ?? ""
-        print("Username \(savedName) berhasil diambil dari UserDefaults")
-        return savedName
-    }
-    
-    // Fungsi untuk menghapus nama pengguna dari UserDefaults
-    func clearSavedName() {
-        UserDefaults.standard.removeObject(forKey: nameKey)
-        username = ""
-        //        usernames = [] // Setel username kosong
-        print("Username berhasil dihapus dari UserDefaults")
-    }
+    //USERNAME SAVING BY HALIZA
+//    //tambahin ini
+//    func updateUsername(_ newUsername: String) {
+//        self.username = newUsername
+//    }
+//    
+//    func addPlayer(name: String) {
+//        let newPlayer = Player(name: name)
+//        gameState.players.append(newPlayer)
+//        sendGameState(gameState)  // Jika perlu sinkronisasi ke pemain lain
+//    }
+//    
+//    // Fungsi untuk menyimpan nama pengguna ke UserDefaults
+//    func saveNameToDefaults(_ name: String) {
+//        UserDefaults.standard.set(name, forKey: nameKey)
+//        print("Username \(name) berhasil disimpan pada UserDefaults")
+//    }
+//    
+//    // Fungsi untuk mengambil nama pengguna dari UserDefaults
+//    func getNameFromDefaults() -> String {
+//        let savedName = UserDefaults.standard.string(forKey: nameKey) ?? ""
+//        print("Username \(savedName) berhasil diambil dari UserDefaults")
+//        return savedName
+//    }
+//    
+//    // Fungsi untuk menghapus nama pengguna dari UserDefaults
+//    func clearSavedName() {
+//        UserDefaults.standard.removeObject(forKey: nameKey)
+//        username = ""
+//        //        usernames = [] // Setel username kosong
+//        print("Username berhasil dihapus dari UserDefaults")
+//    }
     
     // Fungsi untuk menyimpan kode room jika player adalah host
     func generateRoomCode(colors: [Color], images: [String]) {
@@ -616,17 +588,17 @@ extension GameManager{ //Game Functions
 //MARK: - MC FUNCTIONS
 extension GameManager{
     
-    func save(name: String) {
-        //        UserDefaults.standard.set(name, forKey: )
-        //        self.usernames = name
-        //        print("save username berhasil")
-        //        self.usernames.append(name)
-        self.username = name
-        
-        // Simpan array usernames ke UserDefaults
-        //        UserDefaults.standard.set(usernames, forKey: nameKey)
-        print("save username berhasil")
-    }
+//    func save(name: String) {
+//        //        UserDefaults.standard.set(name, forKey: )
+//        //        self.usernames = name
+//        //        print("save username berhasil")
+//        //        self.usernames.append(name)
+//        self.username = name
+//        
+//        // Simpan array usernames ke UserDefaults
+//        //        UserDefaults.standard.set(usernames, forKey: nameKey)
+//        print("save username berhasil")
+//    }
     
     func becomeHost(){
         myConnectivityType = .host
@@ -729,9 +701,6 @@ extension GameManager: MCNearbyServiceAdvertiserDelegate {
     
     func advertiser(_ advertiser: MCNearbyServiceAdvertiser, didReceiveInvitationFromPeer peerID: MCPeerID, withContext context: Data?, invitationHandler: @escaping (Bool, MCSession?) -> Void) {
         log.info("didReceiveInvitationFromPeer \(peerID.displayName)")
-        
-        var playerName = peerID.displayName
-        
         // Dekode data context jika ada
         if let context = context {
             do {
@@ -755,7 +724,6 @@ extension GameManager: MCNearbyServiceAdvertiserDelegate {
 
 //MARK: - SERVICE BROWSER (HOST)
 extension GameManager: MCNearbyServiceBrowserDelegate {
-    
     func browser(_ browser: MCNearbyServiceBrowser, didNotStartBrowsingForPeers error: Error) {
         log.error("ServiceBroser didNotStartBrowsingForPeers: \(String(describing: error))")
     }

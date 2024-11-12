@@ -9,8 +9,6 @@ import SwiftUI
 
 struct HostGenerateRoomView: View {
     @EnvironmentObject var gameManager: GameManager
-    @Binding var curView: Int
-    
     var body: some View {
         ZStack {
             Rectangle()
@@ -41,8 +39,8 @@ struct HostGenerateRoomView: View {
         }
     }
 }
-//
-//#Preview {
-//    HostGenerateRoomView(curView: .constant(0))
-//        .environmentObject(GameManager(username: "BLAHAHAH"))
-//}
+
+#Preview {
+    HostGenerateRoomView()
+        .environmentObject(GameManager())
+}

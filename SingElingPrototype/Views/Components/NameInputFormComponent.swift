@@ -11,7 +11,6 @@ struct NameInputFormComponent: View {
     @EnvironmentObject var gameManager: GameManager
     @State private var name: String = ""
     @State private var hasSavedName = false
-    @Binding var curView: Int
     
     var body: some View {
         VStack(spacing: 20) {
@@ -31,15 +30,15 @@ struct NameInputFormComponent: View {
                     if !hasSavedName {
                         print("Button ditekan")
                         if !name.isEmpty {
-                            gameManager.updateUsername(name)  // Update the username list
-                            gameManager.saveNameToDefaults(name)
-                            gameManager.addPlayer(name: name)
+//                            gameManager.updateUsername(name)  // Update the username list
+//                            gameManager.saveNameToDefaults(name)
+//                            gameManager.addPlayer(name: name)
+                            gameManager.myUsername = name
                             print("Nama \(name) berhasil disimpan ke UserDefaults")
                             hasSavedName = true
                             
 //                            curView = 3
-                            curView = 1
-                            print("curView diubah menjadi \(curView)")
+                            gameManager.curView = 1
                         } else {
                             print("Nama kosong, tidak bisa lanjut.")
                         }
@@ -131,9 +130,9 @@ struct BubbleShape: Shape {
 }
 
 
-#Preview {
-    @State var curView: Int = 0  
-        
-        return NameInputFormComponent(curView: $curView)
-            .environmentObject(GameManager(username: "PreviewUser"))
-}
+//#Preview {
+//    @State var curView: Int = 0  
+//        
+//        return NameInputFormComponent(curView: $curView)
+//            .environmentObject(GameManager(username: "PreviewUser"))
+//}
