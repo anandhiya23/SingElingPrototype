@@ -14,62 +14,68 @@ struct StatementComponent: View {
     var body: some View {
         ZStack {
             RoundedRectangle(cornerRadius: 20)
-                .fill(Color.backgroundCream)
-                .frame(width: width * 0.8, height: width * 0.25)
+                .fill(Color.singElingLC10)
+                .frame(width: width * 0.9, height: width * 0.35)
             
-            VStack {
-                HStack(spacing: 0) {
-                    Text("INi GiLiRAN ")
-                        .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(Color.singElingBlack)
-                    
-                    
-                    ZStack {
-                        Text("ANDA")
-                            .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(Color.singElingBlack)
-                            .offset(x: -1, y: -1)
-                            .tracking(2)
-                        
-                        Text("ANDA")
-                            .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(Color.singElingBlack)
-                            .offset(x: 1, y: -1)
-                            .tracking(2)
-                        
-                        Text("ANDA")
-                            .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(Color.singElingBlack)
-                            .offset(x: -1, y: 1)
-                            .tracking(2)
-                        
-                        Text("ANDA")
-                            .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(Color.singElingBlack)
-                            .offset(x: 1, y: 1)
-                            .tracking(2)
-                        
-                        Text("ANDA")
-                            .font(.custom("Skrapbook", size: width * 0.1))
-                            .foregroundColor(.singPink)
-                            .tracking(2)
-                    }
-                }
-                
-                HStack {
-                    Text("UNTUK")
-                        .font(.custom("Skrapbook", size: width * 0.1))
-                        .foregroundColor(Color.singElingBlack)
-                    
-                    Text(statementRole.statementText)
-                                        .font(.custom("Skrapbook", size: width * 0.1))
-                                        .foregroundColor(Color.singElingBlack)
-                }
+//            VStack {
+//                HStack(spacing: 0) {
+//                    Text("INi GiLiRAN ")
+//                        .font(.custom("Skrapbook", size: width * 0.1))
+//                        .foregroundColor(Color.singElingBlack)
+//                    
+//                    
+//                    ZStack {
+//                        Text("ANDA")
+//                            .font(.custom("Skrapbook", size: width * 0.1))
+//                            .foregroundColor(Color.singElingBlack)
+//                            .offset(x: -1, y: -1)
+//                            .tracking(2)
+//                        
+//                        Text("ANDA")
+//                            .font(.custom("Skrapbook", size: width * 0.1))
+//                            .foregroundColor(Color.singElingBlack)
+//                            .offset(x: 1, y: -1)
+//                            .tracking(2)
+//                        
+//                        Text("ANDA")
+//                            .font(.custom("Skrapbook", size: width * 0.1))
+//                            .foregroundColor(Color.singElingBlack)
+//                            .offset(x: -1, y: 1)
+//                            .tracking(2)
+//                        
+//                        Text("ANDA")
+//                            .font(.custom("Skrapbook", size: width * 0.1))
+//                            .foregroundColor(Color.singElingBlack)
+//                            .offset(x: 1, y: 1)
+//                            .tracking(2)
+//                        
+//                        Text("ANDA")
+//                            .font(.custom("Skrapbook", size: width * 0.1))
+//                            .foregroundColor(.singPink)
+//                            .tracking(2)
+//                    }
+//                }
+//                
+//                HStack {
+//                    Text("UNTUK")
+//                        .font(.custom("Skrapbook", size: width * 0.1))
+//                        .foregroundColor(Color.singElingBlack)
+//                    
+//                    Text(statementRole.statementText)
+//                                        .font(.custom("Skrapbook", size: width * 0.1))
+//                                        .foregroundColor(Color.singElingBlack)
+//                }
+//            }
+            VStack{
+                Text(statementRole.statementText ?? "")
+                    .font(.custom("Skrapbook", size: width * 0.1))
+                    .foregroundColor(Color.black)
+                    .multilineTextAlignment(.center)
             }
         }
     }
 }
 
 #Preview {
-    StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
+    StatementComponent(width: 300, statementRole: StatementRole(userRole: .createRoomView))
 }

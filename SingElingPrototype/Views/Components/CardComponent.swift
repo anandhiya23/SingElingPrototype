@@ -15,6 +15,7 @@ struct CardComponent: View {
     
     var text: String
     var indexNum: Int
+    var backgroundImage: String
     
     let referenceWidth: CGFloat = 300
     let yOffsetReference: CGFloat = -50
@@ -28,7 +29,7 @@ struct CardComponent: View {
             RoundedRectangle(cornerRadius: width / 15)
                 .fill(Color.clear)
                 .background(
-                    Image("BackgroundCard")
+                    Image(backgroundImage)
                         .resizable()
                         .scaledToFill()
                         .clipShape(RoundedRectangle(cornerRadius: width / 15))
@@ -42,29 +43,13 @@ struct CardComponent: View {
                     .foregroundColor(Color.singCardText)
                     .multilineTextAlignment(.center)
                     .lineLimit(nil)
-                    .padding(.top, width * 0.080)
-                    .padding(.bottom, width * 0.02)
+                    .padding(.top, width * 0.15)
 
                 Spacer()
-
-                HStack(spacing: -width * 0.13) {
-                    Image("BirdShape")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width * 0.4, height: height * 0.4)
-                    Image("FootShape")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width * 0.4, height: height * 0.4)
-                        .offset(x: 10, y: adjustedYOffset)
-                }
-                .padding(.bottom, -width * 0.075)
 
                 Text("\(indexNum)")
                     .font(.custom("Skrapbook", size: width * 0.25))
                     .foregroundColor(Color.white)
-                    .padding(.bottom, width * 0.01)
-                    .padding(.horizontal, width * 0.1)
                     .background(
                         RoundedRectangle(cornerRadius: width * 0.1)
                             .fill(Color.singDarkGreen)
@@ -83,9 +68,12 @@ struct CardComponent: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent(width: 200, text: "Ngirim meme tanpa konteks nang grub keluarga sing lagi serius", indexNum: 1)
-            .previewLayout(.sizeThatFits)
-        
-        //kalo text panjang text nya bakal kepotong benerin ini
+        CardComponent(
+                    width: 200,
+                    text: "ngirim meme tanpa konteks sing jelas nang grub keluarga",
+                    indexNum: 100,
+                    backgroundImage: "Card100"  // Tambahkan gambar latar yang valid
+                )
+                .previewLayout(.sizeThatFits)
     }
 }

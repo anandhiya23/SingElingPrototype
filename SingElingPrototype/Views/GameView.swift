@@ -168,7 +168,7 @@ struct GameView: View {
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                                 
                                 // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum)
+                                CardComponent(width: 147, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: gameManager.getBackground(for: tempCard.indexNum))
                                     .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 60 : -80))
                             }
                         }
@@ -201,7 +201,7 @@ struct GameView: View {
                                 let tempCard: PlayingCard = gameManager.playingCards[curCardId]
 
                                 // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                                CardComponent(width: vmode == 2 ? 0 : 164, text: tempCard.text, indexNum: tempCard.indexNum)
+                                CardComponent(width: vmode == 2 ? 0 : 164, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: gameManager.getBackground(for: tempCard.indexNum))
                                     .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -96))
                             }
                         }
@@ -246,11 +246,19 @@ struct GameView: View {
                             gameManager.nextTurn()
                         }
                     
+<<<<<<< Updated upstream
+                    CardComponent(width: vmode == 2 ? 220 : 0, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+=======
+                    
+                    //kartu pembaca
                     CardComponent(width: vmode == 2 ? 220 : 0, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum)
+>>>>>>> Stashed changes
                         .position(x:1/2*vw, y: midCardY)
                         .animation(.default, value: vmode)
                     
                 }
+                
+                //notif salah bener
                 if gameManager.gameState.guesserName != ""{
                     if gameManager.gameState.isCorrect{
                         Rectangle()
@@ -285,6 +293,9 @@ struct GameView: View {
                     }
                     
                 }
+                
+                
+                //header
                 Rectangle()
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)

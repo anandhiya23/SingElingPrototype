@@ -14,41 +14,35 @@ struct HintModel {
     var text: String {
          switch userRole {
          case .pembacaView:
-             return "Bacakan kartu ini kepada \(readerName ?? "Pengguna")!"
+             return "Bacakan Kartu Ini\nKepada \(readerName ?? "penebak")!"
          case .penebakView:
-             return "Dengar, lalu Tebak Dan\nUrutkan Kartu Berikut Sesuai\nIndex Ketidaksopanan!"
+             return "Dengar dan Tebak\nUrutan Kartu!"
          case .bystanderView:
-             return "Dengarkan Dan Pantau Gerakan Kawanmu! Ini Akan Membantumu!"
+             return "Dengar dan Pantau\nGerakan Kawanmu!"
          case .mainView:
-             return "Gabung ruang bermain temanmu atau buat ruang bermain Baru"
+             return "Buat ruang bermain baru atau \ngabung ruang temanmu!"
          case .createRoomView:
-             return "Bagikan kode ruangan dan mulai bermain setelah teman-temanmu bergabung!"
+             return "Bagikan kode kepada teman-temanmu untuk bergabung!"
          case .joinRoomView:
-             return "Pemilik ruangan akan memulai setelah semua teman bergabung!"
+             return "Pemilik ruangan akan memulai \nsetelah semua teman bergabung!"
          case .randomTurnView:
-             return "Susun urutan giliran main sesuai kesepakatan dengan geser dan \nlepas, santai aja!"
+             return "Susun urutan giliran main \ndengan geser dan lepas!"
          }
      }
      
     
-     var imageName: String {
+     var imageName: String? {
          switch userRole {
-         case .pembacaView:
-             return "fluent-emoji_speaking-head"
-         case .penebakView:
-             return "heroicons-solid_question-mark-circle"
-         case .bystanderView:
-             return "basil_eye-solid"
+         case .pembacaView, .penebakView, .bystanderView:
+             return nil
          case .mainView:
-             return "heroicons-solid_question-mark-circle"
+             return "fluent_door-arrow-right-28-filled"
          case .createRoomView:
-             return "heroicons-solid_question-mark-circle"
+             return "game-icons_puzzle"
          case .joinRoomView:
-             return "heroicons-solid_question-mark-circle"
+             return "ri_hourglass-fill"
          case .randomTurnView:
-             return "heroicons-solid_question-mark-circle"
+             return "lucide_list-ordered"
          }
      }
-    
 }
-
