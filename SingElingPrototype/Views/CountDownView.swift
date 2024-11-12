@@ -41,6 +41,7 @@ struct CountdownView: View {
             }
         }
         .onAppear {
+            print(gameManager.myPID)
             startCountdown()
         }
     }
