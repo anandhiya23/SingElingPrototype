@@ -20,7 +20,7 @@ struct UserJoinComponent: View {
                 ],
                 spacing: width * 0.05
             ) {
-                ForEach(gameManager.gameState.players, id: \.self) { player in
+                ForEach(gameManager.gameState.players, id: \.name) { player in
                     ZStack {
                         RoundedRectangle(cornerRadius: 12)
                             .fill(Color.backgroundCream)
@@ -35,10 +35,5 @@ struct UserJoinComponent: View {
         }
         .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
-}
-
-#Preview {
-    UserJoinComponent(width: 300)
-        .environmentObject(GameManager(username: "Haliza")) 
 }
 

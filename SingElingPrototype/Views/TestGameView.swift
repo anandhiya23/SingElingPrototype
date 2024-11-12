@@ -24,7 +24,7 @@ struct TestGameView: View {
     @State var myCardPos = 4
     
     //tambahin ini
-    @ObservedObject var gameManager = GameManager(username: "Haliza")
+    @ObservedObject var gameManager = GameManager()
     var midCardY: CGFloat {
         switch vmode {
         case 0:

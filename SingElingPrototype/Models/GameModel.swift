@@ -54,12 +54,12 @@ struct PlayingCard {
 }
 
 // MARK: - Player Struct
-struct Player: Codable, Hashable {
+struct Player: Codable {
     var name: String = "PLACEHOLDER_NAME"
     var point: Int = 0
     var cardPos: Int = 1
     var playingCards_CID: [Int] = []
-    var color: CodableColor
+    var color: CodableColor = CodableColor(color: .red)
     
     var backgroundImage: String {
         // Ambil `backgroundImage` berdasarkan color

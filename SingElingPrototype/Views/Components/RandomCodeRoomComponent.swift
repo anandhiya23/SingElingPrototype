@@ -45,11 +45,16 @@ struct RandomCodeRoomComponent: View {
     }
     
     private func startFillingBoxes() {
-        shuffledIcons = roomIcons.shuffled()
+        
+        
+        gameManager.hostRoomCode = Array(Array(1..<roomIcons.count).shuffled().prefix(4))
+        shuffledIcons = gameManager.hostRoomCode.map({ num in
+            return roomIcons[num]
+        })
+        
         filledCount = 0
         var colors: [Color] = []
         var images: [String] = []
-        // Hanya host yang menghasilkan kode room
         
         // Isi colors dan images dari shuffledIcons
         for index in 0..<4 {
@@ -67,11 +72,6 @@ struct RandomCodeRoomComponent: View {
             }
         }
         
-        gameManager.generateRoomCode(colors: colors, images: images)
+//        gameManager.generateRoomCode(colors: colors, images: images)
     }
-}
-
-#Preview {
-    RandomCodeRoomComponent()
-        .environmentObject(GameManager(username: "Host"))
 }

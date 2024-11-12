@@ -9,19 +9,10 @@ import SwiftUI
 import AVFoundation
 
 struct GameView: View {
-    //    @EnvironmentObject var gameManager: GameManager
-    //    @State var vw: CGFloat = 0
-    //    @State var vh: CGFloat = 0
-    //    @Published var myPID: Int = -1
-    //    @State private var audioPlayer: AVAudioPlayer?
-    //    @Published var gameState: GameState = GameState()
-    //    @State private var animationCompleted: Bool = false
-    //    @Published var isCurrentUserWinner: Bool = false
     @EnvironmentObject var gameManager: GameManager
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
-    //    @State var gameState: GameState
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0

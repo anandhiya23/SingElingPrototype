@@ -9,10 +9,11 @@ import SwiftUI
 
 @main
 struct SingElingPrototypeApp: App {
-    
+    @StateObject private var gameManager = GameManager()
     var body: some Scene {
         WindowGroup {
             MainView()
+                .environmentObject(gameManager)
         }
     }
 }

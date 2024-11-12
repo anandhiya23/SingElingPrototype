@@ -9,26 +9,17 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
-    @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6))) 
-    @State var curView: Int = 0
-    
+    @EnvironmentObject var gameManager: GameManager
     var body: some View {
-        switch curView {
+        switch gameManager.curView{
         case 1:
-            PairView(curView: $curView)
-                            .environmentObject(gameManager)
+            ChoiceView()
         case 2:
-            GameView()
-                            .environmentObject(gameManager)
+            HostGenerateRoomView()
         case 3:
-            PairViewContent(curView: $curView)
-                            .environmentObject(gameManager)
+            GuestJoinRoomView()
         case 4:
-            BintangDragDropView2(curView: $curView)
-                            .environmentObject(gameManager)
-        case 5:
-            CountdownView(curView: $curView)
-                            .environmentObject(gameManager)
+            GameView()
         default:
             ZStack{
                 Image("OnBoardingBackground")
@@ -40,7 +31,7 @@ struct MainView: View {
                        Spacer()
                        
                     TutorialButtonComponent(width: 170, height: 60) {
-                        curView = 6
+//                        curView = 6
                     }
                        .padding()
                        .padding(.top, 30)
@@ -58,8 +49,7 @@ struct MainView: View {
                         .font(.custom("skrapbook", size: 40))
                         .foregroundColor(Color.singElingBlack)
                         .padding()
-                    NameInputFormComponent(curView: $curView)
-                        .environmentObject(gameManager)
+                    NameInputFormComponent()
                 }
             }
         }
@@ -68,5 +58,6 @@ struct MainView: View {
 
 #Preview {
     MainView()
+        .environmentObject(GameManager())
 }
 
