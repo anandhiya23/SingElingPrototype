@@ -106,27 +106,27 @@ struct GameView: View {
     
     
     var body: some View {
-//        let penebakBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.guesser_PID].color] ?? "SingElingDarkGreen"
-//        let pembacaBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.reader_PID].color] ?? "SingElingDarkGreen"
-//        let backgroundImageName = backgroundImageMapping[gameManager.gameState.players[gameManager.myPID].color] ?? "SingElingDarkGreen"
+        let penebakBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.guesser_PID].color] ?? "SingElingDarkGreen"
+        let pembacaBackground = backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.reader_PID].color] ?? "SingElingDarkGreen"
+        let backgroundImageName = backgroundImageMapping[gameManager.gameState.players[gameManager.myPID].color] ?? "SingElingDarkGreen"
 
         GeometryReader { geom in
             ZStack{
                 if vmode == 1{
-                    Image("Bambu Oren")
+                    Image(pembacaBackground)
                         .resizable()
                         .ignoresSafeArea()
                         .scaledToFill()
 //                        .animation(.bouncy.speed(1.4), value: pembacaBackground)
                 }else{
-                    Image("Bambu Oren")
+                    Image(penebakBackground)
                         .resizable()
                         .ignoresSafeArea()
                         .scaledToFill()
 //                        .animation(.bouncy.speed(1.4), value: penebakBackground)
                 }
                 
-                Image("Bambu Ijo 1")
+                Image(backgroundImageName)
                     .resizable()
                     .ignoresSafeArea()
                     .scaledToFill()

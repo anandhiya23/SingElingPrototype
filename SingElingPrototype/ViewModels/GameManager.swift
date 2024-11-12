@@ -509,6 +509,9 @@ extension GameManager{ //Game Functions
             gameState.availablePlayingCards_CID.removeFirst(STARTING_CARDS_AMMOUNT)
             gameState.players[PID].cardPos = 0
             gameState.players[PID].point = 0
+            print(PID)
+            print(gameState.players[PID].name)
+            print(gameState.players[PID].playingCards_CID)
         }
         gameState.winner_PID = nil
         gameState.readerCard_CID = gameState.availablePlayingCards_CID[0]
@@ -619,7 +622,6 @@ extension GameManager{
         
         // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
         let hostPlayer = Player(name: myPeerID.displayName, color: color)
-        gameState.players.append(hostPlayer)
         
         serviceBrowser.startBrowsingForPeers()
         serviceAdvertiser.stopAdvertisingPeer()
@@ -799,7 +801,7 @@ extension GameManager: MCSessionDelegate {
                               
                         gameState.players.append(Player(name: peerID.displayName, color: color))
                         
-                        sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count), to: peerID)
+                        sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count - 1), to: peerID)
 //                        gameState.players.append(Player(name: peerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)]))
                         sendGameState(gameState)
                     }
