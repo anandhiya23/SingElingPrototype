@@ -12,7 +12,7 @@ struct SingElingPrototypeApp: App {
     
     var body: some Scene {
         WindowGroup {
-            MainView()
+            OnBoardingView()
         }
     }
 }

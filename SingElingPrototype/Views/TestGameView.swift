@@ -164,7 +164,8 @@ struct TestGameView: View {
                             CardComponent(
                                 width: 117,
                                                            text: gameManager.playingCards[curCardIdIndice].text,
-                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum
+                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
+                                backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum)
                             )
                         }
                     }

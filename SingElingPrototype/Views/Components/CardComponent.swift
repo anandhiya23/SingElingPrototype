@@ -15,6 +15,7 @@ struct CardComponent: View {
     
     var text: String
     var indexNum: Int
+    var backgroundImage: String
     
     let referenceWidth: CGFloat = 300
     let yOffsetReference: CGFloat = -50
@@ -28,7 +29,7 @@ struct CardComponent: View {
             RoundedRectangle(cornerRadius: width / 15)
                 .fill(Color.clear)
                 .background(
-                    Image("BackgroundCard")
+                    Image(backgroundImage)
                         .resizable()
                         .scaledToFill()
                         .clipShape(RoundedRectangle(cornerRadius: width / 15))
@@ -45,19 +46,6 @@ struct CardComponent: View {
                     .padding(.top, width * 0.15)
 
                 Spacer()
-
-                HStack(spacing: -width * 0.13) {
-                    Image("BirdShape")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width * 0.5, height: height * 0.4)
-                    Image("FootShape")
-                        .resizable()
-                        .scaledToFill()
-                        .frame(width: width * 0.3, height: height * 0.4)
-                        .offset(x: 10, y: adjustedYOffset)
-                }
-                .padding(.bottom, -width * 0.075)
 
                 Text("\(indexNum)")
                     .font(.custom("Skrapbook", size: width * 0.25))
@@ -80,7 +68,12 @@ struct CardComponent: View {
 
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
-        CardComponent(width: 200, text: "ngirim meme tanpa konteks sing jelas nang grub keluarga", indexNum: 100)
-            .previewLayout(.sizeThatFits)
+        CardComponent(
+                    width: 200,
+                    text: "ngirim meme tanpa konteks sing jelas nang grub keluarga",
+                    indexNum: 100,
+                    backgroundImage: "Card100"  // Tambahkan gambar latar yang valid
+                )
+                .previewLayout(.sizeThatFits)
     }
 }
