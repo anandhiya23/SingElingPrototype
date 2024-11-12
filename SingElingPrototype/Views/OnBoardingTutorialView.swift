@@ -62,56 +62,64 @@ struct OnBoardingTutorialView: View {
 
 struct OnboardingContainerView: View {
     @State private var currentPage = 0 
+    @State private var curView: Int = 6
+    @EnvironmentObject var gameManager: GameManager
     
     var body: some View {
         VStack {
-            if currentPage == 0 {
-                OnBoardingTutorialView(
-                    titleText: "Gimana pemanasannya?",
-                    descriptionText: "Di Sing Eling, anda akan \nmenebak tingkat ketidaksopanan \ndalam Budaya Tata Krama Jawa.",
-                    buttonModel: OnBoardingButtonModel(onBoardingButton: .siapLanjut),
-                    buttonAction: {
-                        currentPage = 1
-                    },
-                    curView: $currentPage
-                )
-            } else if currentPage == 1 {
-                OnBoardingTutorialView(
-                    titleText: "Gular gilir bergilir",
-                    descriptionText: "Setiap peran akan ada gilirannya! \nDi sini anda bisa jadi \nPembaca, Penebak, atau \nPemantau.",
-                    buttonModel: OnBoardingButtonModel(onBoardingButton: .lanjut),
-                    buttonAction: {
-                        currentPage = 2
-                    },
-                    curView: $currentPage
-                )
-            } else if currentPage == 2 {
-                OnBoardingTutorialView(
-                    titleText: "Ayo kumpul dulu",
-                    descriptionText: "Main bareng minimal 3 orang \ndan maksimal 4 orang. \nSiap ajak teman buat \nseru-seruan?",
-                    buttonModel: OnBoardingButtonModel(onBoardingButton: .udahSiap),
-                    buttonAction: {
-                        currentPage = 3
-                    },
-                    curView: $currentPage
-                )
-            } else if currentPage == 3 {
-                OnBoardingTutorialView(
-                    titleText: "Kumpulin 5 kartu",
-                    descriptionText: "Kumpulin 5 kartu secepatnya \nuntuk menjadi Raja Jawa. \nJadi yang paling paham \ntata krama Jawa?",
-                    buttonModel: OnBoardingButtonModel(onBoardingButton: .buktikan),
-                    buttonAction: {
-                        print("Lanjut ke permainan!")
-                    },
-                    curView: $currentPage
-                )
+            if curView == 7 {
+                // Jika curView sudah 7, tampilkan MainView
+                MainView(curView: $curView)
+                    .environmentObject(gameManager)
+            } else {
+                // Menampilkan tutorial berdasarkan currentPage
+                if currentPage == 0 {
+                    OnBoardingTutorialView(
+                        titleText: "Gimana pemanasannya?",
+                        descriptionText: "Di Sing Eling, anda akan \nmenebak tingkat ketidaksopanan \ndalam Budaya Tata Krama Jawa.",
+                        buttonModel: OnBoardingButtonModel(onBoardingButton: .siapLanjut),
+                        buttonAction: {
+                            currentPage = 1
+                        },
+                        curView: $curView
+                    )
+                } else if currentPage == 1 {
+                    OnBoardingTutorialView(
+                        titleText: "Gular gilir bergilir",
+                        descriptionText: "Setiap peran akan ada gilirannya! \nDi sini anda bisa jadi \nPembaca, Penebak, atau \nPemantau.",
+                        buttonModel: OnBoardingButtonModel(onBoardingButton: .lanjut),
+                        buttonAction: {
+                            currentPage = 2
+                        },
+                        curView: $curView
+                    )
+                } else if currentPage == 2 {
+                    OnBoardingTutorialView(
+                        titleText: "Ayo kumpul dulu",
+                        descriptionText: "Main bareng minimal 3 orang \ndan maksimal 4 orang. \nSiap ajak teman buat \nseru-seruan?",
+                        buttonModel: OnBoardingButtonModel(onBoardingButton: .udahSiap),
+                        buttonAction: {
+                            currentPage = 3
+                        },
+                        curView: $curView
+                    )
+                } else if currentPage == 3 {
+                    OnBoardingTutorialView(
+                        titleText: "Kumpulin 5 kartu",
+                        descriptionText: "Kumpulin 5 kartu secepatnya \nuntuk menjadi Raja Jawa. \nJadi yang paling paham \ntata krama Jawa?",
+                        buttonModel: OnBoardingButtonModel(onBoardingButton: .buktikan),
+                        buttonAction: {
+                            curView = 7  // Mengubah curView jadi 7
+                        },
+                        curView: $curView
+                    )
+                }
             }
         }
         .animation(.easeInOut, value: currentPage)
         .transition(.slide)
     }
 }
-
 #Preview {
     OnboardingContainerView()
         .environmentObject(GameManager(username: "Haliza"))

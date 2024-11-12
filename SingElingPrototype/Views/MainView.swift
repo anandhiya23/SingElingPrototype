@@ -9,10 +9,45 @@ import Foundation
 import SwiftUI
 
 struct MainView: View {
+<<<<<<< Updated upstream
     @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6))) 
     @Binding var curView: Int
     
     var body: some View {
+=======
+//    @StateObject private var gameManager = GameManager(username: String(UUID().uuidString.prefix(6)))
+    @EnvironmentObject var gameManager: GameManager
+    @Binding var curView: Int
+//    @State var curView: Int = 0
+//    @StateObject private var timerManager = ButtonTimerManager()
+    
+    var body: some View {
+//        switch curView {
+//        case 1:
+//            PairView(curView: $curView)
+//                            .environmentObject(gameManager)
+//        case 2:
+//            GameView()
+//                            .environmentObject(gameManager)
+//        case 3:
+//            PairViewContent(curView: $curView)
+//                            .environmentObject(gameManager)
+//        case 4:
+//            BintangDragDropView2(curView: $curView)
+//                            .environmentObject(gameManager)
+//        case 5:
+//            CountdownView(curView: $curView)
+//                            .environmentObject(gameManager)
+//        case 6:
+////            OnboardingContainerView()
+////                            .environmentObject(gameManager)
+//            OnBoardingView()
+//                .environmentObject(gameManager)
+//        case 7:
+//            OnboardingContainerView()
+//                .environmentObject(gameManager)
+//        default:
+>>>>>>> Stashed changes
             ZStack{
                 Image("OnBoardingBackground")
                     .resizable()
@@ -45,10 +80,18 @@ struct MainView: View {
                         .environmentObject(gameManager)
                 }
             }
+<<<<<<< Updated upstream
+=======
+//        }
+>>>>>>> Stashed changes
     }
 }
 
 #Preview {
     MainView(curView: .constant(0))
+<<<<<<< Updated upstream
+=======
+        .environmentObject(GameManager(username: "haliza"))
+>>>>>>> Stashed changes
 }
 
