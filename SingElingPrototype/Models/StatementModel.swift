@@ -24,7 +24,7 @@ struct StatementModel {
 struct StatementRole {
     var userRole: UserRole
 
-    var statementText: String {
+    var statementText: String? {
         switch userRole {
         case .pembacaView:
             return "MEMBACA!"
@@ -33,13 +33,13 @@ struct StatementRole {
         case .bystanderView:
             return "MEMANTAU!"
         case .mainView:
-            return ""
+            return nil
         case .createRoomView:
-            return ""
+            return "Gabung ruang \nbermain temanmu!"
         case .joinRoomView:
-            return ""
+            return "Berhasil bergabung ke \nruang bermain!"
         case .randomTurnView:
-            return ""
+            return "Atur giliran mainmu yuk!"
         }
     }
 }

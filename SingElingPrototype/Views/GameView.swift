@@ -175,7 +175,7 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum)
+                            CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: String(tempCard.indexNum))
                                 .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 10 : -50))
                         }
                     }
@@ -210,7 +210,7 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum)
+                            CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: String(tempCard.indexNum))
                                 .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 115 : -96))
                         }
                     }
@@ -238,7 +238,7 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 133, text: tempCard.text, indexNum: tempCard.indexNum)
+                            CardComponent(width: 133, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: String(tempCard.indexNum))
 //                                .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -96))
                         }
                     }
@@ -297,7 +297,7 @@ struct GameView: View {
                 
                 
                 
-                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum)
+                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: "")
                     .position(x:1/2*vw, y: gameManager.gameState.announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementRole)
                 

@@ -11,6 +11,7 @@ struct AnnouncementRoleView: View {
     var vmode : Int = 0
     var readerText : String = ""
     var readerNum : Int = 0
+    var readerBackgroundImage: String = ""
     
     var playerColor: CodableColor
     @EnvironmentObject var gameManager: GameManager
@@ -48,19 +49,19 @@ struct AnnouncementRoleView: View {
                         if vmode == 0{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
                             HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 200, text: "Sing Eling", indexNum: 0)
+                            CardComponent(width: 200, text: "Sing Eling", indexNum: 100, backgroundImage: readerBackgroundImage)
                                 .padding()
                         }
                         if vmode == 1{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
                             HintComponent(hintModel: HintModel(userRole: .penebakView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 200, text: "Sing Eling", indexNum: 0)
+                            CardComponent(width: 200, text: "Sing Eling", indexNum: 99, backgroundImage: readerBackgroundImage)
                                 .padding()
                         }
                         if vmode == 2{
                             StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
                             HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323)
-                            CardComponent(width: 200, text: readerText, indexNum: readerNum)
+                            CardComponent(width: 200, text: readerText, indexNum: readerNum, backgroundImage: readerBackgroundImage)
                                 .padding()
                         }
                         Spacer()

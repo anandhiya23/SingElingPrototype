@@ -9,42 +9,64 @@ import SwiftUI
 
 struct OnBoardingView: View {
     @EnvironmentObject var gameManager: GameManager
-    @Binding var curView: Int
+    @State var curView: Int = 0
+  
     
     var body: some View {
-        ZStack{
-            Image("OnBoardingBackground")
-                .resizable()
-                .scaledToFill()
-                .ignoresSafeArea()
-               
-            VStack(alignment: .center){
-                Image("LogoFinal")
+        switch curView {
+        case 1:
+            PairView(curView: $curView)
+                .environmentObject(gameManager)
+        case 2:
+            GameView()
+                .environmentObject(gameManager)
+        case 3:
+            PairViewContent(curView: $curView)
+                .environmentObject(gameManager)
+        case 4:
+            BintangDragDropView2(curView: $curView)
+                .environmentObject(gameManager)
+        case 5:
+            CountdownView(curView: $curView)
+                .environmentObject(gameManager)
+        case 6:
+            OnboardingContainerView()
+                .environmentObject(gameManager)
+        default:
+            ZStack{
+                Image("OnBoardingBackground")
                     .resizable()
-                    .scaledToFit()
-                    .frame(width: 160, height: 160)
+                    .scaledToFill()
+                    .ignoresSafeArea()
+                
+                VStack(alignment: .center){
+                    Image("LogoFinal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 160, height: 160)
+                        .padding()
+                    
+                    Text("Yuk Kita Simak \nDulu tutorialnya!")
+                        .font(.custom("skrapbook", size: 40))
+                        .foregroundColor(Color.singElingRB50)
+                        .multilineTextAlignment(.center)
+                    
+                    ButtonComponent(width: 220, height: 64, action: {
+                        curView = 6
+                    }, buttonModel: ButtonModel(button: .mauLihat))
+                    
                     .padding()
-                
-                Text("Yuk Kita Simak \nDulu tutorialnya!")
-                    .font(.custom("skrapbook", size: 40))
-                    .foregroundColor(Color.singElingRB50)
-                    .multilineTextAlignment(.center)
-                
-                ButtonComponent(width: 220, height: 64, action: {
-                    curView = 6
-                }, buttonModel: ButtonModel(button: .mauLihat))
-                
-                .padding()
-                
-                ConfirmationButtonComponent(width: 205, height: 64, action: {
-                    print("Button tapped")
-                })
+                    
+                    ConfirmationButtonComponent(width: 205, height: 64, action: {
+                        print("Button tapped")
+                    })
+                }
             }
         }
     }
 }
 
 #Preview {
-    OnBoardingView(curView: .constant(0))
+    OnBoardingView()
         .environmentObject(GameManager(username: "haliza"))
 }
