@@ -108,11 +108,12 @@ struct TestGameView: View {
                     .resizable()
                     .ignoresSafeArea()
                     .scaledToFill()
-                Image("Bambu Ijo 1")
+                Image("Tikar Merah")
                     .resizable()
                     .ignoresSafeArea()
                     .scaledToFill()
-                    .position(x: 1/2*vw, y: announcementGame ? 0.55*vh : 0.92*vh)
+                    .frame(width: 1.2 * vw, height: vh)
+                    .position(x: 1/2*vw, y: announcementGame ? 0.55*vh : 1.6*vh)
                     .shadow(color: .black,radius: 40)
                 HStack{
                     Button("Announcement"){
@@ -227,7 +228,7 @@ struct TestGameView: View {
                 
                 HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 82 : -40, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
@@ -236,7 +237,7 @@ struct TestGameView: View {
                 
                 TurnDetailComponent(guesserName: "Haliza", imageName: "fluent-emoji_speaking-head", newColor: Color.singElingPG50, changeColor: announcementRole)
                     .frame(width: 140, height: 40)
-                    .position(x: penebakTapped ? 360 : 430, y: 0.18*vh)
+                    .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
                     .onTapGesture {
                         self.penebakTapped.toggle()
                     }
@@ -244,7 +245,7 @@ struct TestGameView: View {
                 
                 TurnDetailComponent(guesserName: "Haliza", imageName: "fluent-emoji_speaking-head", newColor: oldColor, changeColor: announcementRole)
                     .frame(width: 140, height: 40)
-                    .position(x: pembacaTapped ? 360 : 430, y: 0.24*vh)
+                    .position(x: pembacaTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
                     .onTapGesture {
                         self.pembacaTapped.toggle()
                     }
