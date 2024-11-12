@@ -7,15 +7,13 @@ struct PairView: View {
     
     var body: some View{
         ZStack{
-            Rectangle()
-                .fill(Color.singElingZ50)
+//            Rectangle()
+//                .fill(Color.singElingZ50)
+//                .ignoresSafeArea()
+            Image("Tikar Cream")
+                .resizable()
                 .ignoresSafeArea()
-            
             VStack{
-                Text("Sing \nEling")
-                    .multilineTextAlignment(.center)
-                    .font(.custom("Skrapbook", size: 85))
-                
                 HintComponent(hintModel: HintModel(userRole: .mainView, readerName: ""), width: 300)
                     .padding()
                 
@@ -40,32 +38,6 @@ struct PairView: View {
                 .padding(.horizontal, 50)
                 .padding(.vertical, 10)
                 
-//                ScrollView {
-//                    if gameManager.gameState.players.isEmpty{
-//                        Spacer()
-//                        HStack{
-//                            Spacer()
-//                            Text("Menunggu pemain lain...")
-//                                .foregroundStyle(.singElingZ50)
-//                            Spacer()
-//                        }
-//                        Spacer()
-//                    }
-//
-//                    else {
-//                                            UserJoinComponent(width: 300) // Using grid layout for players
-//                                        }
-//                    Spacer().padding(.bottom, 10)
-//                    
-//                    if gameManager.isHost{
-//                        ForEach(gameManager.availablePeers, id: \.self) { peer in
-//                            PairViewPendingListItem(peerName: peer.displayName)
-//                                .simultaneousGesture(TapGesture().onEnded({ _ in
-//                                    gameManager.serviceBrowser.invitePeer(peer, to: gameManager.session, withContext: nil, timeout: 30)
-//                                }))
-//                        }
-//                    }
-//                }
                 if curView == 3 {
                     PairViewContent(curView: $curView)
                         .environmentObject(gameManager)
@@ -78,4 +50,9 @@ struct PairView: View {
             }
         }
     }
+}
+
+#Preview{
+    PairView(curView: .constant(0))
+        .environmentObject(GameManager(username: "hhh"))
 }
