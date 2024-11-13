@@ -67,6 +67,7 @@ struct GuestJoinRoomView: View {
                             if !selectedImages.contains(where: {$0 == nil}) {
                                 let numberString = gameManager.guestRoomCode.map { String($0) }.joined(separator: ",")
                                 gameManager.initGuest(myUsername: gameManager.myUsername, discoveryInfo: ["code" : numberString])
+                                gameManager.curView = 5
                             }
                         }, buttonModel: ButtonModel(button: .lanjut))
                     )

@@ -48,6 +48,8 @@ struct RandomCodeRoomComponent: View {
         
         
         gameManager.hostRoomCode = Array(Array(1..<roomIcons.count).shuffled().prefix(4))
+        gameManager.initHost(myUsername: gameManager.myUsername)
+        
         shuffledIcons = gameManager.hostRoomCode.map({ num in
             return roomIcons[num]
         })

@@ -162,7 +162,7 @@ struct BintangDragDropView2: View {
                            width: 164,
                            height: 64,
                            action: {
-//                               curView = 5
+                               gameManager.startGame()
                            },
                            buttonModel: ButtonModel(button: .main)
                        )
@@ -171,6 +171,11 @@ struct BintangDragDropView2: View {
             }
         }
         .ignoresSafeArea()
+        .onChange(of: gameManager.gameState.isPlaying) { oldValue, newValue in
+            if newValue == true{
+                gameManager.curView = 4
+            }
+        }
     }
 }
 
