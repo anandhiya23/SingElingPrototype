@@ -248,11 +248,6 @@ struct GameView: View {
                     
 
                     CardComponent(width: vmode == 2 ? 220 : 0, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
-
-                    
-                    //kartu pembaca
-                    CardComponent(width: vmode == 2 ? 220 : 0, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum)
-
                         .position(x:1/2*vw, y: midCardY)
                         .animation(.default, value: vmode)
                     

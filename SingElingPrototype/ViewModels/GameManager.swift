@@ -198,17 +198,13 @@ class GameManager: NSObject, ObservableObject{
     
     var currentUserColor: Color {
         if let player = gameState.players.first(where: { $0.name == username }) {
-<<<<<<< Updated upstream
+
             print("Player color found: \(player.color)")
             return player.color.toColor()
         }
         print("Default color used")
         return Color.black
-=======
-            return player.color.toColor()
-        }
-        return Color.black // Default color if user not found
->>>>>>> Stashed changes
+
     }
     
     init(username: String) {
