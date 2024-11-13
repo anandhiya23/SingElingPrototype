@@ -27,7 +27,6 @@ struct DragListItemView: View {
                     .foregroundStyle(.black)
                     .font(.custom("skrapbook", size: 30))
             }
-        
     }
 }
 
@@ -43,17 +42,13 @@ struct TempPlayer {
 }
 
 struct BintangDragDropView2: View {
+    @EnvironmentObject var gameManager: GameManager
     @State var isDragging = false
     @State var draggedIndex = 0
     @State var dragOffset: CGFloat = 0.0
     @State var indexOffset: Int = 0
     @State var lastItemPos: Int = 0
-    //    @State var tempGetObject: TempPlayer = TempPlayer(name: "", color: Color.red)
-    @State var tempGetObject: Player = Player(name: "", point: 0, cardPos: 0, playingCards_CID: [], color: CodableColor(color: .red))  // Default Player object
-    
-    @EnvironmentObject var gameManager: GameManager
-    @Binding var curView: Int
-    
+    @State var tempGetObject: Player = Player()
     var body: some View {
         ZStack{
             Image("Tikar Cream")
@@ -167,7 +162,7 @@ struct BintangDragDropView2: View {
                            width: 164,
                            height: 64,
                            action: {
-                               curView = 5
+                               gameManager.startGame()
                            },
                            buttonModel: ButtonModel(button: .main)
                        )
@@ -176,10 +171,15 @@ struct BintangDragDropView2: View {
             }
         }
         .ignoresSafeArea()
+        .onChange(of: gameManager.gameState.isPlaying) { oldValue, newValue in
+            if newValue == true{
+                gameManager.curView = 4
+            }
+        }
     }
 }
 
 #Preview {
-    BintangDragDropView2(curView: .constant(0))
-        .environmentObject(GameManager(username: "Haliza"))
+    BintangDragDropView2()
+        .environmentObject(GameManager())
 }

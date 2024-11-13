@@ -14,7 +14,6 @@ struct GameView: View {
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
-    //    @State var gameState: GameState
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
@@ -149,9 +148,10 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+                //TODO: AJUUUUUUUUUUU
+//                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+//                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+//                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)

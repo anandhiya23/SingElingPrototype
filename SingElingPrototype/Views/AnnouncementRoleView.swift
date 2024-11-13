@@ -46,33 +46,33 @@ struct AnnouncementRoleView: View {
                 HStack {
                     VStack{
                         Spacer()
-                        if vmode == 0{
-                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
-
-                            CardComponent(width: 200, text: "Sing Eling", indexNum: 100, backgroundImage: readerBackgroundImage)
-
-                            HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
-                                .padding()
-                        }
-                        if vmode == 1{
-                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
-
-                            CardComponent(width: 200, text: "Sing Eling", indexNum: 99, backgroundImage: readerBackgroundImage)
-
-                            HintComponent(hintModel: HintModel(userRole: .penebakView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
-
-                                .padding()
-                        }
-                        if vmode == 2{
-                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-
-                            CardComponent(width: 200, text: readerText, indexNum: readerNum, backgroundImage: readerBackgroundImage)
-
-                            HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
-
-                                .padding()
-                        }
-                        Spacer()
+//                        if vmode == 0{
+//                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .bystanderView))
+//
+//                            CardComponent(width: 200, text: "Sing Eling", indexNum: 100, backgroundImage: readerBackgroundImage)
+//
+//                            HintComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
+//                                .padding()
+//                        }
+//                        if vmode == 1{
+//                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .penebakView))
+//
+//                            CardComponent(width: 200, text: "Sing Eling", indexNum: 99, backgroundImage: readerBackgroundImage)
+//
+//                            HintComponent(hintModel: HintModel(userRole: .penebakView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
+//
+//                                .padding()
+//                        }
+//                        if vmode == 2{
+//                            StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+//
+//                            CardComponent(width: 200, text: readerText, indexNum: readerNum, backgroundImage: readerBackgroundImage)
+//
+//                            HintComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "Penebak"), width: 323, highlightedColor: gameManager.currentUserColor)
+//
+//                                .padding()
+//                        }
+//                        Spacer()
                     }
                     
                 }

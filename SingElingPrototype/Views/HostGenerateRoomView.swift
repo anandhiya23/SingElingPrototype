@@ -9,8 +9,6 @@ import SwiftUI
 
 struct HostGenerateRoomView: View {
     @EnvironmentObject var gameManager: GameManager
-    @Binding var curView: Int
-    
     var body: some View {
         ZStack {
             Rectangle()
@@ -34,15 +32,16 @@ struct HostGenerateRoomView: View {
                     .frame(height: 130)
                     .overlay(
                         ButtonComponent(width: 164, height: 64, action: {
-                            print("Button tapped")
+                            gameManager.curView = 5
+            
                         }, buttonModel: ButtonModel(button: .lanjut))                    )
             }
             .ignoresSafeArea(edges: .bottom)
         }
     }
 }
-//
-//#Preview {
-//    HostGenerateRoomView(curView: .constant(0))
-//        .environmentObject(GameManager(username: "BLAHAHAH"))
-//}
+
+#Preview {
+    HostGenerateRoomView()
+        .environmentObject(GameManager())
+}

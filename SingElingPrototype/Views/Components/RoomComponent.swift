@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RoomComponent: View {
     @EnvironmentObject var gameManager: GameManager
-//    @Binding var curView: Int
+    
     var roomModel: RoomModel
     var width: CGFloat
     
@@ -36,25 +36,6 @@ struct RoomComponent: View {
                 .stroke(Color.black, lineWidth: 5)
         )
         .padding(.horizontal)
-        .onTapGesture {
-            if roomModel.typeRoom == .joinRoom {
-//                curView = 4
-                gameManager.startGame()
-            } else if roomModel.typeRoom == .createRoom {
-//                curView = 5
-                gameManager.becomeHost()
-            }
-//            curView = 3
-//            print("ditekan, curView sekarang: \(curView)") // Debugging
-        }
-        .disabled(roomModel.typeRoom == .joinRoom ? !gameManager.isHost : (gameManager.isGuest || gameManager.isHost))
+
     }
-}
-
-
-#Preview {
-//    @State var curView: Int = 0
-        
-    return RoomComponent(roomModel: RoomModel(typeRoom: .createRoom), width: 300)
-            .environmentObject(GameManager(username: "PreviewUser"))
 }
