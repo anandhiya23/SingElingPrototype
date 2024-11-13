@@ -108,7 +108,7 @@ class GameManager: NSObject, ObservableObject{
         PlayingCard(text: "nyetel musik sampe tonggone budeg jam 2 isuk", indexNum: 47),
         PlayingCard(text: "nyilih duwik 100 rb tapi ora dibalikno", indexNum: 48),
         PlayingCard(text: "split bill tapi ora dibayar", indexNum: 49),
-        PlayingCard(text: "ngomong 'ck’ pas dikongkon wong tuwo", indexNum: 50),
+        PlayingCard(text: "ngomong “ck’ pas dikongkon wong tuwo", indexNum: 50),
         PlayingCard(text: "takon hal sing sensitif pas kencan pertama", indexNum: 51),
         PlayingCard(text: "Mbukak paket konco sak penak e dewe", indexNum: 52),
         PlayingCard(text: "buka whatsapp e konco tanpa ijin", indexNum: 53),
