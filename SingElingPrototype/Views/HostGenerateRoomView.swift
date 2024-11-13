@@ -32,7 +32,8 @@ struct HostGenerateRoomView: View {
                     .frame(height: 130)
                     .overlay(
                         ButtonComponent(width: 164, height: 64, action: {
-                            print("Button tapped")
+                            gameManager.curView = 5
+            
                         }, buttonModel: ButtonModel(button: .lanjut))                    )
             }
             .ignoresSafeArea(edges: .bottom)

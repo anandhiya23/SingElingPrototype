@@ -20,6 +20,8 @@ struct MainView: View {
             GuestJoinRoomView()
         case 4:
             GameView()
+        case 5:
+            BintangDragDropView2()
         default:
             ZStack{
                 Image("OnBoardingBackground")

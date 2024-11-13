@@ -215,6 +215,18 @@ class GameManager: NSObject, ObservableObject{
         
         session.delegate = self
         serviceBrowser.delegate = self
+        
+        myConnectivityType = .host
+        myPID = 0
+        
+//        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
+        let color = playerColors[Int.random(in: 0..<playerColors.count)]
+        
+        // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
+        let hostPlayer = Player(name: myPeerID.displayName, color: color)
+        gameState.players.append(hostPlayer)
+        
+        serviceBrowser.startBrowsingForPeers()
     }
 }
 
@@ -599,22 +611,6 @@ extension GameManager{
 //        //        UserDefaults.standard.set(usernames, forKey: nameKey)
 //        print("save username berhasil")
 //    }
-    
-    func becomeHost(){
-        myConnectivityType = .host
-        myPID = 0
-//        gameState.players.append(Player(name: myPeerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)], CodableColor: color))
-        
-        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
-        let color = playerColors[Int.random(in: 0..<playerColors.count)]
-        
-        // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
-        let hostPlayer = Player(name: myPeerID.displayName, color: color)
-        
-        serviceBrowser.startBrowsingForPeers()
-        serviceAdvertiser.stopAdvertisingPeer()
-    }
-    
     func sendGameState(_ gameState: GameState) {
 //        if !session.connectedPeers.isEmpty {
 //            log.info("send GameState to connected peers")
@@ -739,6 +735,16 @@ extension GameManager: MCNearbyServiceBrowserDelegate {
         DispatchQueue.main.async {
             self.availablePeers.append(peerID)
         }
+        
+        if let advertisedInfo = info{
+            if let advertisedRoomCode = advertisedInfo["code"]{
+                let advertisedRoomCodeArray = advertisedRoomCode.split(separator: ",").compactMap({ Int($0) })
+                if advertisedRoomCodeArray == hostRoomCode{
+                    serviceBrowser.invitePeer(peerID, to: session, withContext: nil, timeout: 7)
+                }
+            }
+        }
+        
     }
     func browser(_ browser: MCNearbyServiceBrowser, lostPeer peerID: MCPeerID) {
         log.info("Host's service browser lost peer: \(peerID.displayName)")
