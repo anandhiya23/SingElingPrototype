@@ -34,6 +34,7 @@ struct MainView: View {
                     
                     TutorialButtonComponent(width: 170, height: 60) {
                         //                        curView = 6
+
                     }
                     .padding()
                     .padding(.top, 30)

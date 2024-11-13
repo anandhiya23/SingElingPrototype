@@ -72,3 +72,4 @@
 //    OnBoardingView()
 //        .environmentObject(GameManager())
 //}
+
