@@ -69,7 +69,7 @@ struct OnboardingContainerView: View {
         VStack {
             if curView == 7 {
                 // Jika curView sudah 7, tampilkan MainView
-                MainView(curView: $curView)
+                MainView()
                     .environmentObject(gameManager)
             } else {
                 // Menampilkan tutorial berdasarkan currentPage

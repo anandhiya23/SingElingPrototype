@@ -11,18 +11,12 @@ struct HintComponent: View {
     var hintModel: HintModel
     var width: CGFloat
     var highlightedColor: Color?
-<<<<<<< Updated upstream
+
     
     var body: some View {
         HStack {
             if let imageName = hintModel.imageName{
-=======
-    @EnvironmentObject var gameManager: GameManager
-    
-    var body: some View {
-        HStack {
-            if let imageName = hintModel.imageName {
->>>>>>> Stashed changes
+
                 Image(imageName)
                     .resizable()
                     .scaledToFit()
@@ -73,7 +67,7 @@ struct HighlightedTextView: View {
     }
 }
 
-<<<<<<< Updated upstream
+
 #Preview {
     let gameManager = GameManager(username: "Haliza")
     
@@ -82,15 +76,6 @@ struct HighlightedTextView: View {
         width: 300,
         highlightedColor: gameManager.currentUserColor
     )
-=======
-
-
-#Preview {
-    let gameManager = GameManager(username: "Haliza")
-    HintComponent(hintModel: HintModel(userRole: .mainView, readerName: ""), width: 300)
-    //kalo mau manggil highlighted color
-    //highlightedColor: gameManager.currentUserColor
->>>>>>> Stashed changes
     .environmentObject(gameManager)
 }
 

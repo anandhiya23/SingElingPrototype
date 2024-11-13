@@ -169,7 +169,7 @@ class GameManager: NSObject, ObservableObject{
         }
     }
     
-    let backgroundCards = ["Card61", "Card62", "Card63", "Card64", "Card65", "Card66", "Card67", "Card68", "Card69", "Card70", "Card71", "Card72", "Card73", "Card74", "Card75", "Card76", "Card77", "Card78", "Card79", "Card80", "Card81", "Card82", "Card89", "Card90", "Card91", "Card92", "Card93", "Card94", "Card95", "Card96", "Card97", "Card98", "Card99", "Card100"]
+    let backgroundCards = ["Card1", "Card2", "Card3", "Card4",  "Card5", "Card6", "Card7", "Card8", "Card9", "Card10", "Card11", "Card12", "Card13", "Card14", "Card15", "Card16", "Card17", "Card18", "Card19", "Card20", "Card21", "Card22", "Card23", "Card24", "Card25", "Card26", "Card27", "Card28", "Card29", "Card30", "Card31", "Card32", "Card33", "Card34", "Card35", "Card36", "Card37", "Card38", "Card39", "Card40", "Card41", "Card42", "Card43", "Card44", "Card45", "Card46", "Card47", "Card48", "Card49", "Card50", "Card51", "Card52", "Card53", "Card54", "Card55", "Card56", "Card57", "Card58", "Card59", "Card60", "Card61", "Card62", "Card63", "Card64", "Card65", "Card66", "Card67", "Card68", "Card69", "Card70", "Card71", "Card72", "Card73", "Card74", "Card75", "Card76", "Card77", "Card78", "Card79", "Card80", "Card81", "Card82", "Card89", "Card90", "Card91", "Card92", "Card93", "Card94", "Card95", "Card96", "Card97", "Card98", "Card99", "Card100"]
     
     func getBackground(for index: Int) -> String {
         backgroundCards[index % backgroundCards.count]
