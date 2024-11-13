@@ -13,23 +13,6 @@ struct MainView: View {
     @State var curView: Int = 0
     
     var body: some View {
-        switch curView {
-        case 1:
-            PairView(curView: $curView)
-                            .environmentObject(gameManager)
-        case 2:
-            GameView()
-                            .environmentObject(gameManager)
-        case 3:
-            PairViewContent(curView: $curView)
-                            .environmentObject(gameManager)
-        case 4:
-            BintangDragDropView2(curView: $curView)
-                            .environmentObject(gameManager)
-        case 5:
-            CountdownView(curView: $curView)
-                            .environmentObject(gameManager)
-        default:
             ZStack{
                 Image("OnBoardingBackground")
                     .resizable()
@@ -64,9 +47,9 @@ struct MainView: View {
             }
         }
     }
-}
 
-#Preview {
-    MainView()
-}
+
+//#Preview {
+//    MainView()
+//}
 

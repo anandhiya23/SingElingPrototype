@@ -1,3 +1,4 @@
+
 //
 //  ContentView.swift
 //  SingElingPrototype
@@ -9,14 +10,6 @@ import SwiftUI
 import AVFoundation
 
 struct GameView: View {
-    //    @EnvironmentObject var gameManager: GameManager
-    //    @State var vw: CGFloat = 0
-    //    @State var vh: CGFloat = 0
-    //    @Published var myPID: Int = -1
-    //    @State private var audioPlayer: AVAudioPlayer?
-    //    @Published var gameState: GameState = GameState()
-    //    @State private var animationCompleted: Bool = false
-    //    @Published var isCurrentUserWinner: Bool = false
     @EnvironmentObject var gameManager: GameManager
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
@@ -175,7 +168,7 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum)
+                            CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: gameManager.getBackground(for: tempCard.indexNum))
                                 .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 10 : -50))
                         }
                     }
@@ -210,7 +203,7 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum)
+                            CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: gameManager.getBackground(for: tempCard.indexNum))
                                 .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 115 : -96))
                         }
                     }
@@ -238,23 +231,9 @@ struct GameView: View {
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
                             
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
-                            CardComponent(width: 133, text: tempCard.text, indexNum: tempCard.indexNum)
-//                                .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 60 : -96))
+                            CardComponent(width: 133, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: gameManager.getBackground(for: tempCard.indexNum))
                         }
                     }
-//                    .padding(.leading, (vw / 2) - CGFloat(gameManager.myCardPos * 85))
-//                    .frame(width: vw, alignment: .leading)
-//                    .animation(.bouncy.speed(1.4), value: gameManager.myCardPos)
-//                    .gesture(
-//                        DragGesture()
-//                            .onEnded { gesture in
-//                                if gesture.translation.width > 50 {
-//                                    gameManager.myCardPosShiftRight()
-//                                } else if gesture.translation.width < -50 {
-//                                    gameManager.myCardPosShiftLeft()
-//                                }
-//                            }
-//                    )
                 }
                 .position(x: vw / 2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
@@ -297,7 +276,7 @@ struct GameView: View {
                 
                 
                 
-                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum)
+                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
                     .position(x:1/2*vw, y: gameManager.gameState.announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementRole)
                 

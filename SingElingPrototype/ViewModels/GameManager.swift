@@ -77,8 +77,8 @@ class GameManager: NSObject, ObservableObject{
         PlayingCard(text: "ngusili wong liyo pas sek mangan", indexNum: 16),
         PlayingCard(text: "nyeluk uwong sambil mukul pundak e", indexNum: 17),
         PlayingCard(text: "mangan karo ngecap banter", indexNum: 18),
-        PlayingCard(text: "nyenggol tangane lawan jenis sing mari wudhu", indexNum: 19),
-        PlayingCard(text: "takon “kapan nikah” nang konco sing jomblo", indexNum: 20),
+        PlayingCard(text: "mencet remot tv nggawe sikil ning ngarepe konco", indexNum: 19),
+        PlayingCard(text: "takon “kapan rabi” nang konco sing jomblo", indexNum: 20),
         PlayingCard(text: "ngidek sepatu anyar e konco", indexNum: 21),
         PlayingCard(text: "ngongkon konco tanpa ngomong “tulung”", indexNum: 22),
         PlayingCard(text: "numplekno toples kong guan isi rengginang ning omah e konco", indexNum: 23),
@@ -101,14 +101,14 @@ class GameManager: NSObject, ObservableObject{
         PlayingCard(text: "glegeken banter ning ngarepe wong akeh", indexNum: 40),
         PlayingCard(text: "sengojo nyerobot antrian ning tempat umum", indexNum: 41),
         PlayingCard(text: "melotot nang wong sing gak dikenal", indexNum: 42),
-        PlayingCard(text: "pamer harta pas pdkt", indexNum: 43),
+        PlayingCard(text: "nyombongno gaji pas pendekatan", indexNum: 43),
         PlayingCard(text: "nganggo nada tinggi pas ngomong karo konco", indexNum: 44),
         PlayingCard(text: "teko ning nikahan e wong sing gadikenal", indexNum: 45),
         PlayingCard(text: "ngirim meme tanpa konteks nang grub keluarga sing lagi serius", indexNum: 46),
         PlayingCard(text: "nyetel musik sampe tonggone budeg jam 2 isuk", indexNum: 47),
         PlayingCard(text: "nyilih duwik 100 rb tapi ora dibalikno", indexNum: 48),
         PlayingCard(text: "split bill tapi ora dibayar", indexNum: 49),
-        PlayingCard(text: "ngomong “ck’ pas dikongkon wong tuwo *ini gak sopan", indexNum: 50),
+        PlayingCard(text: "ngomong “ck’ pas dikongkon wong tuwo", indexNum: 50),
         PlayingCard(text: "takon hal sing sensitif pas kencan pertama", indexNum: 51),
         PlayingCard(text: "Mbukak paket konco sak penak e dewe", indexNum: 52),
         PlayingCard(text: "buka whatsapp e konco tanpa ijin", indexNum: 53),
@@ -123,7 +123,7 @@ class GameManager: NSObject, ObservableObject{
         PlayingCard(text: "ora ngomong matur suwun sak wis e dibantu", indexNum: 62),
         PlayingCard(text: "njiplak tugas e konco", indexNum: 63),
         PlayingCard(text: "ngeklaim kerjoan e wong liyo", indexNum: 64),
-        PlayingCard(text: "njupuk gorengan 2 tapi mek dibayar 1", indexNum: 65),
+        PlayingCard(text: "njupuk gorengan loro tapi mek dibayar siji", indexNum: 65),
         PlayingCard(text: "nyilih motor e konco sampe bensin e entek", indexNum: 66),
         PlayingCard(text: "njaluk tebengan karo pacar e konco", indexNum: 67),
         PlayingCard(text: "nuker sepatu sing apik pas solat jumat", indexNum: 68),
@@ -169,6 +169,12 @@ class GameManager: NSObject, ObservableObject{
         }
     }
     
+    let backgroundCards = ["Card1", "Card2", "Card3", "Card4",  "Card5", "Card6", "Card7", "Card8", "Card9", "Card10", "Card11", "Card12", "Card13", "Card14", "Card15", "Card16", "Card17", "Card18", "Card19", "Card20", "Card21", "Card22", "Card23", "Card24", "Card25", "Card26", "Card27", "Card28", "Card29", "Card30", "Card31", "Card32", "Card33", "Card34", "Card35", "Card36", "Card37", "Card38", "Card39", "Card40", "Card41", "Card42", "Card43", "Card44", "Card45", "Card46", "Card47", "Card48", "Card49", "Card50", "Card51", "Card52", "Card53", "Card54", "Card55", "Card56", "Card57", "Card58", "Card59", "Card60", "Card61", "Card62", "Card63", "Card64", "Card65", "Card66", "Card67", "Card68", "Card69", "Card70", "Card71", "Card72", "Card73", "Card74", "Card75", "Card76", "Card77", "Card78", "Card79", "Card80", "Card81", "Card82", "Card89", "Card90", "Card91", "Card92", "Card93", "Card94", "Card95", "Card96", "Card97", "Card98", "Card99", "Card100"]
+    
+    func getBackground(for index: Int) -> String {
+        backgroundCards[index % backgroundCards.count]
+    }
+
     //buat random warna di drag and drop
     var playerColors: [CodableColor] = [
         CodableColor(color: .singElingSB50),
@@ -190,6 +196,16 @@ class GameManager: NSObject, ObservableObject{
         return backgroundImageMapping[color] ?? "SingElingDarkGreen" 
     }
     
+    var currentUserColor: Color {
+        if let player = gameState.players.first(where: { $0.name == username }) {
+
+            print("Player color found: \(player.color)")
+            return player.color.toColor()
+        }
+        print("Default color used")
+        return Color.black
+
+    }
     
     init(username: String) {
         let peerID = MCPeerID(displayName: username)
@@ -801,7 +817,9 @@ extension GameManager: MCSessionDelegate {
                               
                         gameState.players.append(Player(name: peerID.displayName, color: color))
                         
+
                         sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count - 1), to: peerID)
+
 //                        gameState.players.append(Player(name: peerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)]))
                         sendGameState(gameState)
                     }

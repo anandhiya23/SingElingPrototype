@@ -52,13 +52,14 @@ struct ButtonComponent: View {
         }
         .onTapGesture {
                     action()
+                print("button pressed")
                 }
         .frame(width: width, height: height)
     }
 }
 
 #Preview {
-    ButtonComponent(width: 164, height: 64, action: {
+    ButtonComponent(width: 200, height: 64, action: {
         print("Button tapped")
     }, buttonModel: ButtonModel(button: .mauLihat))
 }

@@ -112,11 +112,11 @@ struct JoinRoomView: View {
 }
 
 
-struct JoinRoomView_Previews: PreviewProvider {
-    @State static var previewCurView = 0  // Local @State variable for preview
-    
-    static var previews: some View {
-        JoinRoomView(curView: $previewCurView)  // Pass as binding
-            .environmentObject(GameManager(username: "Host"))
-    }
-}
+//struct JoinRoomView_Previews: PreviewProvider {
+//    @State static var previewCurView = 0  // Local @State variable for preview
+//    
+//    static var previews: some View {
+//        JoinRoomView(curView: $previewCurView)  // Pass as binding
+//            .environmentObject(GameManager(username: "Host"))
+//    }
+//}
