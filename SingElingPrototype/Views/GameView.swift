@@ -147,9 +147,10 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+                //TODO: AJUUUUUUUUUUU
+//                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+//                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+//                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)
