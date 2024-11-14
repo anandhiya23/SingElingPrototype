@@ -56,6 +56,9 @@ struct GameView: View {
             }
             if roleTimer == 8{
                 gameManager.gameState.announcementGame = false
+            }
+            if roleTimer == 9{
+                guesserName = gameManager.guesserName
                 resetTimer()
             }
         }
@@ -238,7 +241,7 @@ struct GameView: View {
                         }
                     }
                 }
-                .position(x: vw / 2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
+                .position(x: 0.7 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 Jempol(width: 153, height: 222)
@@ -283,7 +286,7 @@ struct GameView: View {
                     .position(x:1/2*vw, y: gameManager.gameState.announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementRole)
                 
-                if gameManager.gameState.guesserName != ""{
+                if guesserName != ""{
                     if gameManager.gameState.isCorrect{
                         Rectangle()
                             .fill(Color.singElingZ70)
@@ -292,7 +295,7 @@ struct GameView: View {
                             .animation(.bouncy.speed(0.8), value: gameManager.gameState.announcementRole)
                             .overlay(
                                 HStack{
-                                    Text("\(gameManager.guesserName) Berhasil Nebak")
+                                    Text("\(guesserName) Berhasil Nebak")
                                         .font(.custom("Skrapbook", size: 32))
                                         .position(x: 0.5*vw, y:gameManager.gameState.announcementRole ? 0.09*vh : 0.03*vh)
                                         .foregroundColor(.white)
@@ -306,7 +309,7 @@ struct GameView: View {
                             .animation(.default, value: gameManager.gameState.announcementRole)
                             .overlay(
                                 HStack{
-                                    Text("\(gameManager.guesserName) Salah Nebak")
+                                    Text("\(guesserName) Salah Nebak")
                                         .font(.custom("Skrapbook", size: 32))
                                         .position(x: 0.5*vw, y:gameManager.gameState.announcementRole ? 0.09*vh : 0.03*vh)
                                         .foregroundColor(.white)
@@ -334,8 +337,7 @@ struct GameView: View {
                     }
                 
                 
-                
-                HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
+                HintGameComponent(hintModel: HintModel(userRole: vmode == 0 ? .bystanderView : (vmode == 1 ? .penebakView : .pembacaView), readerName: "\(gameManager.gameState.players[gameManager.gameState.guesser_PID].name)"))
                     .frame(width: 180, height: 50)
                     .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
                     .onTapGesture {
