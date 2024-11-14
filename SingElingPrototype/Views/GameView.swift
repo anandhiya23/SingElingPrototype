@@ -345,19 +345,11 @@ struct GameView: View {
                     }
                     .animation(.bouncy.speed(0.6), value: hintTapped)
                 
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .guesser_PID].name, imageName: "fluent-emoji_speaking-head", newColor: penebakNewColor, changeColor: gameManager.gameState.announcementRole)
+                TurnDetailComponent(guesserName: vmode == 1 ? gameManager.gameState.players[gameManager.gameState
+                    .reader_PID].name : gameManager.gameState.players[gameManager.gameState
+                        .guesser_PID].name, imageName: vmode == 1 ? "Vector" :"fluent-emoji_speaking-head", newColor: vmode == 1 ? pembacaNewColor : penebakNewColor, changeColor: gameManager.gameState.announcementRole)
                 .frame(width: 140, height: 40)
                 .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
-                .onTapGesture {
-                    self.penebakTapped.toggle()
-                }
-                .animation(.bouncy.speed(0.6), value: penebakTapped)
-                
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .reader_PID].name, imageName: "fluent-emoji_speaking-head", newColor: pembacaNewColor, changeColor: gameManager.gameState.announcementRole)
-                .frame(width: 140, height: 40)
-                .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
                 .onTapGesture {
                     self.penebakTapped.toggle()
                 }
