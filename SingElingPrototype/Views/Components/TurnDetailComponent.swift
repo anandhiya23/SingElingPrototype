@@ -43,6 +43,6 @@ struct TurnDetailComponent: View {
 
 
 #Preview {
-    TurnDetailComponent(guesserName: "Haliza", imageName: "fluent-emoji_speaking-head", newColor: Color.singElingPG50, changeColor: false)
+    TurnDetailComponent(guesserName: "Haliza", imageName: "Vector", newColor: Color.singElingPG50, changeColor: false)
 }
 
