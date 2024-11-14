@@ -19,10 +19,10 @@ struct GameView: View {
     @State private var roleTimer: Int = 0
     @State private var timer: Timer?
     @State var guesserName: String = ""
-
+    
     @State var penebakNewColor: Color = .white
     @State var pembacaNewColor: Color = .white
-
+    
     
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
@@ -32,9 +32,12 @@ struct GameView: View {
                 hintTapped = false
                 penebakTapped = false
                 pembacaTapped = false
-                
                 gameManager.gameState.announcementRole = true
                 
+            }
+            if roleTimer == 2{
+                playAnnounceSound()
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             }
             if roleTimer == 3{
                 hintTapped = true
@@ -88,9 +91,9 @@ struct GameView: View {
     }
     
     let columns = [
-            GridItem(.flexible()),
-            GridItem(.flexible())
-        ]
+        GridItem(.flexible()),
+        GridItem(.flexible())
+    ]
     
     @State var hintTapped: Bool = false
     @State var penebakTapped: Bool = false
@@ -104,7 +107,7 @@ struct GameView: View {
         let penebakBackground = backgroundImageMapping[penebakColor] ?? "SingElingDarkGreen"
         let pembacaBackground = backgroundImageMapping[pembacaColor] ?? "SingElingDarkGreen"
         let backgroundImageName = backgroundImageMapping[playerColor] ?? "SingElingDarkGreen"
-
+        
         GeometryReader { geom in
             ZStack{
                 ZStack{
@@ -124,7 +127,7 @@ struct GameView: View {
                         }
                     }
                     .frame(width: vw, height: vh)
-
+                    
                     
                     Image(backgroundImageName)
                         .resizable()
@@ -149,9 +152,9 @@ struct GameView: View {
                 }
                 .frame(width: vw, height: vh)
                 //TODO: AJUUUUUUUUUUU
-//                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-//                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-//                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+                //                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+                //                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+                //                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)
@@ -243,28 +246,28 @@ struct GameView: View {
                     .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.8*vh : 2.5*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
-//                ZStack{
-//                    Image(backgroundImageName)
-//                        .resizable()
-//                        .scaledToFill()
-//                        .frame(width: 1.2*vw, height: vh)
-//                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.92*vh)
-//                        .shadow(color: .black,radius: 40)
-//                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
-//                        .ignoresSafeArea()
-//                        .onAppear{
-//                            if gameManager.gameState.announcementGame {
-//                                print(gameManager.gameState.announcementGame)
-//                                startTimer()
-//                            }
-//                        }
-//                        .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
-//                            if newValue == true {
-//                                print(newValue)
-//                                startTimer()
-//                            }
-//                        }
-//                }
+                //                ZStack{
+                //                    Image(backgroundImageName)
+                //                        .resizable()
+                //                        .scaledToFill()
+                //                        .frame(width: 1.2*vw, height: vh)
+                //                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.92*vh)
+                //                        .shadow(color: .black,radius: 40)
+                //                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+                //                        .ignoresSafeArea()
+                //                        .onAppear{
+                //                            if gameManager.gameState.announcementGame {
+                //                                print(gameManager.gameState.announcementGame)
+                //                                startTimer()
+                //                            }
+                //                        }
+                //                        .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
+                //                            if newValue == true {
+                //                                print(newValue)
+                //                                startTimer()
+                //                            }
+                //                        }
+                //                }
                 
                 
                 ButtonComponent(width: 164, height: 64, action: {
@@ -331,7 +334,7 @@ struct GameView: View {
                     }
                 
                 
-
+                
                 HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
                     .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
@@ -342,21 +345,21 @@ struct GameView: View {
                 
                 TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
                     .guesser_PID].name, imageName: "fluent-emoji_speaking-head", newColor: penebakNewColor, changeColor: gameManager.gameState.announcementRole)
-                    .frame(width: 140, height: 40)
-                    .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
-                    .onTapGesture {
-                        self.penebakTapped.toggle()
-                    }
-                    .animation(.bouncy.speed(0.6), value: penebakTapped)
+                .frame(width: 140, height: 40)
+                .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
+                .onTapGesture {
+                    self.penebakTapped.toggle()
+                }
+                .animation(.bouncy.speed(0.6), value: penebakTapped)
                 
                 TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
                     .reader_PID].name, imageName: "fluent-emoji_speaking-head", newColor: pembacaNewColor, changeColor: gameManager.gameState.announcementRole)
-                    .frame(width: 140, height: 40)
-                    .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
-                    .onTapGesture {
-                        self.penebakTapped.toggle()
-                    }
-                    .animation(.bouncy.speed(0.6), value: penebakTapped)
+                .frame(width: 140, height: 40)
+                .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
+                .onTapGesture {
+                    self.penebakTapped.toggle()
+                }
+                .animation(.bouncy.speed(0.6), value: penebakTapped)
                 
                 Rectangle()
                     .fill(Color.singElingDS50)

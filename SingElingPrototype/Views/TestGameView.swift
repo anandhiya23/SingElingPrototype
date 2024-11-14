@@ -61,6 +61,10 @@ struct TestGameView: View {
                 newColor = playerColor
                 
             }
+            if roleTimer == 2{
+                playAnnounceSound()
+
+            }
             if roleTimer == 3{
                 hintTapped = true
                 penebakTapped = true

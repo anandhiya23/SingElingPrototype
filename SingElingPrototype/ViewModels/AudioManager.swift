@@ -12,6 +12,7 @@ var clickPlayer: AVAudioPlayer?
 var wrongPlayer: AVAudioPlayer?
 var correctPlayer: AVAudioPlayer?
 var audioPlayer: AVAudioPlayer?
+var announcementPlayer: AVAudioPlayer?
 
 func playClick() {
     if let soundURL = Bundle.main.url(forResource: "buttonClick", withExtension: "mp3") {
@@ -51,6 +52,20 @@ func playWinnerSound() {
         do {
             audioPlayer = try AVAudioPlayer(contentsOf: soundURL)
             audioPlayer?.play()
+        } catch {
+            print("Error playing sound: \(error.localizedDescription)")
+        }
+    } else {
+        print("Sound file not found in main bundle")
+    }
+}
+
+
+func playAnnounceSound() {
+    if let soundURL = Bundle.main.url(forResource: "Iphone Notification Sound 5", withExtension: "mp3") {
+        do {
+            announcementPlayer = try AVAudioPlayer(contentsOf: soundURL)
+            announcementPlayer?.play()
         } catch {
             print("Error playing sound: \(error.localizedDescription)")
         }
