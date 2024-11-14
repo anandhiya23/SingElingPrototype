@@ -22,7 +22,7 @@ struct HintModel {
          case .mainView:
              return "Buat ruang bermain baru atau \ngabung ruang temanmu!"
          case .createRoomView:
-             return "Bagikan kode kepada teman-temanmu untuk bergabung!"
+             return "Bagikan kode ini kepada teman -\ntemanmu untuk bergabung!"
          case .joinRoomView:
              return "Pemilik ruangan akan memulai \nsetelah semua teman bergabung!"
          case .randomTurnView:
