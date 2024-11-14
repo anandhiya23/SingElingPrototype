@@ -37,9 +37,9 @@ struct StatementRole {
         case .createRoomView:
             return "Gabung ruang \nbermain temanmu!"
         case .joinRoomView:
-            return "Berhasil bergabung ke \nruang bermain!"
+            return nil
         case .randomTurnView:
-            return "Atur giliran mainmu yuk!"
+            return nil
         }
     }
 }

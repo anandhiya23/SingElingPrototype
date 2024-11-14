@@ -17,55 +17,6 @@ struct StatementComponent: View {
                 .fill(Color.singElingLC10)
                 .frame(width: width * 0.9, height: width * 0.35)
             
-//            VStack {
-//                HStack(spacing: 0) {
-//                    Text("INi GiLiRAN ")
-//                        .font(.custom("Skrapbook", size: width * 0.1))
-//                        .foregroundColor(Color.singElingBlack)
-//                    
-//                    
-//                    ZStack {
-//                        Text("ANDA")
-//                            .font(.custom("Skrapbook", size: width * 0.1))
-//                            .foregroundColor(Color.singElingBlack)
-//                            .offset(x: -1, y: -1)
-//                            .tracking(2)
-//                        
-//                        Text("ANDA")
-//                            .font(.custom("Skrapbook", size: width * 0.1))
-//                            .foregroundColor(Color.singElingBlack)
-//                            .offset(x: 1, y: -1)
-//                            .tracking(2)
-//                        
-//                        Text("ANDA")
-//                            .font(.custom("Skrapbook", size: width * 0.1))
-//                            .foregroundColor(Color.singElingBlack)
-//                            .offset(x: -1, y: 1)
-//                            .tracking(2)
-//                        
-//                        Text("ANDA")
-//                            .font(.custom("Skrapbook", size: width * 0.1))
-//                            .foregroundColor(Color.singElingBlack)
-//                            .offset(x: 1, y: 1)
-//                            .tracking(2)
-//                        
-//                        Text("ANDA")
-//                            .font(.custom("Skrapbook", size: width * 0.1))
-//                            .foregroundColor(.singPink)
-//                            .tracking(2)
-//                    }
-//                }
-//                
-//                HStack {
-//                    Text("UNTUK")
-//                        .font(.custom("Skrapbook", size: width * 0.1))
-//                        .foregroundColor(Color.singElingBlack)
-//                    
-//                    Text(statementRole.statementText)
-//                                        .font(.custom("Skrapbook", size: width * 0.1))
-//                                        .foregroundColor(Color.singElingBlack)
-//                }
-//            }
             VStack{
                 Text(statementRole.statementText ?? "")
                     .font(.custom("Skrapbook", size: width * 0.1))
