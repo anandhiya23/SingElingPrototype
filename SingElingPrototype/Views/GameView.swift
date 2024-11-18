@@ -14,6 +14,7 @@ struct GameView: View {
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
+    @State private var showLeaveConfirmation = false
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
@@ -35,9 +36,11 @@ struct GameView: View {
                 gameManager.gameState.announcementRole = true
                 
             }
-            if roleTimer == 2{
-                playAnnounceSound()
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            if gameManager.gameState.winner_PID == nil{
+                if roleTimer == 2{
+                    playAnnounceSound()
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
             }
             if roleTimer == 3{
                 hintTapped = true
@@ -61,6 +64,8 @@ struct GameView: View {
                 guesserName = gameManager.guesserName
                 resetTimer()
             }
+            
+            
         }
     }
     
@@ -110,9 +115,6 @@ struct GameView: View {
         let penebakBackground = backgroundImageMapping[penebakColor] ?? "SingElingDarkGreen"
         let pembacaBackground = backgroundImageMapping[pembacaColor] ?? "SingElingDarkGreen"
         let backgroundImageName = backgroundImageMapping[playerColor] ?? "SingElingDarkGreen"
-        if gameManager.gameState.winner_PID != nil{
-            
-        }
         
         GeometryReader { geom in
             ZStack{
@@ -157,8 +159,8 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-
-                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+                
+                StatementComponent(width: 300, statementRole: StatementRole(userRole: vmode == 0 ? .bystanderView: (vmode == 1 ? .penebakView : .pembacaView)))
                     .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
                     .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
@@ -189,12 +191,14 @@ struct GameView: View {
                 .position(x:vw/2, y: gameManager.gameState.announcementGame ? -145 : (vmode == 1 ? -145 : 26/100*vh))
                 .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
                 
-                //TRIANGLE INDICATOR
                 Jempol(width: 135, height: 196)
                     .rotationEffect(Angle(degrees: 180))
                     .frame(width: 70, height: 60)
                     .position(x:vw/1.9, y: gameManager.gameState.announcementGame ? -145 : (vmode == 1 ? -145 : 8/100*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //OTHER'S CARDS
+
+                
                 
                 
                 //SELF'S CARDS
@@ -251,37 +255,30 @@ struct GameView: View {
                     .frame(width: 70, height: 60)
                     .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.8*vh : 2.5*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-                
-                //                ZStack{
-                //                    Image(backgroundImageName)
-                //                        .resizable()
-                //                        .scaledToFill()
-                //                        .frame(width: 1.2*vw, height: vh)
-                //                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 0.55*vh : 0.92*vh)
-                //                        .shadow(color: .black,radius: 40)
-                //                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
-                //                        .ignoresSafeArea()
-                //                        .onAppear{
-                //                            if gameManager.gameState.announcementGame {
-                //                                print(gameManager.gameState.announcementGame)
-                //                                startTimer()
-                //                            }
-                //                        }
-                //                        .onChange(of: gameManager.gameState.announcementGame == true) { oldValue, newValue in
-                //                            if newValue == true {
-                //                                print(newValue)
-                //                                startTimer()
-                //                            }
-                //                        }
-                //                }
+                //SELF'S CARDS
+
                 
                 
-                ButtonComponent(width: 164, height: 64, action: {
+                //Button setuju yang dibawah
+                ZStack{
+                    Image(backgroundImageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 2*vh : (vmode == 1 ? 1.41*vh : 2*vh))
+                        .shadow(color: .black,radius: 30)
+                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+                        .ignoresSafeArea()
+                }
+                
+                
+                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64){
                     gameManager.makeGuess()
-                }, buttonModel: ButtonModel(button: .mauLihat))
-                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 1.5*vh))
+                }
+                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.92*vh : 1.5*vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-                
+                //Button setuju yang dibawah
+
                 
                 
                 
@@ -342,7 +339,7 @@ struct GameView: View {
                 
                 HintGameComponent(hintModel: HintModel(userRole: vmode == 0 ? .bystanderView : (vmode == 1 ? .penebakView : .pembacaView), readerName: "\(gameManager.gameState.players[gameManager.gameState.guesser_PID].name)"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
@@ -362,6 +359,40 @@ struct GameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
+                    .overlay{
+                        HStack{
+                            BackButtonComponent()
+                                .padding()
+                                .onTapGesture {
+                                    showLeaveConfirmation = true
+                                }
+                            
+                            Spacer()
+                            
+                            LeadingScoreComponent(players: gameManager.gameState.players)
+                                .padding()
+                            
+                        }
+                        .frame(width: 0.9 * vw, height: 62)
+                        .position(x: 0.5*vw, y:0.03*vh)
+                    }
+                
+                if showLeaveConfirmation {
+                    LeaveConfirmationView(vw: vw, vh: vh,
+                        onConfirm: {
+                            // Handle the leave action here
+                            showLeaveConfirmation = false
+                            gameManager.session.disconnect()
+                            gameManager.curView = 1
+                        },
+                        onCancel: {
+                            // Handle cancellation
+                            showLeaveConfirmation = false
+                        }
+                    )
+                    .frame(width: vw, height: vh)
+                }
+                
                 
                 
                 ZStack {
@@ -397,27 +428,27 @@ struct GameView: View {
                             
                         }
                         Spacer()
-
+                        
                         VStack{
                             
-                            ButtonComponent(width: 200, height: 64, action: {
+                            ButtonComponent(buttonModel: ButtonModel(button: .menuUtama), width: 200, height: 64){
                                 gameManager.session.disconnect()
                                 gameManager.curView = 1
-                            }, buttonModel: ButtonModel(button: .menuUtama))
+                            }
                             .padding()
                             .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
                             .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
-
+                            
                             
                             // Tombol hanya untuk host
                             if gameManager.isHost {
-                                ButtonComponent(width: 200, height: 64, action: {
+                                ButtonComponent(buttonModel: ButtonModel(button: .mainLagi), width: 200, height: 64){
                                     gameManager.startGame()
-                                }, buttonModel: ButtonModel(button: .mainLagi))
+                                }
                                 .padding()
                                 .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
                                 .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
-
+                                
                             }
                             
                             Spacer()

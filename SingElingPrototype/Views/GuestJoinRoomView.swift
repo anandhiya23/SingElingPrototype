@@ -63,13 +63,13 @@ struct GuestJoinRoomView: View {
                     .fill(Color.singElingLC50)
                     .frame(height: 130)
                     .overlay(
-                        ButtonComponent(width: 164, height: 64, action: {
+                        ButtonComponent(buttonModel: ButtonModel(button: .lanjut), width: 164, height: 64){
                             if !selectedImages.contains(where: {$0 == nil}) {
                                 let numberString = gameManager.guestRoomCode.map { String($0) }.joined(separator: ",")
                                 gameManager.initGuest(myUsername: gameManager.myUsername, discoveryInfo: ["code" : numberString])
                                 gameManager.curView = 5
                             }
-                        }, buttonModel: ButtonModel(button: .lanjut))
+                        }
                     )
             }
             .ignoresSafeArea(edges: .bottom)

@@ -15,6 +15,10 @@ struct AnnouncementWinnerView: View {
     @State private var roleTimer: Int = 0
     @State private var timer: Timer?
     
+    @State var temptest = [0,1,2,3,4,5,6,7,8,9]
+    @ObservedObject var gameManager = GameManager()
+
+    
     var action: () -> Void = { }
     
     
@@ -50,46 +54,61 @@ struct AnnouncementWinnerView: View {
     }
     
     var body: some View {
-        ZStack {
-            // Latar belakang hijau, atau gunakan warna lain sesuai desain
-            
-            VStack {
-                Spacer()
-                // Teks selamat dan nama pemenang
-                AnnouncementJuaraComponent(playerColor: winnerColor, playerName: winnerName)
-                    .frame(width: 270, height: 128)
-                    .position(x:402/2.15, y: !announcementWinner ? 26/100*874 : -250)
-                    .animation(.bouncy.speed(0.5), value: announcementWinner)
-
-                
-                Spacer()
-                if isHost{
-                    ButtonComponent(width: 200, height: 64, action: {
-                        print("Button tapped")
-                    }, buttonModel: ButtonModel(button: .mainLagi))
+        
+        ScrollView(.horizontal) {
+            HStack{
+                ForEach(gameManager.playingCards.indices, id: \.self){ curCardIdIndice in
+                    CardComponent(
+                        width: 200,
+                        text: "\(gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum-1))",
+                        indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
+                        backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum-1)
+                    )
                 }
-                Spacer()
-                
-                
-//                Spacer().frame(height: 20)
-                //                if isCurrentUserWinner {
-                //                    // Mainkan animasi confetti
-                //                    AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
-                //                        .frame(width: 200, height: 200)
-                //                        .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
-                //                            if newValue != nil {
-                //                                playWinnerSound()
-                //                                playConfetti.toggle()
-                //                            }
-                //                        }
-                //                }
             }
-            .padding()
-            //            .frame(width: vw, height: vh)
         }
-//        .onAppear{
-//            self.announcementWinner = true
-//        }
+        
+        //        ZStack {
+        //            // Latar belakang hijau, atau gunakan warna lain sesuai desain
+        //
+        //            VStack {
+        //                Spacer()
+        //                // Teks selamat dan nama pemenang
+        //                AnnouncementJuaraComponent(playerColor: winnerColor, playerName: winnerName)
+        //                    .frame(width: 270, height: 128)
+        //                    .position(x:402/2.15, y: !announcementWinner ? 26/100*874 : -250)
+        //                    .animation(.bouncy.speed(0.5), value: announcementWinner)
+        //
+        //
+        //                Spacer()
+        //                if isHost{
+        //                    ButtonComponent(buttonModel: ButtonModel(button: .mainLagi), width: 200, height: 64){
+        //                        print("Button tapped")
+        //                    }
+        //                }
+        //                Spacer()
+        //
+        //
+        ////                Spacer().frame(height: 20)
+        //                //                if isCurrentUserWinner {
+        //                //                    // Mainkan animasi confetti
+        //                //                    AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
+        //                //                        .frame(width: 200, height: 200)
+        //                //                        .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
+        //                //                            if newValue != nil {
+        //                //                                playWinnerSound()
+        //                //                                playConfetti.toggle()
+        //                //                            }
+        //                //                        }
+        //                //                }
+        //            }
+        //            .padding()
+        //            //            .frame(width: vw, height: vh)
+        //        }
+        ////        .onAppear{
+        ////            self.announcementWinner = true
+        ////        }
+        //    }
     }
 }
 

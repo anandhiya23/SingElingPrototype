@@ -27,13 +27,15 @@ struct HintModel {
              return "Pemilik ruangan akan memulai \nsetelah semua teman bergabung!"
          case .randomTurnView:
              return "Susun urutan giliran main \ndengan geser dan lepas!"
+         case .cardThrowView, .leaveConfirmation:
+             return ""
          }
      }
      
     
      var imageName: String? {
          switch userRole {
-         case .pembacaView, .penebakView, .bystanderView:
+         case .pembacaView, .penebakView, .bystanderView, .cardThrowView, .leaveConfirmation:
              return nil
          case .mainView:
              return "fluent_door-arrow-right-28-filled"
