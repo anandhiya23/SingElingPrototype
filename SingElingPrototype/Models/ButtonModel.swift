@@ -11,6 +11,7 @@ enum ButtonCondition{
     case bergabung
     case lanjut
     case main
+    case mainLagi
     case mauLihat
     case menuUtama
     case kunci
@@ -27,6 +28,8 @@ struct ButtonModel{
             return "Lanjut!"
         case .main:
             return "Main!"
+        case .mainLagi:
+            return "Main Lagi!"
         case .mauLihat:
             return "Mau Lihat!"
         case .menuUtama:
@@ -44,10 +47,12 @@ struct ButtonModel{
             return "noto-v1_footprints"
         case .main:
             return "icon-park-solid_fireworks"
+        case .mainLagi:
+            return "icon-park-solid_fireworks"
         case .mauLihat:
             return "icon-park-solid_fireworks"
         case .menuUtama:
-            return "ph_game-controller-duotone"
+            return "Home"
         case .kunci:
             return "ooui_key"
         }

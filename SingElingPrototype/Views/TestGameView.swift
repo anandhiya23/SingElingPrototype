@@ -122,7 +122,7 @@ struct TestGameView: View {
                 HStack{
                     Button("Announcement"){
                         withAnimation(.bouncy.speed(1.4)) {
-                            print("tes")
+                            print("\(vh)")
                             announcementGame = true
                             startTimer()
 //                            myCardPos = max(myCardPos - 1, 0)
@@ -158,45 +158,45 @@ struct TestGameView: View {
                 
                 //SELF'S CARDS
                 
-                RoundedRectangle(cornerRadius: 15)
-                    .strokeBorder(Color.black.opacity(0.7), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
-                    .frame(width: 170, height: 170*1.35)
-                    .foregroundColor(.clear)
-                    .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
-                ZStack(){
-                    LazyVGrid(columns: columns, spacing: 16) {
-                        ForEach(temptest.indices, id: \.self){ curCardIdIndice in
-                            CardComponent(
-                                width: 117,
-                                                           text: gameManager.playingCards[curCardIdIndice].text,
-                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
-                                backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum)
-                            )
-                        }
-                    }
-                    .gesture(
-                        DragGesture()
-                            .onEnded { gesture in
-                                if gesture.translation.width > 50 {
-                                    myCardPos = max(myCardPos - 1, 0)
-                                } else if gesture.translation.width < -50 {
-                                    myCardPos = min(myCardPos + 1, temptest.count)
-                                }
-                            }
-                    )
-//                    .padding(.leading, (vw/1.4) - CGFloat(myCardPos * 85))
-                    .frame(width: vw, alignment: .leading)
-                    .animation(.bouncy.speed(1.4), value: myCardPos)
-                    
-                }
-                
-                .position(x: vw/2, y: announcementRole ? 2*vh : 0.7*vh)
-                .animation(.bouncy.speed(0.5), value: announcementRole)
-                
-                Jempol(width: 153, height: 222)
-                    .frame(width: 70, height: 60)
-                    .position(x:vw/2.1, y: announcementGame ? 1.5*vh : 0.73*vh)
-                    .animation(.snappy.speed(0.4), value: announcementGame)
+//                RoundedRectangle(cornerRadius: 15)
+//                    .strokeBorder(Color.black.opacity(0.7), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
+//                    .frame(width: 170, height: 170*1.35)
+//                    .foregroundColor(.clear)
+//                    .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
+//                ZStack(){
+//                    LazyVGrid(columns: columns, spacing: 16) {
+//                        ForEach(temptest.indices, id: \.self){ curCardIdIndice in
+//                            CardComponent(
+//                                width: 117,
+//                                                           text: gameManager.playingCards[curCardIdIndice].text,
+//                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
+//                                backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum)
+//                            )
+//                        }
+//                    }
+//                    .gesture(
+//                        DragGesture()
+//                            .onEnded { gesture in
+//                                if gesture.translation.width > 50 {
+//                                    myCardPos = max(myCardPos - 1, 0)
+//                                } else if gesture.translation.width < -50 {
+//                                    myCardPos = min(myCardPos + 1, temptest.count)
+//                                }
+//                            }
+//                    )
+////                    .padding(.leading, (vw/1.4) - CGFloat(myCardPos * 85))
+//                    .frame(width: vw, alignment: .leading)
+//                    .animation(.bouncy.speed(1.4), value: myCardPos)
+//                    
+//                }
+//                
+//                .position(x: vw/2, y: announcementRole ? 2*vh : 0.7*vh)
+//                .animation(.bouncy.speed(0.5), value: announcementRole)
+//                
+//                Jempol(width: 153, height: 222)
+//                    .frame(width: 70, height: 60)
+//                    .position(x:vw/2.1, y: announcementGame ? 1.5*vh : 0.73*vh)
+//                    .animation(.snappy.speed(0.4), value: announcementGame)
                 
 //                Rectangle()
 //                    .fill(Color.singElingLC90)
@@ -211,6 +211,10 @@ struct TestGameView: View {
 //                                .foregroundColor(.white)
 //                        }
 //                    )
+                
+                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                    .position(x:1/2*vw, y: announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
+                    .animation(.bouncy.speed(1.4), value: announcementRole)
                 
                 Rectangle()
                     .fill(Color.singElingZ70)

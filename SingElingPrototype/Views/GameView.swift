@@ -110,6 +110,9 @@ struct GameView: View {
         let penebakBackground = backgroundImageMapping[penebakColor] ?? "SingElingDarkGreen"
         let pembacaBackground = backgroundImageMapping[pembacaColor] ?? "SingElingDarkGreen"
         let backgroundImageName = backgroundImageMapping[playerColor] ?? "SingElingDarkGreen"
+        if gameManager.gameState.winner_PID != nil{
+            
+        }
         
         GeometryReader { geom in
             ZStack{
@@ -154,10 +157,10 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                //TODO: AJUUUUUUUUUUU
-                //                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                //                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-                //                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+
+                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
+                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)
@@ -359,51 +362,27 @@ struct GameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
-                if gameManager.gameState.winner_PID != nil{
-                    ZStack {
-                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
-                        Color.singKrim
-                            .ignoresSafeArea()
-                        
-                        VStack {
-                            // Teks selamat dan nama pemenang
-                            Text("Selamat kepada")
-                                .font(.headline)
-                                .foregroundColor(Color.singElingBlack)
+                
+                
+                ZStack {
+                    // Latar belakang hijau, atau gunakan warna lain sesuai desain
+                    Image(backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color] ?? "SingElingDarkGreen")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.winner_PID != nil ? 0.5*vh : 2*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.winner_PID)
+                        .ignoresSafeArea()
+                    
+                    VStack {
+                        // Teks selamat dan nama pemenang
+                        Spacer()
+                        ZStack{
+                            AnnouncementJuaraComponent(playerColor: gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color.toColor(), playerName: gameManager.winnerName)
+                                .frame(width: 270, height: 128)
+                                .position(x:vw/2.15, y: gameManager.gameState.winner_PID != nil ? 26/100*vh : -145)
+                                .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
                             
-                            Text(gameManager.winnerName)
-                                .bold()
-                                .font(.title)
-                                .foregroundColor(Color.singElingBlack)
-                            
-                            Text("5/5 Kartu")
-                                .foregroundColor(.gray)
-                            
-                            Spacer().frame(height: 20)
-                            
-                            // Tambahkan ikon trofi
-                            Image(systemName: "trophy.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(.yellow)
-                            
-                            Spacer().frame(height: 20)
-                            
-                            // Tombol hanya untuk host
-                            if gameManager.isHost {
-                                Button("Main Lagi") {
-                                    gameManager.startGame()  // Fungsi reset permainan
-                                }
-                                .padding()
-                                .foregroundColor(.white)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.singElingBlack)
-                                }
-                            }
-                            
-                            Spacer().frame(height: 20)
                             if isCurrentUserWinner {
                                 // Mainkan animasi confetti
                                 AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
@@ -415,12 +394,42 @@ struct GameView: View {
                                         }
                                     }
                             }
+                            
                         }
-                        .padding()
-                        .frame(width: vw, height: vh)
+                        Spacer()
+
+                        VStack{
+                            
+                            ButtonComponent(width: 200, height: 64, action: {
+                                gameManager.session.disconnect()
+                                gameManager.curView = 1
+                            }, buttonModel: ButtonModel(button: .menuUtama))
+                            .padding()
+                            .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
+                            .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+
+                            
+                            // Tombol hanya untuk host
+                            if gameManager.isHost {
+                                ButtonComponent(width: 200, height: 64, action: {
+                                    gameManager.startGame()
+                                }, buttonModel: ButtonModel(button: .mainLagi))
+                                .padding()
+                                .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
+                                .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+
+                            }
+                            
+                            Spacer()
+                        }
+                        
+                        Spacer()
                     }
-                    
+                    .padding()
+                    .frame(width: vw, height: vh)
                 }
+                
+                
                 
                 
                 
