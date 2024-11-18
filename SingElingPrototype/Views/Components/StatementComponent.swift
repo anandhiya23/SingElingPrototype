@@ -28,5 +28,5 @@ struct StatementComponent: View {
 }
 
 #Preview {
-    StatementComponent(width: 300, statementRole: StatementRole(userRole: .createRoomView))
+    StatementComponent(width: 300, statementRole: StatementRole(userRole: .cardThrowView))
 }

@@ -15,6 +15,8 @@ enum UserRole {
     case createRoomView
     case joinRoomView
     case randomTurnView
+    case cardThrowView
+    case leaveConfirmation
 }
 
 struct StatementModel {
@@ -40,6 +42,10 @@ struct StatementRole {
             return nil
         case .randomTurnView:
             return nil
+        case .cardThrowView:
+            return "Ga Ada Yang \nBisa Nebak Nih!"
+        case .leaveConfirmation:
+            return "Yakin Ingin Keluar \nDari Permainan?"
         }
     }
 }

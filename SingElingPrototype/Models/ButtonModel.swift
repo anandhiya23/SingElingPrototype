@@ -15,6 +15,8 @@ enum ButtonCondition{
     case mauLihat
     case menuUtama
     case kunci
+    case yakin
+    case tidak
 }
 
 struct ButtonModel{
@@ -36,6 +38,10 @@ struct ButtonModel{
             return "Menu Utama"
         case .kunci:
             return "Kunci"
+        case .yakin:
+            return "Yakin"
+        case .tidak:
+            return "Tidak"
         }
     }
     
@@ -55,6 +61,10 @@ struct ButtonModel{
             return "Home"
         case .kunci:
             return "ooui_key"
+        case .yakin:
+            return "fa-solid_check"
+        case .tidak:
+            return "dashicons_no"
         }
     }
 }

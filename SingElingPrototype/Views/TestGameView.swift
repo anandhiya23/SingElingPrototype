@@ -50,7 +50,6 @@ struct TestGameView: View {
         resetTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             roleTimer += 1
-            print("\(roleTimer)")
             if roleTimer == 1{
                 hintTapped = false
                 penebakTapped = false
@@ -117,12 +116,11 @@ struct TestGameView: View {
                     .ignoresSafeArea()
                     .scaledToFill()
                     .frame(width: 1.2 * vw, height: vh)
-                    .position(x: 1/2*vw, y: announcementGame ? 0.55*vh : 1.6*vh)
-                    .shadow(color: .black,radius: 40)
+                    .position(x: 1/2*vw, y: announcementGame ? 1.55*vh : 1.39*vh)
+                    .shadow(color: .black,radius: 30)
                 HStack{
                     Button("Announcement"){
                         withAnimation(.bouncy.speed(1.4)) {
-                            print("\(vh)")
                             announcementGame = true
                             startTimer()
 //                            myCardPos = max(myCardPos - 1, 0)
@@ -216,14 +214,18 @@ struct TestGameView: View {
                     .position(x:1/2*vw, y: announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: announcementRole)
                 
+                if announcementGame{
+                    CardThrowView(cardText: gameManager.readerCardText, cardNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                }
+
+                
                 Rectangle()
                     .fill(Color.singElingZ70)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y: 0.09*vh)
-//                    .animation(.default, value: gameManager.gameState.announcementGame)
                     .overlay(
                         HStack{
-                            Text("pembaca")
+                            Text("\(gameManager.gameState.players)")
                                 .font(.custom("Skrapbook", size: 32))
                                 .position(x: 0.5*vw, y: 0.09*vh)
                                 .foregroundColor(.white)
@@ -234,10 +236,24 @@ struct TestGameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
+                    .overlay{
+                        HStack{
+                            BackButtonComponent()
+                                .padding()
+                                
+                            Spacer()
+                            
+                            LeadingScoreComponent()
+                                .padding()
+                            
+                        }
+                        .frame(width: 0.9 * vw, height: 62)
+                        .position(x: 0.5*vw, y:0.03*vh)
+                    }
                 
                 HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }

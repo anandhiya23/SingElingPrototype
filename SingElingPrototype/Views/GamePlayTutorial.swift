@@ -40,9 +40,9 @@ struct GamePlayTutorial: View {
             .ignoresSafeArea()
 
                     Spacer(minLength: 40)
-                    ButtonComponent(width: 164, height: 64, action: {
+                    ButtonComponent(buttonModel: ButtonModel(button: .kunci), width: 164, height: 64){
                         print("Button tapped")
-                    }, buttonModel: ButtonModel(button: .kunci))
+                    }
                 }
 //                .frame(width: geom.size.width, height: geom.size.height) // Set frame to screen size
             }

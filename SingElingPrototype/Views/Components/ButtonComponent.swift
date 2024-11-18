@@ -8,11 +8,12 @@
 import SwiftUI
 
 struct ButtonComponent: View {
+    var buttonModel: ButtonModel
     var width: CGFloat
     var height: CGFloat
+
     var action: () -> Void
     
-    var buttonModel: ButtonModel
     
     var body: some View {
         ZStack{
@@ -30,7 +31,7 @@ struct ButtonComponent: View {
             
             
             RoundedRectangle(cornerRadius: 12)
-                .fill(.white)
+                .fill(buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
@@ -60,8 +61,8 @@ struct ButtonComponent: View {
 }
 
 #Preview {
-    ButtonComponent(width: 200, height: 64, action: {
+    ButtonComponent(buttonModel: ButtonModel(button: .bergabung), width: 200, height: 64){
         print("Button tapped")
-    }, buttonModel: ButtonModel(button: .bergabung))
+    }
 }
 

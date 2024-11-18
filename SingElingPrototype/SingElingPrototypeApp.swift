@@ -14,6 +14,7 @@ struct SingElingPrototypeApp: App {
         WindowGroup {
             MainView()
                 .environmentObject(gameManager)
+                .statusBarHidden()
         }
     }
 }
