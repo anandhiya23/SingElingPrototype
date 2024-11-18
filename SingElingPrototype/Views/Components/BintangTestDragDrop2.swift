@@ -81,7 +81,7 @@ struct BintangDragDropView2: View {
                         .padding(.horizontal,10)
                     }
                 
-                HStack{
+                HStack(alignment: .top){
                     VStack{
                         ForEach(1...4, id: \.self){ index in
                             RoundedRectangle(cornerRadius: 10)
@@ -98,8 +98,8 @@ struct BintangDragDropView2: View {
                     .padding(.top, 8)
                     
                     VStack(spacing: 8) {
-                        ForEach(0..<4, id: \.self) { index in
-                            if index < gameManager.gameState.players.count {
+                        ForEach(0..<gameManager.gameState.players.count, id: \.self) { index in
+                            
                                 let curPlayerName = gameManager.gameState.players[index].name
                                 DragListItemView(curPlayerName, gameManager.gameState.players[index].color.toColor())
                                     .padding(.top, lastItemPos == index && isDragging ? 88 : 0)
@@ -115,12 +115,7 @@ struct BintangDragDropView2: View {
                                                 }
                                             }
                                     )
-                            } else {
-                                // placeholder buat posisi kosong
-                                RoundedRectangle(cornerRadius: 10)
-                                    .fill(.clear)
-                                    .frame(width: 80, height: 80)
-                            }
+                            
                         }
                     }
                     .simultaneousGesture(DragGesture(minimumDistance: 0)
@@ -180,6 +175,13 @@ struct BintangDragDropView2: View {
 }
 
 #Preview {
+    @Previewable @State var gameManager = GameManager()
+    
     BintangDragDropView2()
-        .environmentObject(GameManager())
+        .environmentObject(gameManager)
+        .onAppear{
+            gameManager.gameState.players.append(Player())
+            gameManager.gameState.players.append(Player())
+            gameManager.gameState.players.append(Player())
+        }
 }
