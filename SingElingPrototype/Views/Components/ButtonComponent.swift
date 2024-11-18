@@ -23,6 +23,7 @@ struct ButtonComponent: View {
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
                         .stroke(Color.black, lineWidth: 4) // Add stroke here
+//                        .frame(width: width, height: height)
                         .frame(width: width, height: height)
                         .offset(y: height / 7)
                 }
@@ -42,25 +43,25 @@ struct ButtonComponent: View {
                     .frame(width: 51, height: 51)
                     .scaledToFit()
                     
-                Spacer()
+//                Spacer()
                 
                 Text(buttonModel.buttonText)
                     .font(.custom("Skrapbook", size: 25))
                     .foregroundColor(Color.singElingBlack)
             }
+            .frame(width: width, height: height)
             .padding()
         }
         .onTapGesture {
-                    action()
-                print("button pressed")
-                }
-        .frame(width: width, height: height)
+            action()
+        print("button pressed")
+        }
     }
 }
 
 #Preview {
     ButtonComponent(width: 200, height: 64, action: {
         print("Button tapped")
-    }, buttonModel: ButtonModel(button: .mauLihat))
+    }, buttonModel: ButtonModel(button: .bergabung))
 }
 
