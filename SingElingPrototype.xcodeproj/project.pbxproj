@@ -278,6 +278,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SingElingPrototype/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sing Eling";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We use the local network to connect multiple device to a single game session";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -310,6 +311,7 @@
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SingElingPrototype/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "Sing Eling";
 				INFOPLIST_KEY_NSLocalNetworkUsageDescription = "We use the local network to connect multiple device to a single game session";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;

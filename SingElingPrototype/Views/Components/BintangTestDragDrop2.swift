@@ -8,28 +8,6 @@
 import SwiftUI
 import Foundation
 
-struct DragListItemView: View {
-    var text: String
-    var color: Color
-    
-    init(_ text: String, _ color: Color) {
-        self.text = text
-        self.color = color
-    }
-    
-    var body: some View {
-        RoundedRectangle(cornerRadius: 12)
-            .fill(color)
-            .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 5))
-            .frame(width: 250, height: 80)
-            .overlay {
-                Text(text)
-                    .foregroundStyle(.black)
-                    .font(.custom("skrapbook", size: 30))
-            }
-    }
-}
-
 extension Comparable {
     func clamped(to limits: ClosedRange<Self>) -> Self {
         return min(max(self, limits.lowerBound), limits.upperBound)

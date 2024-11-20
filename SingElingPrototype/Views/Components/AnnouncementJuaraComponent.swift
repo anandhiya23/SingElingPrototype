@@ -86,3 +86,4 @@ struct AnnouncementJuaraComponent: View {
     AnnouncementJuaraComponent(playerColor: .singElingLC70, playerName: "abcdefgh")
         .frame(width: 270, height: 128)
 }
+
