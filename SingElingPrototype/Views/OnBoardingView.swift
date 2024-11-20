@@ -1,18 +1,18 @@
-////
-////  OnBoarding.swift
-////  SingElingPrototype
-////
-////  Created by Haliza Syafa Oktaviani on 11/11/24.
-////
 //
-//import SwiftUI
+//  OnBoarding.swift
+//  SingElingPrototype
 //
-//struct OnBoardingView: View {
-//    @EnvironmentObject var gameManager: GameManager
-//    @State var curView: Int = 0
-//  
-//    
-//    var body: some View {
+//  Created by Haliza Syafa Oktaviani on 11/11/24.
+//
+
+import SwiftUI
+
+struct OnBoardingView: View {
+    @EnvironmentObject var gameManager: GameManager
+    @State var curView: Int = 0
+    @StateObject  var gamePlayViewModel = GamePlayViewModel()
+    
+    var body: some View {
 //        switch curView {
 //        case 1:
 //            print("")
@@ -34,42 +34,42 @@
 //            OnboardingContainerView()
 //                .environmentObject(gameManager)
 //        default:
-//            ZStack{
-//                Image("OnBoardingBackground")
-//                    .resizable()
-//                    .scaledToFill()
-//                    .ignoresSafeArea()
-//
-//                VStack(alignment: .center){
-//                    Image("LogoFinal")
-//                        .resizable()
-//                        .scaledToFit()
-//                        .frame(width: 160, height: 160)
-//                        .padding()
-//                    
-//                    Text("Yuk Kita Simak \nDulu tutorialnya!")
-//                        .font(.custom("skrapbook", size: 40))
-//                        .foregroundColor(Color.singElingRB50)
-//                        .multilineTextAlignment(.center)
-//                    
-//                    ButtonComponent(width: 220, height: 64, action: {
-//                        curView = 6
-//                        
-//                    }, buttonModel: ButtonModel(button: .mauLihat))
-//                    
-//                    .padding()
-//                    
-//                    ConfirmationButtonComponent(width: 205, height: 64, action: {
-//                        print("Button tapped")
-//                    })
-//                }
-//            }
+            ZStack{
+                Image("OnBoardingBackground")
+                    .resizable()
+                    .scaledToFill()
+                    .ignoresSafeArea()
+
+                VStack(alignment: .center){
+                    Image("LogoFinal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 160, height: 160)
+                        .padding()
+                    
+                    Text("Yuk Kita Simak \nDulu tutorialnya!")
+                        .font(.custom("skrapbook", size: 40))
+                        .foregroundColor(Color.singElingRB50)
+                        .multilineTextAlignment(.center)
+                    
+                    ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 220, height: 64, isButtonEnabled: $gamePlayViewModel.isButtonEnabled){     
+                        curView = 6
+                    }
+                       
+                    
+                    .padding()
+                    
+                    ConfirmationButtonComponent(width: 205, height: 64, action: {
+                        print("Button tapped")
+                    })
+                }
+            }
 //        }
-//    }
-//}
-//
-//#Preview {
-//    OnBoardingView()
-//        .environmentObject(GameManager())
-//}
+    }
+}
+
+#Preview {
+    OnBoardingView()
+        .environmentObject(GameManager())
+}
 

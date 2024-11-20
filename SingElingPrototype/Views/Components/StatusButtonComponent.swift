@@ -11,6 +11,7 @@ struct StatusButtonComponent: View {
     var width: CGFloat
     var height: CGFloat
     var action: () -> Void
+    @Binding var isButtonEnabled: Bool
     
     var statusButtonModel: StatusButtonModel
     var body: some View {
@@ -61,7 +62,10 @@ struct StatusButtonComponent: View {
 }
 
 #Preview {
+    @State  var isEnabled = false
     StatusButtonComponent(width: 164, height: 64, action: {
         print("Button tapped")
-    }, statusButtonModel: StatusButtonModel(statusButton: .tidak))
+    },
+                          isButtonEnabled: $isEnabled, 
+                          statusButtonModel: StatusButtonModel(statusButton: .tidak))
 }
