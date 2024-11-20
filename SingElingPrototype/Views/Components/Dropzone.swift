@@ -8,15 +8,19 @@
 import SwiftUI
 
 struct Dropzone: View {
+    var width: CGFloat
+    var height: CGFloat
+    var lineWidth: CGFloat
+    
     var body: some View {
         RoundedRectangle(cornerRadius: 15)
             .fill(.white.opacity(0.3))
-            .stroke(.gray, style: StrokeStyle(lineWidth: 4,dash: [17],dashPhase: 9))
-            .frame(width: 30, height: 300)
+            .stroke(.singElingBlack, style: StrokeStyle(lineWidth: lineWidth,dash: [17],dashPhase: 9))
+            .frame(width: width, height: height)
             
     }
 }
 
 #Preview {
-    Dropzone()
+    Dropzone(width: 30, height: 300, lineWidth: 4)
 }

@@ -11,7 +11,6 @@ struct LeaveConfirmationView: View {
     var vw: CGFloat = 402
     var vh: CGFloat = 874
     
-    
     let onConfirm: () -> Void
     let onCancel: () -> Void
     
