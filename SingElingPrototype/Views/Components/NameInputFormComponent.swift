@@ -12,6 +12,10 @@ struct NameInputFormComponent: View {
     @State private var name: String = ""
     @State private var hasSavedName = false
     
+    var isNameValid: Bool {
+        name.count  <= 8
+    }
+    
     var body: some View {
         VStack(spacing: 20) {
             HStack(spacing: 0) {
@@ -25,54 +29,56 @@ struct NameInputFormComponent: View {
                         RoundedRectangle(cornerRadius: 8)
                             .stroke(Color.gray.opacity(0.7), lineWidth: 1)
                     )
-                    .foregroundColor(name.count < 3 ? .black : .singTextGray)
+                    .foregroundColor(name.count <= 8 ? .black : .singTextGray)
                 Button(action: {
                     if !hasSavedName {
                         print("Button ditekan")
                         if !name.isEmpty {
-//                            gameManager.updateUsername(name)  // Update the username list
-//                            gameManager.saveNameToDefaults(name)
-//                            gameManager.addPlayer(name: name)
-                            gameManager.myUsername = name
-                            print("Nama \(name) berhasil disimpan ke UserDefaults")
-                            hasSavedName = true
                             
-//                            curView = 3
-                            gameManager.curView = 1
+                            if isNameValid{
+                                gameManager.myUsername = name
+                                print("Nama \(name) berhasil disimpan ke UserDefaults")
+                                hasSavedName = true
+                                
+                                gameManager.curView = 1
+//                                showValidationError = true
+                            }
+                            
                         } else {
                             print("Nama kosong, tidak bisa lanjut.")
+//                            showValidationError = false
                         }
                     }
                 }) {
                     Text("LANJUT")
                         .font(.custom("skrapbook", size: 24))
-                        .foregroundColor(name.isEmpty ? .singGray : .black)
+                        .foregroundColor(name.isEmpty && !isNameValid ? .singGray : .black)
                         .frame(width: 100, height: 50)
-                        .background(name.isEmpty ? .singGray3 : .singGreen)
+                        .background(name.isEmpty && !isNameValid ? .singGray3 : .singGreen)
                         .overlay(
                             RoundedRectangle(cornerRadius: 0)
                                 .stroke(Color.black, lineWidth: 3)
                         )
                     
                 }
-                .disabled(name.isEmpty)
+                .disabled(name.isEmpty || !isNameValid)
                 
-//                test buat hapus username
+                //                test buat hapus username
                 
-//                                Button(action: {
-//                                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
-//                                                name = "" // Kosongkan field TextField
-//                                            }) {
-//                                                Text("HAPUS")
-//                                                    .font(.custom("skrapbook", size: 24))
-//                                                    .foregroundColor(.white)
-//                                                    .frame(width: 100, height: 50)
-//                                                    .background(Color.red)
-//                                                    .overlay(
-//                                                        RoundedRectangle(cornerRadius: 0)
-//                                                            .stroke(Color.black, lineWidth: 3)
-//                                                    )
-//                                            }
+                //                                Button(action: {
+                //                                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
+                //                                                name = "" // Kosongkan field TextField
+                //                                            }) {
+                //                                                Text("HAPUS")
+                //                                                    .font(.custom("skrapbook", size: 24))
+                //                                                    .foregroundColor(.white)
+                //                                                    .frame(width: 100, height: 50)
+                //                                                    .background(Color.red)
+                //                                                    .overlay(
+                //                                                        RoundedRectangle(cornerRadius: 0)
+                //                                                            .stroke(Color.black, lineWidth: 3)
+                //                                                    )
+                //                                            }
                 
             }
             .overlay(
@@ -82,13 +88,13 @@ struct NameInputFormComponent: View {
             .cornerRadius(10)
             .padding(.horizontal)
             
-            if name.isEmpty{
+            if !isNameValid {
                 ZStack {
                     BubbleShape()
                         .fill(Color.singOrange)
                         .frame(width: 143, height: 45)
                         .overlay(
-                            Text("MAKSIMAL 3 HURUF")
+                            Text("MAKSIMAL 8 HURUF")
                                 .font(.custom("skrapbook", size: 18))
                                 .foregroundColor(.black)
                                 .padding(.top, 10)
@@ -130,9 +136,9 @@ struct BubbleShape: Shape {
 }
 
 
-//#Preview {
-//    @State var curView: Int = 0  
-//        
-//        return NameInputFormComponent(curView: $curView)
-//            .environmentObject(GameManager(username: "PreviewUser"))
-//}
+#Preview {
+    @State var curView: Int = 0
+
+        return NameInputFormComponent()
+            .environmentObject(GameManager())
+}
