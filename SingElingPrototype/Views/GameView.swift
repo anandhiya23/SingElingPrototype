@@ -15,6 +15,7 @@ struct GameView: View {
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
     @State private var showLeaveConfirmation = false
+    
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
@@ -36,11 +37,9 @@ struct GameView: View {
                 gameManager.gameState.announcementRole = true
                 
             }
-            if gameManager.gameState.winner_PID == nil{
-                if roleTimer == 2{
-                    playAnnounceSound()
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
-                }
+            if roleTimer == 2{
+                playAnnounceSound()
+                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
             }
             if roleTimer == 3{
                 hintTapped = true
@@ -156,9 +155,11 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                //                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                //                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-                //                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+                
+                
+                StatementComponent(width: 300, statementRole: StatementRole(userRole: vmode == 0 ? .bystanderView: (vmode == 1 ? .penebakView : .pembacaView)))
+                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)
@@ -206,7 +207,7 @@ struct GameView: View {
                         .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 0 ? 0.52*vh : 1.55*vh))
                         .frame(height: 0.5*vh)
                         .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-
+                    
                 }
                 .frame(width: vw, height: vh)
                 
@@ -217,7 +218,7 @@ struct GameView: View {
                         .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 2 ? 0.4*vh :1.55*vh))
                         .frame(height: 0.3*vh)
                         .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-
+                    
                 }
                 .frame(width: vw, height: vh)
                 
@@ -359,25 +360,17 @@ struct GameView: View {
                 
                 HintGameComponent(hintModel: HintModel(userRole: vmode == 0 ? .bystanderView : (vmode == 1 ? .penebakView : .pembacaView), readerName: "\(gameManager.gameState.players[gameManager.gameState.guesser_PID].name)"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
                     .animation(.bouncy.speed(0.6), value: hintTapped)
                 
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .guesser_PID].name, imageName: "fluent-emoji_speaking-head", newColor: penebakNewColor, changeColor: gameManager.gameState.announcementRole)
+                TurnDetailComponent(guesserName: vmode == 1 ? gameManager.gameState.players[gameManager.gameState
+                    .reader_PID].name : gameManager.gameState.players[gameManager.gameState
+                        .guesser_PID].name, imageName: vmode == 1 ? "Vector" :"fluent-emoji_speaking-head", newColor: vmode == 1 ? pembacaNewColor : penebakNewColor, changeColor: gameManager.gameState.announcementRole)
                 .frame(width: 140, height: 40)
                 .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
-                .onTapGesture {
-                    self.penebakTapped.toggle()
-                }
-                .animation(.bouncy.speed(0.6), value: penebakTapped)
-                
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .reader_PID].name, imageName: "fluent-emoji_speaking-head", newColor: pembacaNewColor, changeColor: gameManager.gameState.announcementRole)
-                .frame(width: 140, height: 40)
-                .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
                 .onTapGesture {
                     self.penebakTapped.toggle()
                 }
