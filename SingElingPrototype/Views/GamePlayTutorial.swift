@@ -921,15 +921,25 @@ struct GamePlayTutorial: View {
                     }
                     else {
                         // Gunakan ButtonComponent jika `currentStatusButton` tidak diatur
+//                        ButtonComponent(
+//                            width: 190,
+//                            height: 64,
+//                            action: {
+//                                gamePlayViewModel.buttonPressed()
+//                            },
+//                            isButtonEnabled: $gamePlayViewModel.isButtonEnabled,
+//                            buttonModel: gamePlayViewModel.currentButton
+//                        )
+                        
+                        //INI DIUBAH
                         ButtonComponent(
+                            buttonModel: ButtonModel(button: .lanjut),
                             width: 190,
                             height: 64,
-                            action: {
-                                gamePlayViewModel.buttonPressed()
-                            },
-                            isButtonEnabled: $gamePlayViewModel.isButtonEnabled,
-                            buttonModel: gamePlayViewModel.currentButton
-                        )
+                            isButtonEnabled: .constant(true))
+                        {
+                            gamePlayViewModel.buttonPressed()
+                        }
                         .position(x: vw / 2, y: vh + 40)
                     }
                 }
@@ -1038,13 +1048,21 @@ struct SuccessOverlayView: View {
             .padding(.top, 170)
             
             VStack{
+//                ButtonComponent(
+//                    width: 190,
+//                    height: 64,
+//                    action: action,
+//                    isButtonEnabled: .constant(true),
+//                    buttonModel: ButtonModel(button: .lanjut)
+//                )
                 ButtonComponent(
+                    buttonModel: ButtonModel(button: .lanjut),
                     width: 190,
                     height: 64,
-                    action: action,
-                    isButtonEnabled: .constant(true),
-                    buttonModel: ButtonModel(button: .lanjut)
-                )
+                    isButtonEnabled: .constant(true))
+                {
+                    action()
+                }
             }
             .padding(.top, 350)
             
@@ -1087,13 +1105,21 @@ struct FailedOverlayView: View {
             .padding(.top, 170)
             
             VStack{
+//                ButtonComponent(
+//                    width: 190,
+//                    height: 64,
+//                    action: action,
+//                    isButtonEnabled: .constant(true),
+//                    buttonModel: ButtonModel(button: .lanjut)
+//                )
                 ButtonComponent(
+                    buttonModel: ButtonModel(button: .lanjut),
                     width: 190,
                     height: 64,
-                    action: action,
-                    isButtonEnabled: .constant(true),
-                    buttonModel: ButtonModel(button: .lanjut)
-                )
+                    isButtonEnabled: .constant(true))
+                {
+                    action()
+                }
             }
             .padding(.top, 350)
         }

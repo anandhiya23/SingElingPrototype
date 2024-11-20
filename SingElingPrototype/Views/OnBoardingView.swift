@@ -52,11 +52,10 @@ struct OnBoardingView: View {
                         .foregroundColor(Color.singElingRB50)
                         .multilineTextAlignment(.center)
                     
-                    ButtonComponent(width: 220, height: 64, action: {
+                    ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 220, height: 64, isButtonEnabled: $gamePlayViewModel.isButtonEnabled){     
                         curView = 6
-                        
-                    }, isButtonEnabled: $gamePlayViewModel.isButtonEnabled,
-                       buttonModel: ButtonModel(button: .mauLihat))
+                    }
+                       
                     
                     .padding()
                     

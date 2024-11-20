@@ -11,7 +11,8 @@ struct ButtonComponent: View {
     var buttonModel: ButtonModel
     var width: CGFloat
     var height: CGFloat
-
+    @Binding var isButtonEnabled: Bool
+    
     var action: () -> Void
     
     
@@ -31,7 +32,10 @@ struct ButtonComponent: View {
             
             
             RoundedRectangle(cornerRadius: 12)
-                .fill(buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
+//                .fill(buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
+                .fill(isButtonEnabled
+                      ? (buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
+                      : .singGray2)
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
@@ -55,14 +59,22 @@ struct ButtonComponent: View {
         }
         .onTapGesture {
             action()
-        print("button pressed")
+            print("action di tap")
         }
     }
 }
 
 #Preview {
-    ButtonComponent(buttonModel: ButtonModel(button: .bergabung), width: 200, height: 64){
-        print("Button tapped")
+//    ButtonComponent(buttonModel: ButtonModel(button: .bergabung), width: 200, height: 64){
+//        print("Button tapped")
+//    }
+    ButtonComponent(
+        buttonModel: ButtonModel(button: .lanjut),
+        width: 190,
+        height: 64,
+        isButtonEnabled: .constant(true))
+    {
+        print("button tapped")
     }
 }
 

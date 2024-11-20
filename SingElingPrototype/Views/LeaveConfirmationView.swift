@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct LeaveConfirmationView: View {
+    @StateObject  var gamePlayViewModel = GamePlayViewModel()
+    
     var vw: CGFloat = 402
     var vh: CGFloat = 874
     
@@ -29,11 +31,17 @@ struct LeaveConfirmationView: View {
                     
                 
                 HStack {
-                    ButtonComponent(buttonModel: ButtonModel(button: .tidak), width: 150, height: 73){
+//                    ButtonComponent(buttonModel: ButtonModel(button: .tidak), width: 150, height: 73){
+//                        onCancel()
+//                    }
+                    
+                    ButtonComponent(buttonModel: ButtonModel(button: .tidak), width: 150, height: 73, isButtonEnabled: $gamePlayViewModel.isButtonEnabled){
                         onCancel()
                     }
-                    
-                    ButtonComponent(buttonModel: ButtonModel(button: .yakin), width: 150, height: 73){
+//                    ButtonComponent(buttonModel: ButtonModel(button: .yakin), width: 150, height: 73){
+//                        onConfirm()
+//                    }
+                    ButtonComponent(buttonModel: ButtonModel(button: .yakin), width: 150, height: 73, isButtonEnabled: $gamePlayViewModel.isButtonEnabled){
                         onConfirm()
                     }
                 }
