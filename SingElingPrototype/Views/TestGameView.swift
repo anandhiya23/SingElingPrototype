@@ -50,7 +50,6 @@ struct TestGameView: View {
         resetTimer()
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             roleTimer += 1
-            print("\(roleTimer)")
             if roleTimer == 1{
                 hintTapped = false
                 penebakTapped = false
@@ -117,12 +116,11 @@ struct TestGameView: View {
                     .ignoresSafeArea()
                     .scaledToFill()
                     .frame(width: 1.2 * vw, height: vh)
-                    .position(x: 1/2*vw, y: announcementGame ? 0.55*vh : 1.6*vh)
-                    .shadow(color: .black,radius: 40)
+                    .position(x: 1/2*vw, y: announcementGame ? 1.55*vh : 1.39*vh)
+                    .shadow(color: .black,radius: 30)
                 HStack{
                     Button("Announcement"){
                         withAnimation(.bouncy.speed(1.4)) {
-                            print("tes")
                             announcementGame = true
                             startTimer()
 //                            myCardPos = max(myCardPos - 1, 0)
@@ -158,45 +156,45 @@ struct TestGameView: View {
                 
                 //SELF'S CARDS
                 
-                RoundedRectangle(cornerRadius: 15)
-                    .strokeBorder(Color.black.opacity(0.7), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
-                    .frame(width: 170, height: 170*1.35)
-                    .foregroundColor(.clear)
-                    .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
-                ZStack(){
-                    HStack {
-                        ForEach(temptest.indices, id: \.self){ curCardIdIndice in
-                            CardComponent(
-                                width: 117,
-                                                           text: gameManager.playingCards[curCardIdIndice].text,
-                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
-                                backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum)
-                            )
-                        }
-                    }
-                    .gesture(
-                        DragGesture()
-                            .onEnded { gesture in
-                                if gesture.translation.width > 50 {
-                                    myCardPos = max(myCardPos - 1, 0)
-                                } else if gesture.translation.width < -50 {
-                                    myCardPos = min(myCardPos + 1, temptest.count)
-                                }
-                            }
-                    )
-//                    .padding(.leading, (vw/1.4) - CGFloat(myCardPos * 85))
-                    .frame(width: vw, alignment: .leading)
-                    .animation(.bouncy.speed(1.4), value: myCardPos)
-                    
-                }
-                
-                .position(x: vw/2, y: announcementRole ? 2*vh : 0.7*vh)
-                .animation(.bouncy.speed(0.5), value: announcementRole)
-                
-                Jempol(width: 153, height: 222)
-                    .frame(width: 70, height: 60)
-                    .position(x:vw/2.1, y: announcementGame ? 1.5*vh : 0.73*vh)
-                    .animation(.snappy.speed(0.4), value: announcementGame)
+//                RoundedRectangle(cornerRadius: 15)
+//                    .strokeBorder(Color.black.opacity(0.7), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
+//                    .frame(width: 170, height: 170*1.35)
+//                    .foregroundColor(.clear)
+//                    .position(x:vw/2, y: vmode == 0 || vmode == 1 ? 83.5/100*vh : 1.5*vh)
+//                ZStack(){
+//                    LazyVGrid(columns: columns, spacing: 16) {
+//                        ForEach(temptest.indices, id: \.self){ curCardIdIndice in
+//                            CardComponent(
+//                                width: 117,
+//                                                           text: gameManager.playingCards[curCardIdIndice].text,
+//                                                           indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
+//                                backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum)
+//                            )
+//                        }
+//                    }
+//                    .gesture(
+//                        DragGesture()
+//                            .onEnded { gesture in
+//                                if gesture.translation.width > 50 {
+//                                    myCardPos = max(myCardPos - 1, 0)
+//                                } else if gesture.translation.width < -50 {
+//                                    myCardPos = min(myCardPos + 1, temptest.count)
+//                                }
+//                            }
+//                    )
+////                    .padding(.leading, (vw/1.4) - CGFloat(myCardPos * 85))
+//                    .frame(width: vw, alignment: .leading)
+//                    .animation(.bouncy.speed(1.4), value: myCardPos)
+//                    
+//                }
+//                
+//                .position(x: vw/2, y: announcementRole ? 2*vh : 0.7*vh)
+//                .animation(.bouncy.speed(0.5), value: announcementRole)
+//                
+//                Jempol(width: 153, height: 222)
+//                    .frame(width: 70, height: 60)
+//                    .position(x:vw/2.1, y: announcementGame ? 1.5*vh : 0.73*vh)
+//                    .animation(.snappy.speed(0.4), value: announcementGame)
                 
 //                Rectangle()
 //                    .fill(Color.singElingLC90)
@@ -212,14 +210,32 @@ struct TestGameView: View {
 //                        }
 //                    )
                 
+                
+                ZStack {
+                    Image("Tangan_pembaca")
+                        .resizable()
+                        .scaledToFill()
+                        .position(x: 1/2*vw, y: announcementGame ? 1.55*vh : 0.3*vh)
+                        .frame(width:vw, height: 0.3*vh)
+                }
+                .frame(width: vw, height: vh)
+                
+                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                    .position(x:0.3*vw, y: announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
+                    .animation(.bouncy.speed(1.4), value: announcementRole)
+                
+                if announcementGame{
+                    CardThrowView(cardText: gameManager.readerCardText, cardNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                }
+
+                
                 Rectangle()
                     .fill(Color.singElingZ70)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y: 0.09*vh)
-//                    .animation(.default, value: gameManager.gameState.announcementGame)
                     .overlay(
                         HStack{
-                            Text("pembaca")
+                            Text("\(gameManager.gameState.players)")
                                 .font(.custom("Skrapbook", size: 32))
                                 .position(x: 0.5*vw, y: 0.09*vh)
                                 .foregroundColor(.white)
@@ -230,10 +246,24 @@ struct TestGameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
+                    .overlay{
+                        HStack{
+                            BackButtonComponent()
+                                .padding()
+                                
+                            Spacer()
+                            
+                            LeadingScoreComponent()
+                                .padding()
+                            
+                        }
+                        .frame(width: 0.9 * vw, height: 62)
+                        .position(x: 0.5*vw, y:0.03*vh)
+                    }
                 
                 HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
@@ -255,8 +285,6 @@ struct TestGameView: View {
                         self.pembacaTapped.toggle()
                     }
                     .animation(.bouncy.speed(0.6), value: pembacaTapped)
-                
-                
                 
                 
             }

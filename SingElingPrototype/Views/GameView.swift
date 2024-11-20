@@ -14,6 +14,7 @@ struct GameView: View {
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
+    @State private var showLeaveConfirmation = false
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
@@ -35,9 +36,11 @@ struct GameView: View {
                 gameManager.gameState.announcementRole = true
                 
             }
-            if roleTimer == 2{
-                playAnnounceSound()
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            if gameManager.gameState.winner_PID == nil{
+                if roleTimer == 2{
+                    playAnnounceSound()
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
             }
             if roleTimer == 3{
                 hintTapped = true
@@ -190,9 +193,35 @@ struct GameView: View {
                     .frame(width: 70, height: 60)
                     .position(x:vw/1.9, y: gameManager.gameState.announcementGame ? -145 : (vmode == 1 ? -145 : 8/100*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //OTHER'S CARDS
+                
+                
                 
                 
                 //SELF'S CARDS
+                ZStack {
+                    Image("Tangan_pemantau")
+                        .resizable()
+                        .scaledToFill()
+                        .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 0 ? 0.52*vh : 1.55*vh))
+                        .frame(height: 0.5*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+
+                }
+                .frame(width: vw, height: vh)
+                
+                ZStack {
+                    Image("Tangan_pembaca")
+                        .resizable()
+                        .scaledToFill()
+                        .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 2 ? 0.4*vh :1.55*vh))
+                        .frame(height: 0.3*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+
+                }
+                .frame(width: vw, height: vh)
+                
+                
                 RoundedRectangle(cornerRadius: 15)
                     .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
                     .frame(width: vmode == 2 ? 0 : 24, height: 244)
@@ -239,20 +268,36 @@ struct GameView: View {
                         }
                     }
                 }
-                .position(x: 0.7 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
+                .position(x: 0.5 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.7 * vh : 2 * vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 Jempol(width: 153, height: 222)
                     .frame(width: 70, height: 60)
                     .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.8*vh : 2.5*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //SELF'S CARDS
                 
                 
-                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true), action: {
+                //Button setuju yang dibawah
+                ZStack{
+                    Image(backgroundImageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 3*vh : (vmode == 1 ? 1.41*vh : 5*vh))
+                        .shadow(color: .black,radius: 30)
+                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+                        .ignoresSafeArea()
+                }
+                .frame(width: vw, height: vh)
+                
+                
+                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true)){
                     gameManager.makeGuess()
-                })
-                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 1.5*vh))
+                }
+                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.92*vh : 1.5*vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //Button setuju yang dibawah
                 
                 
                 
@@ -385,27 +430,67 @@ struct GameView: View {
                                         .fill(Color.singElingBlack)
                                 }
                             }
-                            
-                            Spacer().frame(height: 20)
-                            if isCurrentUserWinner {
-                                // Mainkan animasi confetti
-                                AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
-                                    .frame(width: 200, height: 200)
-                                    .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
-                                        if newValue != nil {
-                                            playWinnerSound()
-                                            playConfetti.toggle()
-                                        }
-                                    }
-                            }
                         }
-                        .padding()
+                        .frame(width: 0.9 * vw, height: 62)
+                        .position(x: 0.5*vw, y:0.03*vh)
+                    }
+                    
+                    if showLeaveConfirmation {
+                        LeaveConfirmationView(vw: vw, vh: vh,
+                                              onConfirm: {
+                            // Handle the leave action here
+                            showLeaveConfirmation = false
+                            gameManager.session.disconnect()
+                            gameManager.curView = 1
+                        },
+                                              onCancel: {
+                            // Handle cancellation
+                            showLeaveConfirmation = false
+                        }
+                        )
                         .frame(width: vw, height: vh)
                     }
                     
+                    
+                    
+                    ZStack {
+                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
+                        Image(backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color] ?? "SingElingDarkGreen")
+                            .resizable()
+                            .scaledToFill()
+                            .frame(width: 1.2*vw, height: vh)
+                            .position(x: vw/2, y: gameManager.gameState.winner_PID != nil ? 0.5*vh : 2*vh)
+                            .animation(.bouncy.speed(0.5), value: gameManager.gameState.winner_PID)
+                            .ignoresSafeArea()
+                        
+                        VStack {
+                            // Teks selamat dan nama pemenang
+                            Spacer()
+                            ZStack{
+                                AnnouncementJuaraComponent(playerColor: gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color.toColor(), playerName: gameManager.winnerName)
+                                    .frame(width: 270, height: 128)
+                                    .position(x:vw/2.15, y: gameManager.gameState.winner_PID != nil ? 26/100*vh : -145)
+                                    .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+                                
+                                if isCurrentUserWinner {
+                                    // Mainkan animasi confetti
+                                    AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
+                                        .frame(width: 200, height: 200)
+                                        .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
+                                            if newValue != nil {
+                                                playWinnerSound()
+                                                playConfetti.toggle()
+                                            }
+                                        }
+                                }
+                            }
+                            .padding()
+                            .frame(width: vw, height: vh)
+                        }
+                        
+                    }
+                    
                 }
-                
-                
                 
             }
             .frame(width: vw, height: vh)
