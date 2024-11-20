@@ -51,7 +51,6 @@ struct GameView: View {
                 hintTapped = false
                 penebakTapped = false
                 pembacaTapped = false
-                
                 gameManager.gameState.announcementRole = false
             }
             if roleTimer == 8{

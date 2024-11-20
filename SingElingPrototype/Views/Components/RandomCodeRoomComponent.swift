@@ -13,32 +13,30 @@ struct RandomCodeRoomComponent: View {
     @EnvironmentObject var gameManager: GameManager
     
     var body: some View {
-        VStack {
-            let columns = Array(repeating: GridItem(.flexible(), spacing: 20), count: 4)
-            
-            LazyVGrid(columns: columns, spacing: 20) {
-                ForEach(0..<4, id: \.self) { index in
-                    ZStack {
-                        RoundedRectangle(cornerRadius: 15)
-                            .stroke(Color.black, lineWidth: 3)
-                            .background(
-                                RoundedRectangle(cornerRadius: 15)
+        let columns = Array(repeating: GridItem(), count: 4)
+        
+        LazyVGrid(columns: columns, spacing: 0) {
+            ForEach(0..<4, id: \.self) { index in
+                ZStack {
+                    RoundedRectangle(cornerRadius: 15)
+                        .stroke(Color.black, lineWidth: 3)
+                        .background(
+                            RoundedRectangle(cornerRadius: 15)
 //                                    .fill(index < filledCount ? shuffledIcons[index].color : Color.clear)
-                                    .fill(index < filledCount ? shuffledIcons[index].color.toColor() : Color.clear)
-                            )
-                            .frame(width: 80, height: 80)
-                        
-                        if index < filledCount {
-                            Image(shuffledIcons[index].iconName)
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 40, height: 40)
-                        }
+                                .fill(index < filledCount ? shuffledIcons[index].color.toColor() : Color.clear)
+                        )
+                        .frame(width: 70, height: 70)
+                    
+                    if index < filledCount {
+                        Image(shuffledIcons[index].iconName)
+                            .resizable()
+                            .scaledToFit()
+                            .frame(width: 40, height: 40)
                     }
                 }
             }
-            .padding()
         }
+        .frame(width: 350, height: 60)
         .onAppear {
             startFillingBoxes()
         }
