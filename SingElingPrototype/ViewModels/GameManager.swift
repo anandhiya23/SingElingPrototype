@@ -26,7 +26,11 @@ class GameManager: NSObject, ObservableObject{
     @Published var myUsername: String!
     @Published var availablePeers: [MCPeerID] = []
     @Published var availablePeersWithCode: [(MCPeerID, String)] = []
-    @Published var myPID: Int = -1
+    var myPID: Int{
+        gameState.players.firstIndex(where: { player in
+            player.name == myUsername
+        })!
+    }
     @Published var myConnectivityStatus = 0
     @Published var myConnectivityType: ConnectivityType = .unknown
     @Published var curView: Int? = nil
@@ -218,7 +222,7 @@ class GameManager: NSObject, ObservableObject{
         serviceBrowser.delegate = self
         
         myConnectivityType = .host
-        myPID = 0
+//        myPID = 0
         
 //        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
         let color = playerColors[0]
@@ -764,7 +768,7 @@ extension GameManager: MCSessionDelegate {
             if let newGameCommand = receivedGameData.gameCommand{
                 switch newGameCommand.command{
                 case .assignPID:
-                    myPID = newGameCommand.intData!
+//                    myPID = newGameCommand.intData!
                     break
                 case .hideOthersCards:
                     if receivedGameData.gameCommand?.boolData ?? false{
