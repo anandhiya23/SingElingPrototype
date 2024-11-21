@@ -929,9 +929,11 @@ struct GamePlayTutorial: View {
             
             if gamePlayViewModel.vmode == 2 && gamePlayViewModel.isSuccessOverlayVisible {
                 SuccessOverlayView{
-                    
+                    if gamePlayViewModel.currentStage == .eleventhStage{
+                        gamePlayViewModel.nextStage()
+                                          gameManager.curView = 8
+                    }
                     gamePlayViewModel.nextStage()
-                    gameManager.curView = 8
                     
                 }
             }
