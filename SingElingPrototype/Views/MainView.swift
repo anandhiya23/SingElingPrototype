@@ -10,6 +10,8 @@ import SwiftUI
 
 struct MainView: View {
     @EnvironmentObject var gameManager: GameManager
+    @StateObject  var gamePlayViewModel = GamePlayViewModel()
+    
     var body: some View {
         switch gameManager.curView{
         case 1:
@@ -22,37 +24,44 @@ struct MainView: View {
             GameView()
         case 5:
             BintangDragDropView2()
+        case 6:
+            GamePlayTutorial()
+        case 7:
+            NameInputView()
         default:
             ZStack{
                 Image("OnBoardingBackground")
                     .resizable()
                     .scaledToFill()
                     .ignoresSafeArea()
-                
-                HStack {
-                    Spacer()
-                    
-                    TutorialButtonComponent(width: 170, height: 60) {
-                        //                        curView = 6
 
-                    }
-                    .padding()
-                    .padding(.top, 30)
-                }
-                .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .topTrailing)
-                
-                
-                VStack(spacing: 0){
-                    Text("Sing Eling")
-                        .font(.custom("skrapbook", size: 64))
-                        .foregroundColor(Color.singElingRB50)
+                VStack(alignment: .center){
+                    Image("LogoFinal")
+                        .resizable()
+                        .scaledToFit()
+                        .frame(width: 160, height: 160)
                         .padding()
                     
-                    Text("Yuk, isi nama mu!")
+                    Text("Yuk Kita Simak \nDulu tutorialnya!")
                         .font(.custom("skrapbook", size: 40))
-                        .foregroundColor(Color.singElingBlack)
-                        .padding()
-                    NameInputFormComponent()
+                        .foregroundColor(Color.singElingRB50)
+                        .multilineTextAlignment(.center)
+                    
+                    ButtonComponent(
+                        buttonModel: ButtonModel(button: .mauLihat),
+                        width: 190,
+                        height: 64,
+                        isButtonEnabled: .constant(true))
+                    {
+                        gameManager.curView = 6
+                    }
+                       
+                    
+                    .padding()
+                    
+                    ConfirmationButtonComponent(width: 205, height: 64, action: {
+                        gameManager.curView = 7
+                    })
                 }
             }
         }

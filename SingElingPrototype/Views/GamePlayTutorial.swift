@@ -10,6 +10,7 @@ import AVFoundation
 
 struct GamePlayTutorial: View {
     @StateObject  var gamePlayViewModel = GamePlayViewModel()
+    @EnvironmentObject var gameManager: GameManager
     
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
@@ -1105,13 +1106,6 @@ struct FailedOverlayView: View {
             .padding(.top, 170)
             
             VStack{
-//                ButtonComponent(
-//                    width: 190,
-//                    height: 64,
-//                    action: action,
-//                    isButtonEnabled: .constant(true),
-//                    buttonModel: ButtonModel(button: .lanjut)
-//                )
                 ButtonComponent(
                     buttonModel: ButtonModel(button: .lanjut),
                     width: 190,
@@ -1134,4 +1128,5 @@ struct FailedOverlayView: View {
         vw: 375,
         vh: 667
     )
+    .environmentObject(GameManager())
 }
