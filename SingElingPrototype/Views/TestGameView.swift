@@ -212,15 +212,15 @@ struct TestGameView: View {
                 
                 
                 ZStack {
-                    Image("Tangan_pembaca")
+                    Image("Tangan_pemantau")
                         .resizable()
                         .scaledToFill()
-                        .position(x: 1/2*vw, y: announcementGame ? 1.55*vh : 0.3*vh)
-                        .frame(width:vw, height: 0.3*vh)
+                        .position(x: 1/2*vw, y: announcementGame ? 1.55*vh : 0.54*vh)
+                        .frame(height: 0.55*vh)
                 }
                 .frame(width: vw, height: vh)
                 
-                CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                CardComponent(width: 133, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
                     .position(x:0.3*vw, y: announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: announcementRole)
                 
