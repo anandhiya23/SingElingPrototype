@@ -51,6 +51,7 @@ struct PlayingCard {
     var text: String
     var icon: String = ""
     var indexNum: Int = 30
+    var backgroundCard: String = ""
 }
 
 // MARK: - Player Struct
