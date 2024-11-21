@@ -251,8 +251,10 @@ struct GameView: View {
                             .onEnded { gesture in
                                 if gesture.translation.width > 50 {
                                     gameManager.myCardPosShiftRight()
+                                    kunciJawaban = false
                                 } else if gesture.translation.width < -50 {
                                     gameManager.myCardPosShiftLeft()
+                                    kunciJawaban = false
                                 }
                             }
                     )

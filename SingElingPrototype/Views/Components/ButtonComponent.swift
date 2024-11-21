@@ -36,7 +36,7 @@ struct ButtonComponent: View {
                           ? .singElingZ30
                           : (buttonModel.button == .yakin
                               ? .singElingZ50
-                              : (buttonModel.button == .tidak
+                              : (buttonModel.button == .tidak || buttonModel.button == .hapus
                                   ? .singPink
                                   : .white)))
                       : .singGray2)
@@ -71,7 +71,7 @@ struct ButtonComponent: View {
 
 #Preview {
     ButtonComponent(
-        buttonModel: ButtonModel(button: .tidak),
+        buttonModel: ButtonModel(button: .hapus),
         width: 190,
         height: 64,
         isButtonEnabled: .constant(true))
