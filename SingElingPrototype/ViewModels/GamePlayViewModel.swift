@@ -556,22 +556,6 @@ class GamePlayViewModel: ObservableObject {
         }
     }
     
-//    func validateAnswer() {
-//        // Log value of isAnswer to check the value when this function is called
-//        print("Validating Answer: \(self.isAnswer)")
-//        if isAnswer == 2 {
-//            isSuccessOverlayVisible = true
-//            isFailedOverlayVisible = false
-//            print("Answer is correct. Showing success overlay.")
-//        } else {
-//            isSuccessOverlayVisible = false
-//            isFailedOverlayVisible = true
-//        }
-//    }
-    
-    
-    
-    
     
     func enableButton() {
         isButtonEnabled = true
@@ -608,7 +592,8 @@ class GamePlayViewModel: ObservableObject {
             currentStage = .eleventhStage
         case .eleventhStage:
             isSuccessOverlayVisible = false
-            print("Moving to tenthStage")
+            
+            print("Moving to tutorial view")
         default:
             print("nextStage conditions not met. Current Stage: \(currentStage)")
         }
