@@ -14,6 +14,7 @@ struct GameView: View {
     @State var vw: CGFloat = 0
     @State var vh: CGFloat = 0
     @State private var animationCompleted: Bool = false
+    @State private var showLeaveConfirmation = false
     @State var myPID: Int = -1
     @State var playConfetti: Bool = false
     @State private var roleTimer: Int = 0
@@ -35,9 +36,11 @@ struct GameView: View {
                 gameManager.gameState.announcementRole = true
                 
             }
-            if roleTimer == 2{
-                playAnnounceSound()
-                UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+            if gameManager.gameState.winner_PID == nil{
+                if roleTimer == 2{
+                    playAnnounceSound()
+                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                }
             }
             if roleTimer == 3{
                 hintTapped = true
@@ -51,6 +54,7 @@ struct GameView: View {
                 hintTapped = false
                 penebakTapped = false
                 pembacaTapped = false
+                
                 gameManager.gameState.announcementRole = false
             }
             if roleTimer == 8{
@@ -60,6 +64,8 @@ struct GameView: View {
                 guesserName = gameManager.guesserName
                 resetTimer()
             }
+            
+            
         }
     }
     
@@ -153,9 +159,10 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                //                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
-                //                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
-                //                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
+                
+                StatementComponent(width: 300, statementRole: StatementRole(userRole: vmode == 0 ? .bystanderView: (vmode == 1 ? .penebakView : .pembacaView)))
+                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
+                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
                 
                 //OTHER'S CARDS
                 RoundedRectangle(cornerRadius: 15)
@@ -184,15 +191,39 @@ struct GameView: View {
                 .position(x:vw/2, y: gameManager.gameState.announcementGame ? -145 : (vmode == 1 ? -145 : 26/100*vh))
                 .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
                 
-                //TRIANGLE INDICATOR
                 Jempol(width: 135, height: 196)
                     .rotationEffect(Angle(degrees: 180))
                     .frame(width: 70, height: 60)
                     .position(x:vw/1.9, y: gameManager.gameState.announcementGame ? -145 : (vmode == 1 ? -145 : 8/100*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //OTHER'S CARDS
+
+                
                 
                 
                 //SELF'S CARDS
+                ZStack {
+                    Image("Tangan_pemantau")
+                        .resizable()
+                        .scaledToFill()
+                        .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 0 ? 0.54*vh : 1.55*vh))
+                        .frame(height: 0.55*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+
+                }
+                .frame(width: vw, height: vh)
+                
+                ZStack {
+                    Image("Tangan_pembaca")
+                        .resizable()
+                        .scaledToFill()
+                        .position(x: 1/2*vw, y: gameManager.gameState.announcementGame ? 1.55*vh : (vmode == 2 ? 0.4*vh :1.55*vh))
+                        .frame(height: 0.3*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+
+                }
+                .frame(width: vw, height: vh)
+                
                 RoundedRectangle(cornerRadius: 15)
                     .strokeBorder(Color.black.opacity(0.5), style: StrokeStyle(lineWidth: 4, lineCap: .round, dash: [10,13]))
                     .frame(width: vmode == 2 ? 0 : 24, height: 244)
@@ -239,21 +270,37 @@ struct GameView: View {
                         }
                     }
                 }
-                .position(x: 0.7 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
+                .position(x: 0.5 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.7 * vh : 2 * vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 Jempol(width: 153, height: 222)
                     .frame(width: 70, height: 60)
                     .position(x:vw/2.1, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.8*vh : 2.5*vh))
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                //SELF'S CARDS
+
                 
                 
-                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true), action: {
+                //Button setuju yang dibawah
+                ZStack{
+                    Image(backgroundImageName)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.announcementGame ? 2*vh : (vmode == 1 ? 1.41*vh : 2*vh))
+                        .shadow(color: .black,radius: 30)
+                        .animation(.bouncy.speed(1.4), value: gameManager.gameState.announcementGame)
+                        .ignoresSafeArea()
+                }
+                
+                
+                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true)){
                     gameManager.makeGuess()
-                })
-                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 1.5*vh))
+                }
+                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.92*vh : 1.5*vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-                
+                //Button setuju yang dibawah
+
                 
                 
                 
@@ -314,25 +361,17 @@ struct GameView: View {
                 
                 HintGameComponent(hintModel: HintModel(userRole: vmode == 0 ? .bystanderView : (vmode == 1 ? .penebakView : .pembacaView), readerName: "\(gameManager.gameState.players[gameManager.gameState.guesser_PID].name)"))
                     .frame(width: 180, height: 50)
-                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.18 * vh)
+                    .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {
                         self.hintTapped.toggle()
                     }
                     .animation(.bouncy.speed(0.6), value: hintTapped)
                 
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .guesser_PID].name, imageName: "fluent-emoji_speaking-head", newColor: penebakNewColor, changeColor: gameManager.gameState.announcementRole)
+                TurnDetailComponent(guesserName: vmode == 1 ? gameManager.gameState.players[gameManager.gameState
+                    .reader_PID].name : gameManager.gameState.players[gameManager.gameState
+                        .guesser_PID].name, imageName: vmode == 1 ? "Vector" :"fluent-emoji_speaking-head", newColor: vmode == 1 ? pembacaNewColor : penebakNewColor, changeColor: gameManager.gameState.announcementRole)
                 .frame(width: 140, height: 40)
                 .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
-                .onTapGesture {
-                    self.penebakTapped.toggle()
-                }
-                .animation(.bouncy.speed(0.6), value: penebakTapped)
-                
-                TurnDetailComponent(guesserName: gameManager.gameState.players[gameManager.gameState
-                    .reader_PID].name, imageName: "fluent-emoji_speaking-head", newColor: pembacaNewColor, changeColor: gameManager.gameState.announcementRole)
-                .frame(width: 140, height: 40)
-                .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.24*vh)
                 .onTapGesture {
                     self.penebakTapped.toggle()
                 }
@@ -342,51 +381,61 @@ struct GameView: View {
                     .fill(Color.singElingDS50)
                     .frame(width: vw, height: 62)
                     .position(x: 0.5*vw, y:0.03*vh)
-                if gameManager.gameState.winner_PID != nil{
-                    ZStack {
-                        // Latar belakang hijau, atau gunakan warna lain sesuai desain
-                        Color.singKrim
-                            .ignoresSafeArea()
-                        
-                        VStack {
-                            // Teks selamat dan nama pemenang
-                            Text("Selamat kepada")
-                                .font(.headline)
-                                .foregroundColor(Color.singElingBlack)
-                            
-                            Text(gameManager.winnerName)
-                                .bold()
-                                .font(.title)
-                                .foregroundColor(Color.singElingBlack)
-                            
-                            Text("5/5 Kartu")
-                                .foregroundColor(.gray)
-                            
-                            Spacer().frame(height: 20)
-                            
-                            // Tambahkan ikon trofi
-                            Image(systemName: "trophy.fill")
-                                .resizable()
-                                .scaledToFit()
-                                .frame(width: 100, height: 100)
-                                .foregroundColor(.yellow)
-                            
-                            Spacer().frame(height: 20)
-                            
-                            // Tombol hanya untuk host
-                            if gameManager.isHost {
-                                Button("Main Lagi") {
-                                    gameManager.startGame()  // Fungsi reset permainan
-                                }
+                    .overlay{
+                        HStack{
+                            BackButtonComponent()
                                 .padding()
-                                .foregroundColor(.white)
-                                .background {
-                                    RoundedRectangle(cornerRadius: 10)
-                                        .fill(Color.singElingBlack)
+                                .onTapGesture {
+                                    showLeaveConfirmation = true
                                 }
-                            }
                             
-                            Spacer().frame(height: 20)
+                            Spacer()
+                            
+                            LeadingScoreComponent(players: gameManager.gameState.players)
+                                .padding()
+                            
+                        }
+                        .frame(width: 0.9 * vw, height: 62)
+                        .position(x: 0.5*vw, y:0.03*vh)
+                    }
+                
+                if showLeaveConfirmation {
+                    LeaveConfirmationView(vw: vw, vh: vh,
+                        onConfirm: {
+                            // Handle the leave action here
+                            showLeaveConfirmation = false
+                            gameManager.session.disconnect()
+                            gameManager.curView = 1
+                        },
+                        onCancel: {
+                            // Handle cancellation
+                            showLeaveConfirmation = false
+                        }
+                    )
+                    .frame(width: vw, height: vh)
+                }
+                
+                
+                
+                ZStack {
+                    // Latar belakang hijau, atau gunakan warna lain sesuai desain
+                    Image(backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color] ?? "SingElingDarkGreen")
+                        .resizable()
+                        .scaledToFill()
+                        .frame(width: 1.2*vw, height: vh)
+                        .position(x: vw/2, y: gameManager.gameState.winner_PID != nil ? 0.5*vh : 2*vh)
+                        .animation(.bouncy.speed(0.5), value: gameManager.gameState.winner_PID)
+                        .ignoresSafeArea()
+                    
+                    VStack {
+                        // Teks selamat dan nama pemenang
+                        Spacer()
+                        ZStack{
+                            AnnouncementJuaraComponent(playerColor: gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color.toColor(), playerName: gameManager.winnerName)
+                                .frame(width: 270, height: 128)
+                                .position(x:vw/2.15, y: gameManager.gameState.winner_PID != nil ? 26/100*vh : -145)
+                                .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+                            
                             if isCurrentUserWinner {
                                 // Mainkan animasi confetti
                                 AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
@@ -398,12 +447,42 @@ struct GameView: View {
                                         }
                                     }
                             }
+                            
                         }
-                        .padding()
-                        .frame(width: vw, height: vh)
+                        Spacer()
+                        
+                        VStack{
+                            
+                            ButtonComponent(buttonModel: ButtonModel(button: .menuUtama), width: 200, height: 64, isButtonEnabled: .constant(true)){
+                                gameManager.session.disconnect()
+                                gameManager.curView = 1
+                            }
+                            .padding()
+                            .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
+                            .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+                            
+                            
+                            // Tombol hanya untuk host
+                            if gameManager.isHost {
+                                ButtonComponent(buttonModel: ButtonModel(button: .mainLagi), width: 200, height: 64, isButtonEnabled: .constant(true)){
+                                    gameManager.startGame()
+                                }
+                                .padding()
+                                .opacity(gameManager.gameState.winner_PID != nil ? 1 : 0)
+                                .animation(.bouncy.speed(0.8), value: gameManager.gameState.winner_PID)
+                                
+                            }
+                            
+                            Spacer()
+                        }
+                        
+                        Spacer()
                     }
-                    
+                    .padding()
+                    .frame(width: vw, height: vh)
                 }
+                
+                
                 
                 
                 
