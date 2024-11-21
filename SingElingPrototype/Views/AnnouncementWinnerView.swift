@@ -60,9 +60,9 @@ struct AnnouncementWinnerView: View {
                 ForEach(gameManager.playingCards.indices, id: \.self){ curCardIdIndice in
                     CardComponent(
                         width: 200,
-                        text: "\(gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum-1))",
+                        text: "\(gameManager.playingCards[curCardIdIndice].backgroundCard)",
                         indexNum: gameManager.playingCards[curCardIdIndice].indexNum,
-                        backgroundImage: gameManager.getBackground(for: gameManager.playingCards[curCardIdIndice].indexNum-1)
+                        backgroundImage: gameManager.playingCards[curCardIdIndice].backgroundCard
                     )
                 }
             }

@@ -220,12 +220,12 @@ struct TestGameView: View {
                 }
                 .frame(width: vw, height: vh)
                 
-                CardComponent(width: 133, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                CardComponent(width: 133, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.readerCardBackground)
                     .position(x:0.3*vw, y: announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
                     .animation(.bouncy.speed(1.4), value: announcementRole)
                 
                 if announcementGame{
-                    CardThrowView(cardText: gameManager.readerCardText, cardNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.getBackground(for: gameManager.readerCardIndexNum))
+                    CardThrowView(cardText: gameManager.readerCardText, cardNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.readerCardBackground)
                 }
 
                 

@@ -19,7 +19,7 @@ struct HintGameComponent: View {
                         .stroke(Color.black, lineWidth: 4) // Border color and width
                 )
             HStack{
-                Spacer().frame(width: 8)
+                Spacer()
                 Text(hintModel.text)
                     .font(.custom("Skrapbook", size: 16))
                     .foregroundColor(.black)

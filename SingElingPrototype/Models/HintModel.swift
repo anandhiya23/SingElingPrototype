@@ -18,7 +18,7 @@ struct HintModel {
          case .penebakView:
              return "Dengar dan Tebak\nUrutan Kartu!"
          case .bystanderView:
-             return "Dengar dan Pantau\nGerakan Kawanmu!"
+             return "Pantau Gerakan\n Kawanmu!"
          case .mainView:
              return "Buat ruang bermain baru atau \ngabung ruang temanmu!"
          case .createRoomView:
