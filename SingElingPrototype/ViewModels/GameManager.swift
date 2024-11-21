@@ -32,6 +32,7 @@ class GameManager: NSObject, ObservableObject{
     @Published var curView: Int? = nil
     @Published var hostRoomCode: [Int] = []
     @Published var guestRoomCode: [Int] = []
+    @Published var showDisconnectAlert: Bool = false
     
     //tambahin ini
     private let nameKey = "name"
@@ -220,7 +221,7 @@ class GameManager: NSObject, ObservableObject{
         myPID = 0
         
 //        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
-        let color = playerColors[Int.random(in: 0..<playerColors.count)]
+        let color = playerColors[0]
         
         // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
         let hostPlayer = Player(name: myPeerID.displayName, color: color)
@@ -362,138 +363,19 @@ extension GameManager{ //Game Functions
         let identifiers = selectedIcons.map { $0.iconID }
         let iconNames = selectedIcons.map { $0.iconName }
         
-        gameState.roomIdentifiers = identifiers
-        gameState.roomImages = iconNames
+//        gameState.roomIdentifiers = identifiers
+//        gameState.roomImages = iconNames
 
         print("Generated room code identifiers: \(identifiers)")
         print("Generated room images: \(iconNames)")
         
-        print("Sending room identifiers to guest: \(gameState.roomIdentifiers)")
+//        print("Sending room identifiers to guest: \(gameState.roomIdentifiers)")
         sendGameState(gameState)
     }
     
     func setGuestInputIdentifiers(_ identifiers: [Int]) {
         self.inputIdentifiers = identifiers
     }
-    
-//    func getIdentifier(for imageName: String?) -> Int? {
-//        guard let imageName = imageName else { return nil }
-//        if let index = gameState.roomImages.firstIndex(of: imageName) {
-//            // Ensure the index is valid for identifiers array
-//            if index < gameState.roomIdentifiers.count {
-//                return gameState.roomIdentifiers[index]
-//            } else {
-//                print("Index out of range for identifiers array")
-//                return nil
-//            }
-//        }
-//        print("Image name not found: \(imageName)")
-//        return nil
-//    }
-//    func getIdentifier(for iconID: Int?) -> Int? {
-//        guard let iconID = iconID else { return nil }
-//        
-//        // Cek apakah iconID ada dalam daftar roomIdentifiers
-//        if gameState.roomIdentifiers.contains(iconID) {
-//            return iconID // Jika iconID ditemukan, kembalikan iconID tersebut
-//        }
-//        
-//        // Jika tidak ditemukan, log error
-//        print("IconID not found: \(iconID)")
-//        return nil
-//    }
-
-    func getIdentifier(for iconID: Int) -> Int? {
-        // Pastikan iconID ditemukan dalam roomIdentifiers dan kembalikan identifier yang benar
-        if let index = gameState.roomIdentifiers.firstIndex(of: iconID) {
-            return gameState.roomIdentifiers[index]
-        } else {
-            print("IconID not found: \(iconID)") // Debugging
-            return nil
-        }
-    }
-
-    
-    //    func validateGuestCode(inputColors: [Color], inputImages: [String]) -> Bool {
-    func validateGuestCode() -> Bool {
-        //         guard inputColors.count == 4 && inputImages.count == 4 else {
-        //             print("Error: panjang array input tidak valid.")
-        //             return false
-        //         }
-        //
-        ////         // Konversi CodableColor ke Color untuk validasi
-        ////         let generatedColors = gameState.roomColors.map { $0.toColor() }
-        ////
-        ////         // Bandingkan input dari guest dengan kode room yang sudah dihasilkan oleh host
-        ////         if inputColors == generatedColors && inputImages == gameState.roomImages {
-        ////             print("Kode room guest valid!")
-        ////             return true
-        ////         } else {
-        ////             print("Kode room guest tidak valid.")
-        ////             return false
-        ////         }
-        //        // Dapatkan warna dan gambar yang telah dihasilkan oleh host dari gameState
-        //        let generatedColors = gameState.roomColors.map { $0.toColor() }
-        //        let generatedImages = gameState.roomImages
-        //
-        //        // Debug: Tampilkan warna dan gambar yang dihasilkan oleh host
-        //        print("Generated colors for validation:", generatedColors)
-        //        print("Generated images for validation:", generatedImages)
-        //        print("Input colors:", inputColors)
-        //        print("Input images:", inputImages)
-        //
-        //        // Validasi kode room berdasarkan input guest dengan data host
-        //        let colorsMatch = inputColors == generatedColors
-        //        let imagesMatch = inputImages == generatedImages
-        //
-        //        if colorsMatch && imagesMatch {
-        //            print("Kode room guest valid!")
-        //            return true
-        //        } else {
-        //            print("Kode room guest tidak valid.")
-        //            return false
-        //        }
-        // Warna dan gambar yang di-set secara manual untuk sementara
-//        let testInputColors: [Color] = [.singElingLC10, .singElingLC50, .singElingZ50, .singElingPG50]
-//        let testInputImages: [String] = ["tree", "flower", "mask", "sword"]
-//        
-//        // Konversi `roomColors` dari `gameState` agar sesuai dengan format warna untuk perbandingan
-//        let generatedColors = gameState.roomColors.map { $0.toColor() }
-//        print("Generated colors for validation: \(generatedColors)")
-//        print("Generated images for validation: \(gameState.roomImages)")
-//        print("Test Input colors: \(testInputColors)")
-//        print("Test Input images: \(testInputImages)")
-//        
-//        // Bandingkan `testInputColors` dan `testInputImages` langsung
-//        print("ROOM IMAGES: \(gameState.roomImages)")
-//        print("ROOM COLORS: \(gameState.roomColors)")
-//        if testInputImages == gameState.roomImages {
-//            print("Kode room guest valid!")
-//            return true
-//        } else {
-//            print("Kode room guest tidak valid.")
-//            return false
-//        }
-        guard isHost else {
-            print("Only the host can validate the room code.")
-            return false
-        }
-        
-        // Compare guest input identifiers to the stored room code identifiers
-        if inputIdentifiers == gameState.roomIdentifiers {
-            print("Guest room code is valid!")
-            return true
-        } else {
-            print("Guest room code is invalid.")
-            return false
-        }
-    }
-    
-//    func receiveGameState() {
-//         // Menunggu data gameState dari host (misalnya menggunakan notification atau delegasi)
-//         // Di sini, Anda bisa mengupdate gameState dan roomIdentifiers pada guest
-//         gameManager.gameState = receivedGameState
-//     }
     
     //MARK: - Host Only Functions
     func startGame(){
@@ -509,9 +391,6 @@ extension GameManager{ //Game Functions
             gameState.availablePlayingCards_CID.removeFirst(STARTING_CARDS_AMMOUNT)
             gameState.players[PID].cardPos = 0
             gameState.players[PID].point = 0
-            print(PID)
-            print(gameState.players[PID].name)
-            print(gameState.players[PID].playingCards_CID)
         }
         gameState.winner_PID = nil
         gameState.readerCard_CID = gameState.availablePlayingCards_CID[0]
@@ -600,27 +479,7 @@ extension GameManager{ //Game Functions
 //MARK: - MC FUNCTIONS
 extension GameManager{
     
-//    func save(name: String) {
-//        //        UserDefaults.standard.set(name, forKey: )
-//        //        self.usernames = name
-//        //        print("save username berhasil")
-//        //        self.usernames.append(name)
-//        self.username = name
-//        
-//        // Simpan array usernames ke UserDefaults
-//        //        UserDefaults.standard.set(usernames, forKey: nameKey)
-//        print("save username berhasil")
-//    }
     func sendGameState(_ gameState: GameState) {
-//        if !session.connectedPeers.isEmpty {
-//            log.info("send GameState to connected peers")
-//            do {
-//                let encoder = JSONEncoder()
-//                try session.send(encoder.encode(SendableGameData(type: .gameState, gameState: gameState, sender_PID: myPID)), toPeers: session.connectedPeers, with: .reliable) //ini tadinya unreliable
-//            } catch {
-//                log.error("Error sending: \(String(describing: error))")
-//            }
-//        }
         // Pastikan ada peers yang terhubung
         if !session.connectedPeers.isEmpty {
             log.info("Sending GameState to connected peers.")
@@ -633,7 +492,7 @@ extension GameManager{
                 let encoder = JSONEncoder()
                 let encodedData = try encoder.encode(sendableData)
                 
-                print("Host is sending gameState with room identifiers: \(gameState.roomIdentifiers)")
+//                print("Host is sending gameState with room identifiers: \(gameState.roomIdentifiers)")
                 
                 // Kirimkan data yang telah diencode ke peers yang terhubung
                 try session.send(encodedData, toPeers: session.connectedPeers, with: .reliable)
@@ -647,8 +506,6 @@ extension GameManager{
             log.warning("No peers connected. Unable to send GameState.")
         }
     }
-    
-    //tambahin disini
     
     func sendRoomIconsToPeers() {
         do {
@@ -712,7 +569,6 @@ extension GameManager: MCNearbyServiceAdvertiserDelegate {
             //TODO: Use alerts when joining and affirming to invitations
             invitationHandler(true, self.session)
         }
-//        self.receiveGameState()
     }
 
     
@@ -766,16 +622,15 @@ extension GameManager: MCSessionDelegate {
         switch state {
         case MCSessionState.notConnected: //JUST DISCONNECTED <<<<<<<<<<<<<<<<<<<<<<<<<
             // Peer disconnected
-            DispatchQueue.main.async {
-                //                self.paired = false
-            }
-            // Peer disconnected, start accepting invitations again
-            if isHost {
-                
-            } else {
-                log.info("Attempting to re-advertise as \(peerID.displayName)")
-                self.stopAdvertisementRetry() // Cancel any existing retry timer before starting a new one
-                self.startAdvertisementRetry() // Start a repeating timer to re-advertise every 4 seconds
+            DispatchQueue.main.async { [self] in
+                if isHost {
+                    
+                } else {
+                    log.info("Attempting to re-advertise as \(peerID.displayName)")
+                    stopAdvertisementRetry() // Cancel any existing retry timer before starting a new one
+                    startAdvertisementRetry() // Start a repeating timer to re-advertise every 4 seconds
+                    showDisconnectAlert = true
+                }
             }
             break
             
@@ -786,14 +641,11 @@ extension GameManager: MCSessionDelegate {
                     sendGameState(gameState)
                 }else{
                     DispatchQueue.main.async{ [self] in
-                        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
-                        let color = playerColors[Int.random(in: 0..<playerColors.count)]
+//                        let backgroundImage = backgroundImages[gameState.players.count]
+                        let color = playerColors[gameState.players.count]
                               
                         sendGameCommand(GameCommand(.assignPID, intData: gameState.players.count), to: peerID)
                         gameState.players.append(Player(name: peerID.displayName, color: color))
-
-
-//                        gameState.players.append(Player(name: peerID.displayName, backgroundImage: backgroundImages[Int.random(in: 0..<backgroundImages.count)]))
                         sendGameState(gameState)
                     }
                 }
@@ -814,7 +666,7 @@ extension GameManager: MCSessionDelegate {
             DispatchQueue.main.async {
                 //                self.paired = false
             }
-//            break
+            break
         }
     }
     
