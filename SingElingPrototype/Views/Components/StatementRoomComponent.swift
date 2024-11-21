@@ -100,7 +100,6 @@ struct StatementRoomComponent: View {
                 .foregroundColor(Color.singElingBlack)
                 .tracking(2)
                 .offset(x: 1, y: 1)
-            // Teks utama dengan warna yang diinginkan
             Text(text)
                 .font(.custom("Skrapbook", size: fontSize))
                 .foregroundColor(.singElingPG50)

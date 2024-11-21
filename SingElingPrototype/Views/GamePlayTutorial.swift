@@ -18,9 +18,12 @@ struct GamePlayTutorial: View {
     
     @State var isSuccessOverlayVisible = false
     @State var isFailedOverlayVisible = false
+    @State private var shouldNavigateToOnboarding = false
     
     var body: some View {
         GeometryReader { geom in
+            
+            
             ZStack {
                 let imageFrame = geom.size.width * 2
                 let imageHeight = geom.size.height * 0.32
@@ -96,17 +99,6 @@ struct GamePlayTutorial: View {
                         }
                     }
                 
-                // Button component
-                //                                ButtonComponent(width: 164, height: 64, action: {
-                //                                    print("Guess action triggered")
-                //                                }, buttonModel: ButtonModel(button: .mauLihat))
-                //                                .position(x: gamePlayViewModel.vw * 0.5, y: gamePlayViewModel.announcementGame ? 1.5 * vh : (gamePlayViewModel.vmode == 1 ? 0.9 * vh : 1.5 * vh))
-                //                                .animation(.bouncy.speed(0.5), value: gamePlayViewModel.announcementGame)
-                
-                //                CardComponent(width: 220, text: "Sample Reader Card Text", indexNum: 1)
-                //                    .position(x: 1/2 * vw, y: announcementRole ? (vmode == 2 ? midCardY : 2 * vh) : (vmode == 2 ? midCardY : 2 * vh))
-                //                    .animation(.bouncy.speed(1.4), value: announcementRole)
-                
                 if gamePlayViewModel.guesserName != "" {
                     if gamePlayViewModel.isCorrect {
                         Rectangle()
@@ -148,13 +140,13 @@ struct GamePlayTutorial: View {
                     .animation(.default, value: gamePlayViewModel.announcementGame) // Animasi ketika `announcementGame` berubah
                     .overlay(
                         HStack {
-                                                        Text(
-                                                            gamePlayViewModel.vmode == 0 ? "Penebak" :
-                                                                (gamePlayViewModel.vmode == 1 ? "Anda salah menebak" : "Anda berhasil menebak")
-                                                        )
-                                .font(.custom("Skrapbook", size: 32)) // Menggunakan font kustom
-                                .position(x: 0.5 * vw, y: gamePlayViewModel.announcementGame ? 0.03 * vh : 0.09 * vh)
-                                .foregroundColor(.singElingBlack)
+                            Text(
+                                gamePlayViewModel.vmode == 0 ? "Penebak" :
+                                    (gamePlayViewModel.vmode == 1 ? "Anda salah menebak" : "Anda berhasil menebak")
+                            )
+                            .font(.custom("Skrapbook", size: 32)) // Menggunakan font kustom
+                            .position(x: 0.5 * vw, y: gamePlayViewModel.announcementGame ? 0.03 * vh : 0.09 * vh)
+                            .foregroundColor(.singElingBlack)
                         }
                         
                     )
@@ -187,13 +179,13 @@ struct GamePlayTutorial: View {
                                     .offset(y: gamePlayViewModel.isCardAnimated ? 0 : UIScreen.main.bounds.height)
                                     .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isBothCardsCentered)
                             }
-                                                        .onAppear {
-                                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
-                                                                withAnimation(.easeOut(duration: 1.0)) {
-                                                                    gamePlayViewModel.isCardAnimated = true
-                                                                }
-                                                            }
-                                                        }
+                            .onAppear {
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+                                    withAnimation(.easeOut(duration: 1.0)) {
+                                        gamePlayViewModel.isCardAnimated = true
+                                    }
+                                }
+                            }
                             
                             
                             VStack{
@@ -232,14 +224,14 @@ struct GamePlayTutorial: View {
                     ? vh + 150
                     : (gamePlayViewModel.isFirstTextAnimated ? targetPositionY : -100)
                 )
-                                .onAppear {
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
-                                        withAnimation(.easeOut(duration: 1.0)) {
-                                            gamePlayViewModel.isFirstTextAnimated = true
-                                        }
-                                    }
-                
-                                }
+                .onAppear {
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 4) {
+                        withAnimation(.easeOut(duration: 1.0)) {
+                            gamePlayViewModel.isFirstTextAnimated = true
+                        }
+                    }
+                    
+                }
                 
                 .onChange(of: gamePlayViewModel.isFirstTextAnimated) { animated in
                     if animated {
@@ -337,45 +329,39 @@ struct GamePlayTutorial: View {
                                 .frame(width: 150, height: 250)
                                 .position(
                                     x: gamePlayViewModel.isCardLeftAnimated
-                                    ? 0.26 * vw // Posisi kiri jika isCardLeftAnimated = true
+                                    ? 0.26 * vw
                                     : (gamePlayViewModel.isCardRightAnimated
-                                       ? 0.74 * vw // Posisi kanan jika isCardRightAnimated = true
+                                       ? 0.74 * vw
                                        : (gamePlayViewModel.isFirstCenterAnimated
-                                          ? 0.26 * vw // Posisi kiri jika isFirstCenterAnimated = true
+                                          ? 0.26 * vw
                                           : (gamePlayViewModel.isSecondCenterAnimated
-                                             ? 0.74 * vw // Posisi kanan jika isSecondCenterAnimated = true
-                                             : 0.5 * vw // Posisi tengah (default)
+                                             ? 0.74 * vw
+                                             : 0.5 * vw
                                             )
                                          )
                                       ),
-                                    y: gamePlayViewModel.isThirdAnimated ? yPos * 0.4 : yPos * 1.1 //atas bawah
+                                    y: gamePlayViewModel.isThirdAnimated ? yPos * 0.4 : yPos * 1.1
                                 )
-                            //                            .offset(gamePlayViewModel.dragOffset)
                                 .offset(y: gamePlayViewModel.isCardFourthAnimated ? 0 : UIScreen.main.bounds.height)
                                 .gesture(
-                                    gamePlayViewModel.currentStage == .eighthStage ? // Gesture hanya aktif di eighthStage
+                                    gamePlayViewModel.currentStage == .eighthStage ?
                                     DragGesture()
                                         .onChanged { value in
-                                            // Perbarui offset sementara saat kartu diseret
                                             gamePlayViewModel.dragOffset = value.translation
                                         }
                                         .onEnded { value in
-                                            // Tentukan posisi akhir berdasarkan arah geser
                                             if value.translation.width < -100 {
-                                                // Geser ke kiri
                                                 gamePlayViewModel.isCardLeftAnimated = true
                                                 gamePlayViewModel.isCardRightAnimated = false
                                             } else if value.translation.width > 100 {
-                                                // Geser ke kanan
                                                 gamePlayViewModel.isCardLeftAnimated = false
                                                 gamePlayViewModel.isCardRightAnimated = true
                                             }
                                             
-                                            // Reset drag offset
                                             withAnimation {
                                                 gamePlayViewModel.dragOffset = .zero
                                             }
-                                        } : nil // Tidak ada gesture di stage lain
+                                        } : nil
                                 )
                                 .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isCardFourthAnimated || gamePlayViewModel.isSecondCenterAnimated || gamePlayViewModel.isThirdAnimated || gamePlayViewModel.isCardLeftAnimated || gamePlayViewModel.isCardRightAnimated)
                         }
@@ -436,12 +422,12 @@ struct GamePlayTutorial: View {
                 }
                 .position(
                     x: gamePlayViewModel.isArrowLineDisappearing
-                    ? 5 * vw // Bergerak jauh ke kanan jika menghilang
+                    ? 5 * vw
                     : (gamePlayViewModel.isFirstCenterAnimated
-                       ? 0.1 * vw // Posisi kiri
+                       ? 0.1 * vw
                        : (gamePlayViewModel.isSecondCenterAnimated
-                          ? 0.95 * vw // Posisi kanan
-                          : 0.5 * vw)), // Posisi tengah
+                          ? 0.95 * vw
+                          : 0.5 * vw)),
                     y: gamePlayViewModel.isArrowLineDisappearing ? targetPositionY - 50 : (gamePlayViewModel.isArrowLineAnimated ? targetPositionY : -100))
                 .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isFirstCenterAnimated || gamePlayViewModel.isSecondCenterAnimated)
                 .onChange(of: gamePlayViewModel.isArrowLineAnimated) { animated in
@@ -455,8 +441,8 @@ struct GamePlayTutorial: View {
                         Dropzone(width: 30, height: 300, lineWidth: 4)
                             .position(
                                 x: 0.2 * vw,
-                                y: yPos * 4.7)  // Posisi DropZone 1
-                            .opacity(1)  // Tampilkan DropZone 1
+                                y: yPos * 4.7)
+                            .opacity(1)
                             .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isFirstDropZoneShow)
                             .onChange(of: gamePlayViewModel.isFirstDropZoneShow) { animated in
                                 if animated{
@@ -467,8 +453,8 @@ struct GamePlayTutorial: View {
                         Dropzone(width: 30, height: 300, lineWidth: 4)
                             .position(
                                 x: (gamePlayViewModel.isFirstCenterAnimated || gamePlayViewModel.isSecondCenterAnimated)
-                                ? 0.5 * vw // Posisi sama jika salah satu kondisi true
-                                : 0.8 * vw, // Posisi default jika kedua kondisi false
+                                ? 0.5 * vw
+                                : 0.8 * vw,
                                 y: gamePlayViewModel.isThirdAnimated ? yPos * 4 : yPos * 4.7)
                             .opacity(1)
                             .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isSecondDropZoneShow)
@@ -549,7 +535,6 @@ struct GamePlayTutorial: View {
                 }
                 
                 ZStack {
-                    // Telunjuk
                     if gamePlayViewModel.isTelunjukTapRightAnimated{
                         if !gamePlayViewModel.isTapped {
                             Image("Telunjuk")
@@ -561,7 +546,6 @@ struct GamePlayTutorial: View {
                                 .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isTelunjukTapLeftAnimated)
                         }
                         
-                        // TelunjukTap
                         if gamePlayViewModel.isTapped {
                             Image("TelunjukTap")
                                 .resizable()
@@ -581,7 +565,7 @@ struct GamePlayTutorial: View {
                 .onDisappear {
                     gamePlayViewModel.stopTelunjukAnimation()
                 }
-
+                
                 if gamePlayViewModel.currentStage == .ninthStage {
                     ZStack {
                         RoundedRectangle(cornerRadius: 16)
@@ -788,7 +772,6 @@ struct GamePlayTutorial: View {
                                 y: yPos * 4.36
                             )
                             .padding()
-                        //                            .zIndex(0)
                             .offset(y: gamePlayViewModel.isFourCardAtTenthStageAnimated ? 0 : UIScreen.main.bounds.height + 50)
                     }
                     .position(
@@ -818,8 +801,8 @@ struct GamePlayTutorial: View {
                         ? yPos * 4.65 // Posisi naik lebih tinggi
                         : (gamePlayViewModel.isFourCardAtTenthStageAnimated ? yPos * 5 : UIScreen.main.bounds.height * 0)
                     )
-                                            .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtTenthStageAnimated)
-                                            .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtEleventhStageAnimated)
+                    .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtTenthStageAnimated)
+                    .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtEleventhStageAnimated)
                     .onAppear {
                         DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation(.easeOut(duration: 1.0)) {
@@ -832,10 +815,17 @@ struct GamePlayTutorial: View {
                         if isAnimated {
                             // Animasi pembesaran kartu
                             withAnimation(.easeInOut(duration: 2.0)) {
-                               print("animasi kartu")
+                                print("animasi kartu")
                             }
                         }
                     }
+                    
+                    .onChange(of: gamePlayViewModel.isButtonClicked) { newValue in
+                        if newValue && gamePlayViewModel.currentStage == .eleventhStage && gamePlayViewModel.isAnswer == 2 {
+                            shouldNavigateToOnboarding = true
+                        }
+                    }
+                    
                     
                     if gamePlayViewModel.isFourCardAtEleventhStageAnimated || gamePlayViewModel.currentStage == .eleventhStage {
                         VStack {
@@ -853,9 +843,9 @@ struct GamePlayTutorial: View {
                                 }
                             }
                         }
-
+                        
                         test()
-                        .environmentObject(gamePlayViewModel)
+                            .environmentObject(gamePlayViewModel)
                         
                         Jempol(width: 135, height: 196)
                             .frame(width: 70, height: 60)
@@ -874,19 +864,12 @@ struct GamePlayTutorial: View {
                                 }
                             }
                             .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isThumbLastAnimated)
-
-                        
                         
                     }
                     
                     
                     if  gamePlayViewModel.isButtonClicked && gamePlayViewModel.currentStage == .eleventhStage{
                         if gamePlayViewModel.isAnswer == 2 {
-                            SuccessOverlayView {
-                                print("di game tutorial success")
-                                gamePlayViewModel.isButtonClicked = false
-                               
-                            }
                         } else if gamePlayViewModel.isAnswer == 1 {
                             FailedOverlayView {
                                 print("di game tutorial failed")
@@ -894,9 +877,8 @@ struct GamePlayTutorial: View {
                             }
                         }
                     }
-
                 }
-
+                
                 ZStack{
                     Image("Tiker Abu Terang")
                     
@@ -907,13 +889,13 @@ struct GamePlayTutorial: View {
                         .shadow(color: .singGray, radius: 1, x: 0, y: 1)
                     
                     if gamePlayViewModel.currentStatusButton != nil{
-                        // Gunakan StatusButtonComponent jika `currentStatusButton` ada nilainya
                         StatusButtonComponent(
                             width: 164,
                             height: 64,
                             action: {
                                 
                                 gamePlayViewModel.buttonPressed()
+                                
                             },
                             isButtonEnabled: $gamePlayViewModel.isButtonEnabled,
                             statusButtonModel: gamePlayViewModel.currentStatusButton!
@@ -921,18 +903,6 @@ struct GamePlayTutorial: View {
                         .position(x: vw / 2, y: vh + 40)
                     }
                     else {
-                        // Gunakan ButtonComponent jika `currentStatusButton` tidak diatur
-//                        ButtonComponent(
-//                            width: 190,
-//                            height: 64,
-//                            action: {
-//                                gamePlayViewModel.buttonPressed()
-//                            },
-//                            isButtonEnabled: $gamePlayViewModel.isButtonEnabled,
-//                            buttonModel: gamePlayViewModel.currentButton
-//                        )
-                        
-                        //INI DIUBAH
                         ButtonComponent(
                             buttonModel: ButtonModel(button: .lanjut),
                             width: 190,
@@ -959,7 +929,10 @@ struct GamePlayTutorial: View {
             
             if gamePlayViewModel.vmode == 2 && gamePlayViewModel.isSuccessOverlayVisible {
                 SuccessOverlayView{
+                    
                     gamePlayViewModel.nextStage()
+                    gameManager.curView = 8
+                    
                 }
             }
             else if gamePlayViewModel.vmode == 1 && gamePlayViewModel.isFailedOverlayVisible{
@@ -1049,13 +1022,6 @@ struct SuccessOverlayView: View {
             .padding(.top, 170)
             
             VStack{
-//                ButtonComponent(
-//                    width: 190,
-//                    height: 64,
-//                    action: action,
-//                    isButtonEnabled: .constant(true),
-//                    buttonModel: ButtonModel(button: .lanjut)
-//                )
                 ButtonComponent(
                     buttonModel: ButtonModel(button: .lanjut),
                     width: 190,
@@ -1072,7 +1038,7 @@ struct SuccessOverlayView: View {
 }
 
 struct FailedOverlayView: View {
-    var action: () -> Void // Aksi yang dijalankan saat tombol ditekan
+    var action: () -> Void
     @StateObject  var gamePlayViewModel = GamePlayViewModel()
     
     var body: some View {

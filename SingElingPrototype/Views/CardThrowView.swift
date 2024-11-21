@@ -44,7 +44,6 @@ struct CardThrowView: View {
                 self.tampilKartu = true
             }
             if roleTimer1 == 2{
-//                playAnnounceSound()
                 self.putarKartu = true
 
             }

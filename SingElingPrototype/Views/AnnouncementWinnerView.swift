@@ -67,48 +67,6 @@ struct AnnouncementWinnerView: View {
                 }
             }
         }
-        
-        //        ZStack {
-        //            // Latar belakang hijau, atau gunakan warna lain sesuai desain
-        //
-        //            VStack {
-        //                Spacer()
-        //                // Teks selamat dan nama pemenang
-        //                AnnouncementJuaraComponent(playerColor: winnerColor, playerName: winnerName)
-        //                    .frame(width: 270, height: 128)
-        //                    .position(x:402/2.15, y: !announcementWinner ? 26/100*874 : -250)
-        //                    .animation(.bouncy.speed(0.5), value: announcementWinner)
-        //
-        //
-        //                Spacer()
-        //                if isHost{
-        //                    ButtonComponent(buttonModel: ButtonModel(button: .mainLagi), width: 200, height: 64){
-        //                        print("Button tapped")
-        //                    }
-        //                }
-        //                Spacer()
-        //
-        //
-        ////                Spacer().frame(height: 20)
-        //                //                if isCurrentUserWinner {
-        //                //                    // Mainkan animasi confetti
-        //                //                    AnimationView(name: "congrats-confetti", animationSpeed: 0.5, loopMode: .playOnce, play: $playConfetti)
-        //                //                        .frame(width: 200, height: 200)
-        //                //                        .onChange(of: gameManager.gameState.winner_PID){ oldValue, newValue in
-        //                //                            if newValue != nil {
-        //                //                                playWinnerSound()
-        //                //                                playConfetti.toggle()
-        //                //                            }
-        //                //                        }
-        //                //                }
-        //            }
-        //            .padding()
-        //            //            .frame(width: vw, height: vh)
-        //        }
-        ////        .onAppear{
-        ////            self.announcementWinner = true
-        ////        }
-        //    }
     }
 }
 

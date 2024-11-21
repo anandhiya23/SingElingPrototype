@@ -47,37 +47,11 @@ struct HostGenerateRoomView: View {
             
             VStack(spacing: 20) {
                 Spacer()
-//                StatementRoomComponent(width: 300, roomCondition: .createRoomCondition)
-//                    .padding(.top, 100)
                 
                 HintComponent(hintModel: HintModel(userRole: .createRoomView, readerName: ""), width: 300)
                 
                 RandomCodeRoomComponent()
                     .padding(.top, 50)
-
-//                    RoundedRectangle(cornerRadius: 12)
-//                        .fill(Color.singElingLC10)
-//                        .frame(width: 340, height: 80)
-//                        .overlay {
-//                            HStack{
-//                                Text("Atur giliran mainmu yuk!")
-//                                    .font(.custom("skrapbook", size: 30))
-//                                    .multilineTextAlignment(.center)
-//                            }
-//                            .padding(.horizontal,10)
-//                        }
-//                        RoundedRectangle(cornerRadius: 12)
-//                            .fill(Color.singElingLC10)
-//                            .frame(width: 340, height: 80)
-//                            .overlay {
-//                                HStack{
-//                                    Image("lucide_list-ordered")
-//                                    Text("Susun urutan giliran main sesuai dengan geser dan lepas!")
-//                                        .font(.custom("skrapbook", size: 18))
-//                                        .multilineTextAlignment(.center)
-//                                }
-//                                .padding(.horizontal,10)
-//                            }
                     
                     HStack(alignment: .top){
                         VStack{
@@ -166,18 +140,6 @@ struct HostGenerateRoomView: View {
                     .frame(height: 140)
                 }
                 
-                
-                
-//                Spacer()
-                
-//                Rectangle()
-//                    .fill(Color.singElingLC50)
-//                    .frame(height: 130)
-//                    .overlay(
-//                        ButtonComponent(width: 164, height: 64, action: {
-//                            gameManager.curView = 5
-//                            
-//                        }, buttonModel: ButtonModel(button: .lanjut))                    )
             }
             .ignoresSafeArea()
             .onChange(of: gameManager.gameState.isPlaying) { oldValue, newValue in
@@ -197,7 +159,5 @@ struct HostGenerateRoomView: View {
         .onAppear{
             gameManager.myUsername = "tess"
             gameManager.gameState.players.append(Player())
-//            gameManager.gameState.players.append(Player())
-//            gameManager.gameState.players.append(Player())
         }
 }

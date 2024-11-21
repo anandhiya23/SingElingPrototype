@@ -52,7 +52,6 @@ class GameManager: NSObject, ObservableObject{
     //background image berdasarkan user
     let backgroundImages = ["Tikar Biru", "Tikar Hijau", "Tikar Merah", "Tikar Oren"]
     
-//    let playerColors = [CodableColor(color: .orange), CodableColor(color: .blue), CodableColor(color: .green), CodableColor(color: .pink)]
     
     var isConnected: Bool{
         self.myConnectivityStatus == 1 && self.myConnectivityType != .unknown
@@ -195,7 +194,6 @@ class GameManager: NSObject, ObservableObject{
         CodableColor(color: .singElingDSB50): "Tikar Biru"
     ]
     
-    // Fungsi untuk mendapatkan gambar background dari warna pemain
     func getBackgroundImage(for color: CodableColor) -> String {
         return backgroundImageMapping[color] ?? "SingElingDarkGreen" 
     }
@@ -220,12 +218,8 @@ class GameManager: NSObject, ObservableObject{
         serviceBrowser.delegate = self
         
         myConnectivityType = .host
-//        myPID = 0
-        
-//        let backgroundImage = backgroundImages[Int.random(in: 0..<backgroundImages.count)]
         let color = playerColors[0]
         
-        // Tambahkan pemain host dengan gambar latar belakang dan warna yang dipilih
         let hostPlayer = Player(name: myPeerID.displayName, color: color)
         gameState.players.append(hostPlayer)
         
@@ -234,7 +228,7 @@ class GameManager: NSObject, ObservableObject{
 }
 
 //MARK: - GAME FUNCTIONS
-extension GameManager{ //Game Functions
+extension GameManager{
     var isGuesser: Bool{
         self.gameState.guesser_PID == self.myPID
     }

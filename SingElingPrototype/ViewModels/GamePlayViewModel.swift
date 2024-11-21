@@ -15,11 +15,9 @@ class GamePlayViewModel: ObservableObject {
     @State var announcementGame: Bool = false
     @Published var vmode: Int = 0
     
-    //    @Published var isAnswer: Int = 0
     @Published var isAnswer: Int = 0 {
         didSet {
             print("isAnswer updated: \(isAnswer)")
-//            validateAnswer()
             if currentStage == .eleventhStage {
                 print("Updating eleventh stage with isAnswer: \(isAnswer)")
             }
@@ -124,14 +122,11 @@ class GamePlayViewModel: ObservableObject {
         UIScreen.main.bounds.width / 2 - defaultSpacing
     }
     
-    // Default initializer
     init() {
-        // Compute values in local variables to avoid referencing `self`
         let initialOffset = UIScreen.main.bounds.width / 2 - defaultSpacing
         let spacing = defaultSpacing
         let cardCount = defaultCardCount
         
-        // Initialize cardPositions without referencing `self`
         self.cardPositions = (0..<cardCount).map { index in
             initialOffset + CGFloat(index) * spacing
         }
@@ -273,7 +268,6 @@ class GamePlayViewModel: ObservableObject {
                 print("isCardTwoAnimated changed to true")
             }
             
-            // 4. Setelah animasi selesai, aktifkan tombol kembali
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.currentStage = .thirdStage
                 self.isButtonEnabled = true
@@ -305,7 +299,7 @@ class GamePlayViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 
                 withAnimation(.easeOut(duration: 1.0)) {
-                    self.isFifthTextAnimated = true  // FifthText muncul
+                    self.isFifthTextAnimated = true
                 }
                 
                 
@@ -325,7 +319,7 @@ class GamePlayViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 
                 withAnimation(.easeOut(duration: 1.0)) {
-                    self.isSixthTextAnimated = true  // FifthText muncul
+                    self.isSixthTextAnimated = true
                 }
             }
             
@@ -337,34 +331,31 @@ class GamePlayViewModel: ObservableObject {
         case .sixthStage:
             isButtonEnabled = false
             
-            // Animasi untuk menghilangkan teks pertama
             withAnimation(.easeIn(duration: 1.0)) {
                 self.isSixthTextDisappearing = true
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 withAnimation(.easeOut(duration: 1.0)) {
-                    // Mulai animasi untuk elemen pertama
                     self.isArrowLineAnimated = true
                     self.isDropZoneVisible = true
                     self.isFirstDropZoneShow = true
                     self.isSecondDropZoneShow = false
                     self.isTextLeftArrowLine = true
-                    self.isLeftThumbAnimated = true // Jempol kiri muncul
+                    self.isLeftThumbAnimated = true
                     self.isButtonEnabled = false
                 }
                 
-                // Setelah Jempol Kiri selesai muncul (durasi 5 detik)
+   
                 DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                     withAnimation(.easeIn(duration: 1.0)) {
-                        self.isLeftThumbDisappearing = true // Jempol Kiri menghilang
+                        self.isLeftThumbDisappearing = true
                         self.isButtonEnabled = false
                     }
                     
-                    // Tampilkan Jempol Kanan setelah Jempol Kiri menghilang
                     DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                         withAnimation(.easeOut(duration: 1.0)) {
-                            self.isRightThumbAnimated = true // Jempol kanan muncul
+                            self.isRightThumbAnimated = true
                             self.isDropZoneVisible = true
                             self.isFirstDropZoneShow = false
                             self.isTextLeftArrowLine = false
@@ -459,20 +450,18 @@ class GamePlayViewModel: ObservableObject {
             self.isTelunjukTapRightAnimated = false
             self.currentStatusButton = StatusButtonModel(statusButton: .taruh)
             
-            //            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
             withAnimation(.easeIn(duration: 1.0)) {
                 self.isButtonEnabled = true
-                //                }
                 
                 DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                     withAnimation(.easeIn(duration: 1.0)) {
                         if self.isCardRightAnimated {
                             if self.currentStage == .eighthStage {
-                                self.vmode = 2 // Anda berhasil menebak
+                                self.vmode = 2
                             }
                         } else {
                             if self.currentStage == .eighthStage {
-                                self.vmode = 1 // Anda salah menebak
+                                self.vmode = 1
                             }
                         }
                     }
@@ -522,7 +511,7 @@ class GamePlayViewModel: ObservableObject {
             
         case .eleventhStage:
             print("awal eleventh stage")
-            isButtonEnabled = true // Tombol diaktifkan
+            isButtonEnabled = true
             self.currentStage = .eleventhStage
             self.currentStatusButton = StatusButtonModel(statusButton: .taruh)
             print("isAnswer di eleventhstage: \(self.isAnswer)")
@@ -546,7 +535,6 @@ class GamePlayViewModel: ObservableObject {
                     self.vmode = 2
                     self.isSuccessOverlayVisible = true
                 }
-//                self.validateAnswer()
                 print("After setting isButtonClicked: isAnswer = \(self.isAnswer)")
                 
                 print("isAnswer di dispatchque eleventhstage: \(self.isAnswer)")
@@ -592,7 +580,6 @@ class GamePlayViewModel: ObservableObject {
             currentStage = .eleventhStage
         case .eleventhStage:
             isSuccessOverlayVisible = false
-            
             print("Moving to tutorial view")
         default:
             print("nextStage conditions not met. Current Stage: \(currentStage)")
@@ -603,11 +590,20 @@ class GamePlayViewModel: ObservableObject {
     func backStage() {
         withAnimation(.easeIn(duration: 1.0)) {
             // Reset ke eighthStage
-            currentStage = .eighthStage
-            isFailedOverlayVisible = false
-            self.vmode = 0 // Reset vmode
-            self.currentStatusButton = nil
-            self.isButtonEnabled = true
+            switch currentStage {
+            case .eighthStage:
+                currentStage = .eighthStage
+                self.vmode = 0
+            case .eleventhStage:
+                currentStage = .tenthStage
+                isFailedOverlayVisible = false
+                self.vmode = 0
+            default:
+                isFailedOverlayVisible = false
+                self.vmode = 0 // Reset vmode
+                self.currentStatusButton = nil
+                self.isButtonEnabled = true
+            }
         }
     }
     

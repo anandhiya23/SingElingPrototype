@@ -22,7 +22,6 @@ struct RandomCodeRoomComponent: View {
                         .stroke(Color.black, lineWidth: 3)
                         .background(
                             RoundedRectangle(cornerRadius: 15)
-//                                    .fill(index < filledCount ? shuffledIcons[index].color : Color.clear)
                                 .fill(index < filledCount ? shuffledIcons[index].color.toColor() : Color.clear)
                         )
                         .frame(width: 70, height: 70)
@@ -56,11 +55,8 @@ struct RandomCodeRoomComponent: View {
         var colors: [Color] = []
         var images: [String] = []
         
-        // Isi colors dan images dari shuffledIcons
         for index in 0..<4 {
-            //            colors.append(shuffledIcons[index].color)
-            //            images.append(shuffledIcons[index].iconName)
-            colors.append(shuffledIcons[index].color.toColor()) // Convert to Color
+            colors.append(shuffledIcons[index].color.toColor())
             images.append(shuffledIcons[index].iconName)
         }
         
@@ -72,6 +68,5 @@ struct RandomCodeRoomComponent: View {
             }
         }
         
-//        gameManager.generateRoomCode(colors: colors, images: images)
     }
 }
