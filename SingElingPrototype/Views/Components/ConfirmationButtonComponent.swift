@@ -20,7 +20,7 @@ struct ConfirmationButtonComponent: View {
                 .offset(y: height / 7)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                        .stroke(Color.black, lineWidth: 4) 
                         .frame(width: width, height: height)
                         .offset(y: height / 7)
                 }
@@ -31,7 +31,7 @@ struct ConfirmationButtonComponent: View {
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                        .stroke(Color.black, lineWidth: 4)
                         .frame(width: width, height: height)
                 }
             HStack{

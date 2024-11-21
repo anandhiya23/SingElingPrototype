@@ -112,11 +112,9 @@ struct OnboardingContainerView: View {
     var body: some View {
         VStack {
             if curView == 7 {
-                // Jika curView sudah 7, tampilkan MainView
-                MainView()
+                NameInputView()
                     .environmentObject(gameManager)
             } else {
-                // Menampilkan tutorial berdasarkan currentPage
                 if currentPage == 0 {
                     OnBoardingTutorialView(
                         titleText: "Gimana pemanasannya?",
@@ -167,7 +165,7 @@ struct OnboardingContainerView: View {
                         descriptionText: "Kumpulin 5 kartu secepatnya \nuntuk menjadi Raja Jawa. \nJadi yang paling paham \ntata krama Jawa?",
                         buttonModel: OnBoardingButtonModel(onBoardingButton: .buktikan),
                         buttonAction: {
-                            curView = 7  // Mengubah curView jadi 7
+                            curView = 7
                         },
                         logoImageName: "LogoOnBoarding",
                         curView: $curView

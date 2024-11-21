@@ -177,9 +177,9 @@ struct GameView: View {
                         ForEach(0..<gameManager.guesserCards.count, id: \.self) { curCardIdIndice in
                             let curCardId = gameManager.guesserCards[curCardIdIndice]
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-                            
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                             CardComponent(width: 119, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: tempCard.backgroundCard)
+
                                 .padding(.leading, curCardIdIndice == gameManager.guesserCardPos ? 20 : (curCardIdIndice == gameManager.guesserCardPos + 1 ? 10 : -50))
                         }
                     }
@@ -236,7 +236,6 @@ struct GameView: View {
                         ForEach(0..<gameManager.myCards.count, id: \.self) { curCardIdIndice in
                             let curCardId = gameManager.myCards[curCardIdIndice]
                             let tempCard: PlayingCard = gameManager.playingCards[curCardId]
-                            
                             // Atur padding untuk membuat gap antara kartu terpilih dan kartu setelahnya
                             CardComponent(width: 164, text: tempCard.text, indexNum: tempCard.indexNum, backgroundImage: tempCard.backgroundCard)
                                 .padding(.leading, curCardIdIndice == gameManager.myCardPos ? 20 : (curCardIdIndice == gameManager.myCardPos + 1 ? 115 : -96))
@@ -281,7 +280,6 @@ struct GameView: View {
 
                 
                 
-                //Button setuju yang dibawah
                 ZStack{
                     Image(backgroundImageName)
                         .resizable()
@@ -299,10 +297,6 @@ struct GameView: View {
                 }
                 .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.92*vh : 1.5*vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
-                //Button setuju yang dibawah
-
-                
-                
                 
                 CardComponent(width: 220, text: gameManager.readerCardText, indexNum: gameManager.readerCardIndexNum, backgroundImage: gameManager.readerCardBackground)
                     .position(x:1/2*vw, y: gameManager.gameState.announcementRole ? (vmode == 2 ? midCardY : 2*vh) : (vmode == 2 ? midCardY : 2*vh))
@@ -402,13 +396,11 @@ struct GameView: View {
                 if showLeaveConfirmation {
                     LeaveConfirmationView(vw: vw, vh: vh,
                         onConfirm: {
-                            // Handle the leave action here
                             showLeaveConfirmation = false
                             gameManager.session.disconnect()
                             gameManager.curView = 1
                         },
                         onCancel: {
-                            // Handle cancellation
                             showLeaveConfirmation = false
                         }
                     )
@@ -418,7 +410,6 @@ struct GameView: View {
                 
                 
                 ZStack {
-                    // Latar belakang hijau, atau gunakan warna lain sesuai desain
                     Image(backgroundImageMapping[gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color] ?? "SingElingDarkGreen")
                         .resizable()
                         .scaledToFill()
@@ -428,7 +419,6 @@ struct GameView: View {
                         .ignoresSafeArea()
                     
                     VStack {
-                        // Teks selamat dan nama pemenang
                         Spacer()
                         ZStack{
                             AnnouncementJuaraComponent(playerColor: gameManager.gameState.players[gameManager.gameState.winner_PID ?? 0].color.toColor(), playerName: gameManager.winnerName)

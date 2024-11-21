@@ -24,22 +24,20 @@ struct ButtonComponent: View {
                 .offset(y: height / 7)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4) // Add stroke here
-//                        .frame(width: width, height: height)
+                        .stroke(Color.black, lineWidth: 4)
                         .frame(width: width, height: height)
                         .offset(y: height / 7)
                 }
             
             
             RoundedRectangle(cornerRadius: 12)
-//                .fill(buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
                 .fill(isButtonEnabled
                       ? (buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
                       : .singGray2)
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4) // Add stroke here
+                        .stroke(Color.black, lineWidth: 4)
                         .frame(width: width, height: height)
                 }
             HStack{
@@ -65,9 +63,6 @@ struct ButtonComponent: View {
 }
 
 #Preview {
-//    ButtonComponent(buttonModel: ButtonModel(button: .bergabung), width: 200, height: 64){
-//        print("Button tapped")
-//    }
     ButtonComponent(
         buttonModel: ButtonModel(button: .lanjut),
         width: 190,

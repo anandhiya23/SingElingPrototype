@@ -132,15 +132,6 @@ struct BintangDragDropView2: View {
                     }
                 }
                 Spacer()
-                
-//                ButtonComponent(
-//                           width: 164,
-//                           height: 64,
-//                           action: {
-//                               gameManager.startGame()
-//                           },
-//                           buttonModel: ButtonModel(button: .main)
-//                       )
                 .padding(.bottom, 160)
                 .frame(height: 140)
             }

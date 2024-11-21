@@ -28,6 +28,8 @@ struct MainView: View {
             GamePlayTutorial()
         case 7:
             NameInputView()
+        case 8:
+            OnboardingContainerView()
         default:
             ZStack{
                 Image("OnBoardingBackground")

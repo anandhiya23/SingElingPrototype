@@ -21,7 +21,6 @@ struct ChoiceView: View {
                 VStack {
                     RoomComponent(roomModel: RoomModel(typeRoom: .createRoom), width: 200)
                         .padding()
-//                        .disabled(gameManager.isGuest || gameManager.isHost)
                         .onTapGesture {
                             gameManager.curView = 2
                         }

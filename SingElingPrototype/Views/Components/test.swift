@@ -152,13 +152,12 @@ struct test: View {
                        
 
                             if gamePlayViewModel.isAnswer == 2 {
-                                       // Jika jawaban benar, tampilkan SuccessOverlay
                                        SuccessOverlayView {
                                            print("di test.swiftUI: Jawaban benar, lanjut ke stage berikutnya")
                                            gamePlayViewModel.nextStage()
+                                           
                                        }
                                    } else {
-                                       // Jika jawaban salah, tampilkan FailedOverlay
                                        FailedOverlayView {
                                            print("di test.swiftUI: Jawaban salah, kembali ke stage sebelumnya")
                                            gamePlayViewModel.backStage()

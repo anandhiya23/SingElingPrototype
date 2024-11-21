@@ -21,7 +21,6 @@ struct GuestJoinRoomView: View {
                     .padding(.top, 50)
                     .padding(.bottom, 50)
                 
-                // Menampilkan gambar yang dipilih
                 LazyVGrid(columns: Array(repeating: GridItem(.flexible(), spacing: 0), count: 4), spacing: 20) {
                     ForEach(0..<4, id: \.self) { index in
                         ZStack {
@@ -45,12 +44,9 @@ struct GuestJoinRoomView: View {
                 }
 
                 CodeRoomComponent { selectedColor, selectedImageName in
-                    // Temukan slot kosong
                     if let emptySlot = selectedImages.firstIndex(where: { $0 == nil }) {
-                        // Cari RoomIconModel yang sesuai dengan nama gambar yang dipilih
                         
                         if let selectedRoomIconID = roomIcons.firstIndex(where: { $0.iconName == selectedImageName }) {
-                            // Isi slot kosong dengan RoomIconModel yang dipilih
                             gameManager.guestRoomCode.append(selectedRoomIconID)
                             selectedImages[emptySlot] = roomIcons[selectedRoomIconID]
                         }

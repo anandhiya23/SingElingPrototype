@@ -33,15 +33,6 @@ struct BintangDragDropView: View {
                                 draggedIndex = index
                                 lastItemPos = index
                                 dragHasBegun = false // Reset drag tracking
-                                
-                                // Start a delay to reset isDragging if no drag occurs
-//                                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-//                                    print("WHATTT DEHEL")
-//                                    if isDragging && !dragHasBegun {
-//                                        print("WHATTT DEHEL ???")
-//                                        isDragging = false // Reset if no drag starts
-//                                    }
-//                                }
                             }
                             .sequenced(before: DragGesture(minimumDistance: 0))
                             .onChanged { value in

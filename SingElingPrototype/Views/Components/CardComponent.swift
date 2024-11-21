@@ -72,7 +72,7 @@ struct ContentView_Previews: PreviewProvider {
                     width: 200,
                     text: "ngirim meme tanpa konteks sing jelas nang grub keluarga",
                     indexNum: 100,
-                    backgroundImage: "Card36"  // Tambahkan gambar latar yang valid
+                    backgroundImage: "Card36" 
                 )
                 .previewLayout(.sizeThatFits)
     }
