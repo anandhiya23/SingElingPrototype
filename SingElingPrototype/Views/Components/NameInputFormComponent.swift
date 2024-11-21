@@ -21,6 +21,7 @@ struct NameInputFormComponent: View {
             HStack(spacing: 0) {
                 TextField("KETIK NAMAMU DISINI", text: $name)
                     .multilineTextAlignment(.center)
+                    .disableAutocorrection(true)
                     .padding()
                     .background(Color.backgroundCream)
                     .frame(height: 50)
@@ -39,14 +40,11 @@ struct NameInputFormComponent: View {
                                 gameManager.myUsername = name
                                 print("Nama \(name) berhasil disimpan ke UserDefaults")
                                 hasSavedName = true
-                                
                                 gameManager.curView = 1
-//                                showValidationError = true
                             }
                             
                         } else {
                             print("Nama kosong, tidak bisa lanjut.")
-//                            showValidationError = false
                         }
                     }
                 }) {
@@ -62,23 +60,6 @@ struct NameInputFormComponent: View {
                     
                 }
                 .disabled(name.isEmpty || !isNameValid)
-                
-                //                test buat hapus username
-                
-                //                                Button(action: {
-                //                                                gameManager.clearSavedName()  // Hapus username dari UserDefaults
-                //                                                name = "" // Kosongkan field TextField
-                //                                            }) {
-                //                                                Text("HAPUS")
-                //                                                    .font(.custom("skrapbook", size: 24))
-                //                                                    .foregroundColor(.white)
-                //                                                    .frame(width: 100, height: 50)
-                //                                                    .background(Color.red)
-                //                                                    .overlay(
-                //                                                        RoundedRectangle(cornerRadius: 0)
-                //                                                            .stroke(Color.black, lineWidth: 3)
-                //                                                    )
-                //                                            }
                 
             }
             .overlay(

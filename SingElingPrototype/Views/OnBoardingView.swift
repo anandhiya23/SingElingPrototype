@@ -13,27 +13,6 @@ struct OnBoardingView: View {
     @StateObject  var gamePlayViewModel = GamePlayViewModel()
     
     var body: some View {
-//        switch curView {
-//        case 1:
-//            print("")
-//            PairView(curView: $curView)
-//                .environmentObject(gameManager)
-//        case 2:
-//            GameView()
-//                .environmentObject(gameManager)
-//        case 3:
-//            PairViewContent(curView: $curView)
-//                .environmentObject(gameManager)
-//        case 4:
-//            BintangDragDropView2(curView: $curView)
-//                .environmentObject(gameManager)
-//        case 5:
-//            CountdownView(curView: $curView)
-//                .environmentObject(gameManager)
-//        case 6:
-//            OnboardingContainerView()
-//                .environmentObject(gameManager)
-//        default:
             ZStack{
                 Image("OnBoardingBackground")
                     .resizable()
@@ -64,7 +43,6 @@ struct OnBoardingView: View {
                     })
                 }
             }
-//        }
     }
 }
 

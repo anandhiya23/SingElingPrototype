@@ -56,7 +56,7 @@ struct ButtonModel{
         case .mainLagi:
             return "icon-park-solid_fireworks"
         case .mauLihat:
-            return "icon-park-solid_fireworks"
+            return "healthicons_magnifying-glass"
         case .menuUtama:
             return "Home"
         case .kunci:
