@@ -12,8 +12,9 @@ struct GuestJoinRoomView: View {
     
     var body: some View {
         ZStack {
-            Rectangle()
-                .fill(Color.singElingZ50)
+            Image("Tikar Cream")
+                .resizable()
+                .scaledToFill()
                 .ignoresSafeArea()
             
             VStack {
@@ -43,30 +44,39 @@ struct GuestJoinRoomView: View {
                     }
                 }
 
-                CodeRoomComponent { selectedColor, selectedImageName in
-                    if let emptySlot = selectedImages.firstIndex(where: { $0 == nil }) {
-                        
-                        if let selectedRoomIconID = roomIcons.firstIndex(where: { $0.iconName == selectedImageName }) {
-                            gameManager.guestRoomCode.append(selectedRoomIconID)
-                            selectedImages[emptySlot] = roomIcons[selectedRoomIconID]
+                VStack{
+                    CodeRoomComponent { selectedColor, selectedImageName in
+                        if let emptySlot = selectedImages.firstIndex(where: { $0 == nil }) {
+                            
+                            if let selectedRoomIconID = roomIcons.firstIndex(where: { $0.iconName == selectedImageName }) {
+                                gameManager.guestRoomCode.append(selectedRoomIconID)
+                                selectedImages[emptySlot] = roomIcons[selectedRoomIconID]
+                            }
                         }
                     }
                 }
-                .padding(.top, 50)
+                .frame(height: 200)
+                .padding(.top,20)
                 
-                Spacer()
-                Rectangle()
-                    .fill(Color.singElingLC50)
-                    .frame(height: 130)
-                    .overlay(
-                        ButtonComponent(buttonModel: ButtonModel(button: .lanjut), width: 164, height: 64, isButtonEnabled: .constant(true)){
-                            if !selectedImages.contains(where: {$0 == nil}) {
-                                let numberString = gameManager.guestRoomCode.map { String($0) }.joined(separator: ",")
-                                gameManager.initGuest(myUsername: gameManager.myUsername, discoveryInfo: ["code" : numberString])
-                                gameManager.curView = 5
-                            }
+                HStack{
+                    ButtonComponent(
+                        buttonModel: ButtonModel(button: .hapus), width: 164,
+                        height: 64,
+                        isButtonEnabled: .constant(true),
+                        action: {
+                            gameManager.guestRoomCode = []
+                            selectedImages = Array(repeating: nil, count: 4)
                         }
                     )
+                    
+                    ButtonComponent(buttonModel: ButtonModel(button: .lanjut), width: 164, height: 64, isButtonEnabled: .constant(true)){
+                        if !selectedImages.contains(where: {$0 == nil}) {
+                            let numberString = gameManager.guestRoomCode.map { String($0) }.joined(separator: ",")
+                            gameManager.initGuest(myUsername: gameManager.myUsername, discoveryInfo: ["code" : numberString])
+                            gameManager.curView = 5
+                        }
+                    }
+                }
             }
             .ignoresSafeArea(edges: .bottom)
         }

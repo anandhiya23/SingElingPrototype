@@ -138,6 +138,8 @@ struct HostGenerateRoomView: View {
                     )
                     .padding(.bottom, 160)
                     .frame(height: 140)
+                
+                
                 }
                 
             }

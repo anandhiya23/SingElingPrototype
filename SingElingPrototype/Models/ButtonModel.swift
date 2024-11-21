@@ -17,6 +17,7 @@ enum ButtonCondition{
     case kunci
     case yakin
     case tidak
+    case hapus
 }
 
 struct ButtonModel{
@@ -42,7 +43,10 @@ struct ButtonModel{
             return "Yakin"
         case .tidak:
             return "Tidak"
+        case .hapus:
+            return "Hapus"
         }
+        
     }
     
     var imageName: String{
@@ -65,6 +69,9 @@ struct ButtonModel{
             return "fa-solid_check"
         case .tidak:
             return "dashicons_no"
+        case .hapus:
+            return "mdi_delete"
         }
+        
     }
 }

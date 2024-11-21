@@ -32,7 +32,7 @@ struct ButtonComponent: View {
             
             RoundedRectangle(cornerRadius: 12)
                 .fill(isButtonEnabled
-                      ? (buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak ? .singPink : .white))
+                      ? (buttonModel.button == .yakin ? .singElingZ50 : (buttonModel.button == .tidak || buttonModel.button == .hapus ? .singPink : .white))
                       : .singGray2)
                 .frame(width: width, height: height)
                 .overlay {

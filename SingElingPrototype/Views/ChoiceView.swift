@@ -6,21 +6,21 @@ struct ChoiceView: View {
     
     var body: some View{
         ZStack{
-            Rectangle()
-                .fill(Color.singElingZ50)
+            Image("Tikar Cream")
+                .resizable()
+                .scaledToFill()
                 .ignoresSafeArea()
             
             VStack{
-                Text("Sing \nEling")
-                    .multilineTextAlignment(.center)
-                    .font(.custom("Skrapbook", size: 85))
+//                Text("Sing \nEling")
+//                    .multilineTextAlignment(.center)
+//                    .font(.custom("Skrapbook", size: 85))
                 
                 HintComponent(hintModel: HintModel(userRole: .mainView, readerName: ""), width: 300)
-                    .padding()
                 
                 VStack {
                     RoomComponent(roomModel: RoomModel(typeRoom: .createRoom), width: 200)
-                        .padding()
+                        .padding(.top)
                         .onTapGesture {
                             gameManager.curView = 2
                         }

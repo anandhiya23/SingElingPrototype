@@ -15,11 +15,6 @@ struct RoomComponent: View {
     
     var body: some View {
         HStack {
-            Image(roomModel.imageName)
-                .resizable()
-                .scaledToFit()
-                .frame(width: width * (30 / 300), height: width * (30 / 222))
-
             Text(roomModel.text)
                 .font(.custom("Skrapbook", size: width * 0.1))
                 .foregroundColor(.black)
@@ -29,7 +24,7 @@ struct RoomComponent: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: width * (8 / 222))
-                .fill(Color.backgroundCream)
+                .fill(roomModel.typeRoom == .createRoom ? Color.singElingDSB30 : Color.singElingLC30)
         )
         .overlay(
             RoundedRectangle(cornerRadius: width * (8 / 222))
