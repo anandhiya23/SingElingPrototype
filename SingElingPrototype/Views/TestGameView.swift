@@ -261,7 +261,7 @@ struct TestGameView: View {
                         .position(x: 0.5*vw, y:0.03*vh)
                     }
                 
-                HintGameComponent(hintModel: HintModel(userRole: .pembacaView, readerName: "bintang"))
+                HintGameComponent(hintModel: HintModel(userRole: .bystanderView, readerName: "bintang"))
                     .frame(width: 180, height: 50)
                     .position(x: hintTapped ? 0.2 * vw : -0.1 * vw, y: 0.5 * vh)
                     .onTapGesture {

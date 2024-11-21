@@ -270,7 +270,7 @@ struct GameView: View {
                         }
                     }
                 }
-                .position(x: 0.7 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.6 * vh : 2 * vh))
+                .position(x: 0.5 * vw, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 0 ? 0.7 * vh : 2 * vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 Jempol(width: 153, height: 222)
