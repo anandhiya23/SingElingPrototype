@@ -18,6 +18,7 @@ enum ButtonCondition{
     case yakin
     case tidak
     case hapus
+    case taruh
 }
 
 struct ButtonModel{
@@ -45,6 +46,8 @@ struct ButtonModel{
             return "Tidak"
         case .hapus:
             return "Hapus"
+        case .taruh:
+            return "Taruh!"
         }
         
     }
@@ -71,6 +74,8 @@ struct ButtonModel{
             return "dashicons_no"
         case .hapus:
             return "mdi_delete"
+        case .taruh:
+            return "bi_hand-thumbs-up-fill"
         }
         
     }

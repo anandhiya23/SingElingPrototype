@@ -21,6 +21,8 @@ struct GameView: View {
     @State private var timer: Timer?
     @State var guesserName: String = ""
     
+    @State var kunciJawaban: Bool = false
+    
     @State var penebakNewColor: Color = .white
     @State var pembacaNewColor: Color = .white
     
@@ -292,8 +294,12 @@ struct GameView: View {
                 }
                 
                 
-                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true)){
-                    gameManager.makeGuess()
+                ButtonComponent(buttonModel: ButtonModel(button: kunciJawaban ? .taruh : .kunci), width: 164, height: 64, isButtonEnabled: .constant(true)){
+                    if kunciJawaban{
+                        gameManager.makeGuess()
+                    }else{
+                        kunciJawaban = true
+                    }
                 }
                 .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.92*vh : 1.5*vh))
                 .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
