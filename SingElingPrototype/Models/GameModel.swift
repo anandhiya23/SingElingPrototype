@@ -82,19 +82,13 @@ struct GameState: Codable {
     var winner_PID: Int? = nil
     var isCorrect: Bool = false
     var guesserName: String = ""
+    
     var announcementGame = true
-
     var announcementRole = false
 
-    
     // Reader and Guesser Properties
     var reader_PID: Int =  0
     var guesser_PID: Int = 1
-    
-    var roomColors: [CodableColor] = [.init(color: .white), .init(color: .white), .init(color: .white), .init(color: .white)]
-    var roomImages: [String] = ["", "", "", ""]
-    
-    var roomIdentifiers: [Int] = []
 }
 
 struct CodableColor: Codable, Hashable {

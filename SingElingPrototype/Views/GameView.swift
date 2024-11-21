@@ -153,7 +153,6 @@ struct GameView: View {
                         }
                 }
                 .frame(width: vw, height: vh)
-                //TODO: AJUUUUUUUUUUU
                 //                StatementComponent(width: 300, statementRole: StatementRole(userRole: .pembacaView))
                 //                    .position(x:vw/2, y: gameManager.gameState.announcementRole ? 0.4*vh : -145)
                 //                    .animation(.bouncy.speed(1.5), value: gameManager.gameState.announcementRole)
@@ -249,11 +248,11 @@ struct GameView: View {
                     .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 
-//                ButtonComponent(width: 164, height: 64, action: {
-//                    gameManager.makeGuess()
-//                }, buttonModel: ButtonModel(button: .mauLihat))
-//                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 1.5*vh))
-//                .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
+                ButtonComponent(buttonModel: ButtonModel(button: .mauLihat), width: 164, height: 64, isButtonEnabled: .constant(true), action: {
+                    gameManager.makeGuess()
+                })
+                .position(x:vw*1/2, y: gameManager.gameState.announcementGame ? 1.5*vh : (vmode == 1 ? 0.9*vh : 1.5*vh))
+                .animation(.bouncy.speed(0.5), value: gameManager.gameState.announcementGame)
                 
                 
                 
