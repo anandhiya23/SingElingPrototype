@@ -55,9 +55,6 @@ struct HostGenerateRoomView: View {
                 RandomCodeRoomComponent()
                     .padding(.top, 50)
 
-                
-
-                
 //                    RoundedRectangle(cornerRadius: 12)
 //                        .fill(Color.singElingLC10)
 //                        .frame(width: 340, height: 80)
@@ -108,11 +105,12 @@ struct HostGenerateRoomView: View {
                                     .simultaneousGesture(
                                         LongPressGesture(minimumDuration: 0.05)
                                             .onEnded { success in
-                                                if success {
+                                                if success{
                                                     isDragging = true
                                                     draggedIndex = index
                                                     lastItemPos = index
                                                     tempGetObject = gameManager.gameState.players.remove(at: lastItemPos)
+                                                    
                                                 }
                                             }
                                     )
@@ -136,12 +134,14 @@ struct HostGenerateRoomView: View {
                                 if isDragging{
                                     gameManager.gameState.players.insert(tempGetObject, at: lastItemPos)
                                     isDragging = false
+                                    gameManager.sendGameState(gameManager.gameState)
+                                    dragOffset = 0
                                 }
                             }
                         )
                         .padding(.top, 8)
                         .overlay(alignment: .top) {
-                            if isDragging {
+                            if isDragging{
                                 DragListItemView(tempGetObject.name, tempGetObject.color.toColor())
                                     .scaleEffect(1.07)
                                     .background{

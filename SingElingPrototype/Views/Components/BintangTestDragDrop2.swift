@@ -40,31 +40,31 @@ struct BintangDragDropView2: View {
                     .frame(width: 340, height: 80)
                     .overlay {
                         HStack{
-                            Text("Atur giliran mainmu yuk!")
+                            Text("Ini giliran mainmu!")
                                 .font(.custom("skrapbook", size: 30))
                                 .multilineTextAlignment(.center)
                         }
                         .padding(.horizontal,10)
                     }
-                RoundedRectangle(cornerRadius: 12)
-                    .fill(Color.singElingLC10)
-                    .frame(width: 340, height: 80)
-                    .overlay {
-                        HStack{
-                            Image("lucide_list-ordered")
-                            Text("Susun urutan giliran main sesuai dengan geser dan lepas!")
-                                .font(.custom("skrapbook", size: 18))
-                                .multilineTextAlignment(.center)
-                        }
-                        .padding(.horizontal,10)
-                    }
+//                RoundedRectangle(cornerRadius: 12)
+//                    .fill(Color.singElingLC10)
+//                    .frame(width: 340, height: 80)
+//                    .overlay {
+//                        HStack{
+//                            Image("lucide_list-ordered")
+//                            Text("Susun urutan giliran main sesuai dengan geser dan lepas!")
+//                                .font(.custom("skrapbook", size: 18))
+//                                .multilineTextAlignment(.center)
+//                        }
+//                        .padding(.horizontal,10)
+//                    }
                 
                 HStack(alignment: .top){
                     VStack{
                         ForEach(1...4, id: \.self){ index in
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.singElingSB10)
-                                .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 5))
+                                .strokeBorder(Color.black,style: StrokeStyle(lineWidth: 3))
                                 .frame(width: 80, height: 80)
                                 .overlay {
                                     Text("\(index)")
@@ -80,6 +80,7 @@ struct BintangDragDropView2: View {
                             
                                 let curPlayerName = gameManager.gameState.players[index].name
                                 DragListItemView(curPlayerName, gameManager.gameState.players[index].color.toColor())
+                                    .allowsHitTesting(gameManager.isHost)
                                     .padding(.top, lastItemPos == index && isDragging ? 88 : 0)
                                     .padding(.bottom, lastItemPos - 1 == index && isDragging && gameManager.gameState.players.count == lastItemPos ? 88 : 0)
                                     .simultaneousGesture(
@@ -96,6 +97,7 @@ struct BintangDragDropView2: View {
                             
                         }
                     }
+                    .allowsHitTesting(gameManager.isHost)
                     .simultaneousGesture(DragGesture(minimumDistance: 0)
                         .onChanged { dragValue in
                             if isDragging{
