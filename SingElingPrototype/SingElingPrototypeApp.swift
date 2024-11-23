@@ -16,7 +16,7 @@ struct SingElingPrototypeApp: App {
                 .environmentObject(gameManager)
                 .statusBarHidden()
                 .alert(isPresented: $gameManager.showDisconnectAlert) { () -> Alert in
-                        Alert(title: Text("You Are Diconnected"), message: Text("you've been disconnected from the game"), dismissButton: .cancel())
+                        Alert(title: Text("You Are Diconnected"), message: Text("Reconnecting..."), dismissButton: .cancel())
                     }
         }
     }

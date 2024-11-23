@@ -625,7 +625,7 @@ extension GameManager: MCSessionDelegate {
             // Peer disconnected
             DispatchQueue.main.async { [self] in
                 if isHost {
-                    
+                    showDisconnectAlert = true
                 } else {
                     log.info("Attempting to re-advertise as \(peerID.displayName)")
                     stopAdvertisementRetry() // Cancel any existing retry timer before starting a new one
@@ -650,6 +650,8 @@ extension GameManager: MCSessionDelegate {
                         sendGameState(gameState)
                     }
                 }
+                showDisconnectAlert = false
+
             }else{
                 DispatchQueue.main.async {
                     //                    self.paired = true
@@ -659,6 +661,8 @@ extension GameManager: MCSessionDelegate {
                 // We are paired, stop advertising and stop the retry timer
                 serviceAdvertiser.stopAdvertisingPeer()
                 self.stopAdvertisementRetry()
+                showDisconnectAlert = false
+
             }
             break
             

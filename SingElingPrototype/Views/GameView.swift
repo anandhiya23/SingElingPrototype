@@ -26,7 +26,6 @@ struct GameView: View {
     @State var penebakNewColor: Color = .white
     @State var pembacaNewColor: Color = .white
     
-    
     func startTimer() {
         timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { _ in
             roleTimer += 1
@@ -41,7 +40,21 @@ struct GameView: View {
             if gameManager.gameState.winner_PID == nil{
                 if roleTimer == 2{
                     playAnnounceSound()
-                    UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+                    // Play haptic feedback for 2 seconds (repeated every 0.1 seconds)
+                    let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+                    feedbackGenerator.prepare()
+                    
+                    // Trigger the haptic feedback repeatedly every 0.1 seconds for 2 seconds
+                    let duration: TimeInterval = 1.0
+                    let interval: TimeInterval = 0.01
+                    let hapticTimer = Timer.scheduledTimer(withTimeInterval: interval, repeats: true) { timer in
+                        feedbackGenerator.impactOccurred()
+                    }
+                    
+                    // Stop the haptic feedback after 2 seconds
+                    DispatchQueue.main.asyncAfter(deadline: .now() + duration) {
+                        hapticTimer.invalidate() // Stop the haptic feedback
+                    }
                 }
             }
             if roleTimer == 3{
@@ -371,7 +384,7 @@ struct GameView: View {
                 
                 TurnDetailComponent(guesserName: vmode == 1 ? gameManager.gameState.players[gameManager.gameState
                     .reader_PID].name : gameManager.gameState.players[gameManager.gameState
-                        .guesser_PID].name, imageName: vmode == 1 ? "Vector" :"fluent-emoji_speaking-head", newColor: vmode == 1 ? pembacaNewColor : penebakNewColor, changeColor: gameManager.gameState.announcementRole)
+                        .guesser_PID].name, imageName: vmode == 1 ? "fluent-emoji_speaking-head" :"Vector", newColor: vmode == 1 ? pembacaNewColor : penebakNewColor, changeColor: gameManager.gameState.announcementRole)
                 .frame(width: 140, height: 40)
                 .position(x: penebakTapped ? 0.9 * vw : 1.08 * vw, y: 0.18*vh)
                 .onTapGesture {
