@@ -24,7 +24,7 @@ struct ButtonComponent: View {
                 .offset(y: height / 7)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4)
+                        .stroke(isButtonEnabled ? Color.singElingBlack : .singGray, lineWidth: 4)
                         .frame(width: width, height: height)
                         .offset(y: height / 7)
                 }
@@ -44,27 +44,31 @@ struct ButtonComponent: View {
                 .frame(width: width, height: height)
                 .overlay {
                     RoundedRectangle(cornerRadius: 12)
-                        .stroke(Color.black, lineWidth: 4)
+                        .stroke(isButtonEnabled ? Color.singElingBlack : .singGray, lineWidth: 4)
                         .frame(width: width, height: height)
                 }
             HStack{
                 Image(buttonModel.imageName)
+                    .renderingMode(.template)
                     .resizable()
                     .frame(width: 51, height: 51)
                     .scaledToFit()
+                    .foregroundColor(isButtonEnabled ? Color.singElingBlack : .singGray)
                     
-//                Spacer()
                 
                 Text(buttonModel.buttonText)
                     .font(.custom("Skrapbook", size: 25))
-                    .foregroundColor(Color.singElingBlack)
+                    .foregroundColor(isButtonEnabled ? Color.singElingBlack : .singGray)
             }
             .frame(width: width, height: height)
             .padding()
         }
+        .disabled(!isButtonEnabled)
         .onTapGesture {
-            action()
-            print("action di tap")
+            if isButtonEnabled { 
+                            action()
+                            print("action di tap")
+                        }
         }
     }
 }
@@ -74,7 +78,7 @@ struct ButtonComponent: View {
         buttonModel: ButtonModel(button: .hapus),
         width: 190,
         height: 64,
-        isButtonEnabled: .constant(true))
+        isButtonEnabled: .constant(false))
     {
         print("button tapped")
     }
