@@ -100,35 +100,17 @@ struct GamePlayTutorial: View {
                     }
                 
                 if gamePlayViewModel.guesserName != "" {
-                    if gamePlayViewModel.isCorrect {
-                        Rectangle()
-                            .fill(Color.singElingDS50)
-                            .frame(width: vw, height: 62)
-                            .position(x: 0.5 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.03 * vh)
-                            .animation(.bouncy.speed(0.8), value: gamePlayViewModel.announcementRole)
-                            .overlay(
-                                HStack {
-                                    Text("\(gamePlayViewModel.guesserName) Berhasil Nebak")
-                                        .font(.custom("Skrapbook", size: 32))
-                                        .position(x: 0.5 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.03 * vh)
-                                        .foregroundColor(.singElingDS50)
-                                }
-                            )
-                    } else {
-                        Rectangle()
-                            .fill(Color.singElingDS50)
-                            .frame(width: vw, height: 62)
-                            .position(x: 0.5 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.03 * vh)
-                            .animation(.default, value: gamePlayViewModel.announcementRole)
-                            .overlay(
-                                HStack {
-                                    Text("\(gamePlayViewModel.guesserName) Salah Nebak")
-                                        .font(.custom("Skrapbook", size: 32))
-                                        .position(x: 0.5 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.03 * vh)
-                                        .foregroundColor(.singElingDS50)
-                                }
-                            )
-                    }
+                    Rectangle()
+                                                .fill(Color.singElingDS50)
+                                                .frame(width: vw, height: 50)
+                                                .position(x: 0.5 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.03 * vh)
+                                                .overlay(
+                                                    BackButtonComponent()
+                                                        .position(x: 0.15 * vw, y: gamePlayViewModel.announcementRole ? 0.09 * vh : 0.095 * vh)
+                                                        
+                                                )
+                                                .zIndex(1)
+                   
                 }
                 
                 
@@ -144,6 +126,7 @@ struct GamePlayTutorial: View {
                                 gamePlayViewModel.vmode == 0 ? "Penebak" :
                                     (gamePlayViewModel.vmode == 1 ? "Anda salah menebak" : "Anda berhasil menebak")
                             )
+                      
                             .font(.custom("Skrapbook", size: 32)) // Menggunakan font kustom
                             .position(x: 0.5 * vw, y: gamePlayViewModel.announcementGame ? 0.03 * vh : 0.09 * vh)
                             .foregroundColor(.singElingBlack)
@@ -586,11 +569,11 @@ struct GamePlayTutorial: View {
                         : (gamePlayViewModel.isEighthTextAnimated ? targetPositionY : -100)
                     )
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+//                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 gamePlayViewModel.isEighthTextAnimated = true
                             }
-                        }
+//                        }
                     }
                     .onChange(of: gamePlayViewModel.isEighthTextAnimated) { animated in
                         if animated {
@@ -618,7 +601,7 @@ struct GamePlayTutorial: View {
                         : (gamePlayViewModel.isNinthTextAnimated ? targetPositionY + 100 : -100)
                     )
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 gamePlayViewModel.isNinthTextAnimated = true
                             }
@@ -650,7 +633,7 @@ struct GamePlayTutorial: View {
                         : (gamePlayViewModel.isTenthTextAnimated ? targetPositionY + 200 : -100)
                     )
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 gamePlayViewModel.isTenthTextAnimated = true
                             }
@@ -682,7 +665,7 @@ struct GamePlayTutorial: View {
                         : (gamePlayViewModel.isEleventhTextAnimated ? targetPositionY + 300 : -100)
                     )
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 gamePlayViewModel.isEleventhTextAnimated = true
                                 
@@ -804,11 +787,9 @@ struct GamePlayTutorial: View {
                     .animation(.easeOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtTenthStageAnimated)
                     .animation(.easeInOut(duration: 1.0), value: gamePlayViewModel.isFourCardAtEleventhStageAnimated)
                     .onAppear {
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 gamePlayViewModel.isFourCardAtTenthStageAnimated = true
                             }
-                        }
                     }
                     
                     .onChange(of: gamePlayViewModel.isFourCardAtEleventhStageAnimated) { isAnimated in
@@ -907,7 +888,7 @@ struct GamePlayTutorial: View {
                             buttonModel: ButtonModel(button: .lanjut),
                             width: 190,
                             height: 64,
-                            isButtonEnabled: .constant(true))
+                            isButtonEnabled: $gamePlayViewModel.isButtonEnabled)
                         {
                             gamePlayViewModel.buttonPressed()
                         }

@@ -8,6 +8,9 @@
 import SwiftUI
 
 struct BackButtonComponent: View {
+//    var action: () -> Void
+    @EnvironmentObject var gameManager: GameManager
+    
     var body: some View {
         
         HStack {
@@ -20,9 +23,13 @@ struct BackButtonComponent: View {
         .frame(width: 91, height: 32)
         .background(Color.white)
         .cornerRadius(8)
+        .onTapGesture {
+                    gameManager.curView = 0
+                }
     }
 }
 
 #Preview {
     BackButtonComponent()
+        .environmentObject(GameManager())
 }

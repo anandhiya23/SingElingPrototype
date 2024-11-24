@@ -250,10 +250,8 @@ class GamePlayViewModel: ObservableObject {
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 withAnimation(.easeOut(duration: 1.0)) {
                     self.isSecondTextShow = true
-                }
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                    self.currentStage = .secondStage
                     self.isButtonEnabled = true
+                    self.currentStage = .secondStage
                 }
             }
             
@@ -266,11 +264,8 @@ class GamePlayViewModel: ObservableObject {
                 self.isCardTwoAnimated = true
                 self.isBothCardsCentered = true
                 print("isCardTwoAnimated changed to true")
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.currentStage = .thirdStage
                 self.isButtonEnabled = true
+                self.currentStage = .thirdStage
             }
             
         case .thirdStage:
@@ -279,11 +274,8 @@ class GamePlayViewModel: ObservableObject {
             withAnimation(.easeOut(duration: 1.0)){
                 self.isThirdTextDisappearing = true
                 self.isFourthTextAnimated = true
-            }
-            
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                self.currentStage = .fourthStage
                 self.isButtonEnabled = true
+                self.currentStage = .fourthStage
             }
             
         case .fourthStage:
@@ -297,7 +289,6 @@ class GamePlayViewModel: ObservableObject {
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                
                 withAnimation(.easeOut(duration: 1.0)) {
                     self.isFifthTextAnimated = true
                 }
@@ -333,6 +324,7 @@ class GamePlayViewModel: ObservableObject {
             
             withAnimation(.easeIn(duration: 1.0)) {
                 self.isSixthTextDisappearing = true
+                self.isButtonEnabled = false
             }
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
@@ -347,7 +339,7 @@ class GamePlayViewModel: ObservableObject {
                 }
                 
    
-                DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                     withAnimation(.easeIn(duration: 1.0)) {
                         self.isLeftThumbDisappearing = true
                         self.isButtonEnabled = false
@@ -372,7 +364,7 @@ class GamePlayViewModel: ObservableObject {
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 self.isFirstCenterAnimated = false
                                 self.isSecondCenterAnimated = true
@@ -381,14 +373,14 @@ class GamePlayViewModel: ObservableObject {
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 self.isSecondCenterAnimated = true
                                 self.isArrowLineDisappearing = true
                             }
                         }
                         
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 7.0) {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
                             withAnimation(.easeOut(duration: 1.0)) {
                                 self.isSeventhTextAnimated = true
                                 self.isButtonEnabled = true
@@ -410,14 +402,14 @@ class GamePlayViewModel: ObservableObject {
                 self.isTelunjukTapRightAnimated = true
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
                 withAnimation(.easeIn(duration: 1.0)) {
                     self.isTelunjukTapLeftAnimated = true
                     self.isCardLeftAnimated = true
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 9.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
                 withAnimation(.easeIn(duration: 1.0)) {
                     self.isTelunjukTapRightAnimated = true
                     self.isTelunjukTapLeftAnimated = false
@@ -425,13 +417,13 @@ class GamePlayViewModel: ObservableObject {
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 14.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 6.0) {
                 withAnimation(.easeIn(duration: 1.0)) {
                     self.isTelunjukTapLeftAnimated = true
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 18.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 8.0) {
                 withAnimation(.easeIn(duration: 1.0)) {
                     self.isTelunjukTapRightAnimated = true
                     self.isTelunjukTapLeftAnimated = false
@@ -439,7 +431,7 @@ class GamePlayViewModel: ObservableObject {
                 }
             }
             
-            DispatchQueue.main.asyncAfter(deadline: .now() + 22.0) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 10.0) {
                 self.currentStage = .eighthStage
                 self.isTelunjukTapRightAnimated = false
                 self.isButtonEnabled = true
@@ -481,11 +473,8 @@ class GamePlayViewModel: ObservableObject {
             
             DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                 self.isTextNinthStageDisappearing = true
-                
-                DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                    self.isButtonEnabled = true
-                    self.currentStage = .tenthStage
-                }
+                self.isButtonEnabled = true
+                self.currentStage = .tenthStage
             }
             
         case .tenthStage:
