@@ -9,6 +9,7 @@ import Foundation
 import MultipeerConnectivity
 import os
 import SwiftUI
+import Compression
 
 //MARK: - MAIN GAME MANAGER
 class GameManager: NSObject, ObservableObject{
@@ -198,6 +199,24 @@ class GameManager: NSObject, ObservableObject{
         return backgroundImageMapping[color] ?? "SingElingDarkGreen" 
     }
     
+    func clearTemporaryData() {
+        let fileManager = FileManager.default
+        let tempDir = fileManager.temporaryDirectory.path
+
+        do {
+            let tempFiles = try fileManager.contentsOfDirectory(atPath: tempDir)
+            for file in tempFiles {
+                let filePath = tempDir.appending("/\(file)")
+                try fileManager.removeItem(atPath: filePath)
+            }
+            log.info("Temporary data cleared.")
+        } catch {
+            log.error("Failed to clear temporary data: \(error.localizedDescription)")
+        }
+    }
+
+
+    
     public func initGuest(myUsername: String, discoveryInfo: [String: String]? = nil) {
         myPeerID = MCPeerID(displayName: myUsername)
         session = MCSession(peer: myPeerID, securityIdentity: nil, encryptionPreference: .none)
@@ -205,6 +224,7 @@ class GameManager: NSObject, ObservableObject{
         
         session.delegate = self
         serviceAdvertiser.delegate = self
+        clearTemporaryData()
         
         self.serviceAdvertiser.startAdvertisingPeer()
     }
@@ -222,6 +242,7 @@ class GameManager: NSObject, ObservableObject{
         
         let hostPlayer = Player(name: myPeerID.displayName, color: color)
         gameState.players.append(hostPlayer)
+        clearTemporaryData()
         
         serviceBrowser.startBrowsingForPeers()
     }
@@ -480,6 +501,71 @@ extension GameManager{
 //MARK: - MC FUNCTIONS
 extension GameManager{
     
+    func disconnectSession() {
+        session.disconnect()
+        log.info("Session disconnected")
+    }
+
+    
+    func compress(data: Data) -> Data? {
+        let bufferSize = 64 * 1024 // 64 KB
+        var compressedData = Data()
+        
+        let destinationBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
+        defer { destinationBuffer.deallocate() }
+        
+        data.withUnsafeBytes { srcPointer in
+            guard let srcBaseAddress = srcPointer.baseAddress else { return }
+            
+            let srcBuffer = UnsafeBufferPointer(start: srcBaseAddress.assumingMemoryBound(to: UInt8.self), count: data.count)
+            
+            let compressedSize = compression_encode_buffer(
+                destinationBuffer,
+                bufferSize,
+                srcBuffer.baseAddress!,
+                srcBuffer.count,
+                nil,
+                COMPRESSION_ZLIB
+            )
+            
+            if compressedSize > 0 {
+                compressedData.append(destinationBuffer, count: compressedSize)
+            }
+        }
+        
+        return compressedData
+    }
+    
+    func decompress(data: Data) -> Data? {
+        let bufferSize = 64 * 1024 // 64 KB
+        var decompressedData = Data()
+
+        let destinationBuffer = UnsafeMutablePointer<UInt8>.allocate(capacity: bufferSize)
+        defer { destinationBuffer.deallocate() }
+
+        data.withUnsafeBytes { srcPointer in
+            guard let srcBaseAddress = srcPointer.baseAddress else { return }
+
+            let srcBuffer = UnsafeBufferPointer(start: srcBaseAddress.assumingMemoryBound(to: UInt8.self), count: data.count)
+
+            let decompressedSize = compression_decode_buffer(
+                destinationBuffer,
+                bufferSize,
+                srcBuffer.baseAddress!,
+                srcBuffer.count,
+                nil,
+                COMPRESSION_ZLIB
+            )
+
+            if decompressedSize > 0 {
+                decompressedData.append(destinationBuffer, count: decompressedSize)
+            }
+        }
+
+        return decompressedData
+    }
+
+    
     func sendGameState(_ gameState: GameState) {
         // Pastikan ada peers yang terhubung
         if !session.connectedPeers.isEmpty {
@@ -493,11 +579,21 @@ extension GameManager{
                 let encoder = JSONEncoder()
                 let encodedData = try encoder.encode(sendableData)
                 
+                if let compressedData = compress(data: encodedData) {
+                    try session.send(compressedData, toPeers: session.connectedPeers, with: .reliable)
+                    log.warning("Compressed GameState sent (\(compressedData.count) bytes).")
+                    for peer in session.connectedPeers {
+                        log.warning("Data sent: \(compressedData.count) bytes to \(peer.displayName)")
+                    }
+                } else {
+                    log.error("Failed to compress GameState.")
+                }
+                
 //                print("Host is sending gameState with room identifiers: \(gameState.roomIdentifiers)")
                 
-                // Kirimkan data yang telah diencode ke peers yang terhubung
-                try session.send(encodedData, toPeers: session.connectedPeers, with: .reliable)
-                log.info("GameState successfully sent to \(self.session.connectedPeers.count) peers.")
+                
+//                try session.send(encodedData, toPeers: session.connectedPeers, with: .reliable)
+//                log.info("GameState successfully sent to \(self.session.connectedPeers.count) peers.")
                 
             } catch {
                 // Tangani error jika pengiriman gagal
@@ -521,24 +617,46 @@ extension GameManager{
         }
     }
     
-    func sendGameCommand(_ gameCommand: GameCommand){
+    func sendGameCommand(_ gameCommand: GameCommand) {
         if !session.connectedPeers.isEmpty {
-            log.info("send GameCommand to connected peers")
+            log.info("Sending GameCommand to connected peers")
             do {
+                // Encode the GameCommand to JSON
                 let encoder = JSONEncoder()
-                try session.send(encoder.encode(SendableGameData(type: .gameCommand, gameCommand: gameCommand, sender_PID: myPID)), toPeers: session.connectedPeers, with: .reliable)
+                let gameData = SendableGameData(type: .gameCommand, gameCommand: gameCommand, sender_PID: myPID)
+                let encodedData = try encoder.encode(gameData)
+                
+                // Compress the encoded data
+                if let compressedData = compress(data: encodedData) {
+                    // Send compressed data
+                    try session.send(compressedData, toPeers: session.connectedPeers, with: .reliable)
+                    log.info("GameCommand sent successfully (compressed data size: \(compressedData.count) bytes)")
+                } else {
+                    log.error("Failed to compress the game command data.")
+                }
             } catch {
                 log.error("Error sending: \(String(describing: error))")
             }
         }
     }
-    
-    func sendGameCommand(_ gameCommand: GameCommand, to targetPeerID: MCPeerID){
+
+    func sendGameCommand(_ gameCommand: GameCommand, to targetPeerID: MCPeerID) {
         if !session.connectedPeers.isEmpty {
-            log.info("send GameCommand to connected peers")
+            log.info("Sending GameCommand to specific peer: \(targetPeerID.displayName)")
             do {
+                // Encode the GameCommand to JSON
                 let encoder = JSONEncoder()
-                try session.send(encoder.encode(SendableGameData(type: .gameCommand, gameCommand: gameCommand, sender_PID: myPID)), toPeers: [targetPeerID], with: .reliable)
+                let gameData = SendableGameData(type: .gameCommand, gameCommand: gameCommand, sender_PID: myPID)
+                let encodedData = try encoder.encode(gameData)
+                
+                // Compress the encoded data
+                if let compressedData = compress(data: encodedData) {
+                    // Send compressed data to a specific peer
+                    try session.send(compressedData, toPeers: [targetPeerID], with: .reliable)
+                    log.info("GameCommand sent successfully (compressed data size: \(compressedData.count) bytes)")
+                } else {
+                    log.error("Failed to compress the game command data.")
+                }
             } catch {
                 log.error("Error sending: \(String(describing: error))")
             }
@@ -626,6 +744,10 @@ extension GameManager: MCSessionDelegate {
             DispatchQueue.main.async { [self] in
                 if isHost {
                     showDisconnectAlert = true
+                    if session.connectedPeers.isEmpty {
+                        log.info("All peers disconnected. Cleaning up session.")
+                        disconnectSession()
+                    }
                 } else {
                     log.info("Attempting to re-advertise as \(peerID.displayName)")
                     stopAdvertisementRetry() // Cancel any existing retry timer before starting a new one
@@ -666,6 +788,10 @@ extension GameManager: MCSessionDelegate {
             }
             break
             
+            
+        case .connecting:
+            log.info("\(peerID.displayName) is connecting.")
+            
         default:
             // Peer connecting or something else
             DispatchQueue.main.async {
@@ -697,18 +823,27 @@ extension GameManager: MCSessionDelegate {
     
     //MARK: Receive Data
     func session(_ session: MCSession, didReceive data: Data, fromPeer peerID: MCPeerID) {
-        let decoder = JSONDecoder()
-        if let receivedGameData = try? decoder.decode(SendableGameData.self, from: data) {
-            log.info("did receive SendableGameData from \(peerID.displayName)")
-            DispatchQueue.main.async{ [self] in
-                if isHost{
-                    handleReceivedGameDataHost(receivedGameData, fromPeerID: peerID)
-                }else if isGuest{
-                    handleReceivedGameDataGuest(receivedGameData, fromPeerID: peerID)
+        // Attempt to decompress the received data
+        if let decompressedData = decompress(data: data) {
+            let decoder = JSONDecoder()
+            do {
+                // Decode the decompressed data into SendableGameData
+                let receivedGameData = try decoder.decode(SendableGameData.self, from: decompressedData)
+                log.info("Did receive SendableGameData from \(peerID.displayName)")
+
+                DispatchQueue.main.async {
+                    // Handle the data based on whether it's the host or guest
+                    if self.isHost {
+                        self.handleReceivedGameDataHost(receivedGameData, fromPeerID: peerID)
+                    } else if self.isGuest {
+                        self.handleReceivedGameDataGuest(receivedGameData, fromPeerID: peerID)
+                    }
                 }
+            } catch {
+                log.error("Failed to decode decompressed data: \(error.localizedDescription)")
             }
         } else {
-            log.info("did receive invalid value \(data.count) bytes")
+            log.error("Failed to decompress received data from \(peerID.displayName).")
         }
     }
     
